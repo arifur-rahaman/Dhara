@@ -22,9 +22,10 @@ export const envSchema = z.object({
   FIELD_ENCRYPTION_KEYS: optional,
   FIELD_ENCRYPTION_ACTIVE: optional,
 
-  SMS_PROVIDER: z.enum(['console']).default('console'),
+  SMS_PROVIDER: z.enum(['console', 'file']).default('console'),
   SMS_API_KEY: optional,
   SMS_SENDER_ID: optional,
+  SMS_OUTBOX_FILE: optional,
 
   WHATSAPP_PHONE_NUMBER_ID: optional,
   WHATSAPP_ACCESS_TOKEN: optional,

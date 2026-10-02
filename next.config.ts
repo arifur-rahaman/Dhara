@@ -13,6 +13,8 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  // Native and database packages run as plain Node modules on the server.
+  serverExternalPackages: ['@node-rs/argon2', 'pg'],
   poweredByHeader: false,
   async headers() {
     return [
