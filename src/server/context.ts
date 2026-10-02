@@ -39,6 +39,7 @@ export async function requireCtx(): Promise<Ctx> {
   const session = await getSession();
   if (!session) redirect('/login');
   if (session.user.totpEnabledAt && !session.mfaVerifiedAt) redirect('/login/two-step');
+  if (!session.user.privacyConsentAt) redirect('/onboarding');
   const ctx = await getCtx();
   if (!ctx) redirect('/onboarding');
   // Owners must turn on two-step verification after onboarding (plan.md section 8).

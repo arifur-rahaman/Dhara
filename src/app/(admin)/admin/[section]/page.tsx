@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import { isAdminSection } from '@/features/admin-portal/nav';
-import { previewEnabled } from '@/features/shell/preview-role';
+import { adminPreviewEnabled, isAdminSection } from '@/features/admin-portal/nav';
 
 export async function generateMetadata({ params }: PageProps<'/admin/[section]'>): Promise<Metadata> {
   const { section } = await params;
@@ -12,7 +11,7 @@ export async function generateMetadata({ params }: PageProps<'/admin/[section]'>
 }
 
 export default async function AdminSectionPage({ params }: PageProps<'/admin/[section]'>) {
-  if (!previewEnabled) notFound();
+  if (!adminPreviewEnabled) notFound();
   const { section } = await params;
   if (!isAdminSection(section)) notFound();
   const t = await getTranslations('admin');

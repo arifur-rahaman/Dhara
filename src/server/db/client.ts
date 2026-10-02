@@ -15,7 +15,18 @@ function create() {
 
 const globalForPrisma = globalThis as unknown as { dharaPrisma?: PrismaClient };
 
-export const prisma = globalForPrisma.dharaPrisma ?? create();
-if (process.env.NODE_ENV !== 'production') globalForPrisma.dharaPrisma = prisma;
+function client(): PrismaClient {
+  globalForPrisma.dharaPrisma ??= create();
+  return globalForPrisma.dharaPrisma;
+}
+
+/** Created on first use, so building the app needs no database settings. */
+export const prisma = new Proxy({} as PrismaClient, {
+  get(_, key) {
+    const c = client();
+    const value = Reflect.get(c, key);
+    return typeof value === 'function' ? value.bind(c) : value;
+  },
+});
 
 export type Tx = Parameters<Parameters<PrismaClient['$transaction']>[0]>[0];

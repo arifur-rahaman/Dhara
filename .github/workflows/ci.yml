@@ -14,8 +14,22 @@ permissions:
 
 jobs:
   checks:
-    name: Lint, types, tests, build
+    name: Lint, types, unit and permission tests, build
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: dhara
+          POSTGRES_PASSWORD: dhara
+          POSTGRES_DB: dhara_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U dhara" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      TEST_DATABASE_MIGRATE_URL: postgresql://dhara:dhara@localhost:5432/dhara_test
+      TEST_DATABASE_URL: postgresql://dhara_app:dhara_app@localhost:5432/dhara_test
+      TEST_DATABASE_ADMIN_URL: postgresql://dhara_admin:dhara_admin@localhost:5432/dhara_test
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -35,6 +49,16 @@ jobs:
   e2e:
     name: End-to-end (390px and 1280px, light and dark)
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: dhara
+          POSTGRES_PASSWORD: dhara
+          POSTGRES_DB: dhara_e2e
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U dhara" --health-interval 5s --health-timeout 5s --health-retries 10
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4

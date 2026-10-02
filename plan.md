@@ -318,7 +318,7 @@ Every tenant table has `chamber_id` (RLS), `created_at`, `updated_at`, and soft-
 - [ ] Section 3 rules implemented and covered by the permission test suite.
 - [ ] RLS enabled and tested on every tenant table.
 - [ ] Client contact encrypted; key rotation documented.
-- [ ] OTP: 6 digits, 5-minute expiry, attempt limit, rate limit per phone and IP.
+- [x] OTP: 6 digits, 5-minute expiry, attempt limit, rate limit per phone and IP.
 - [ ] TOTP 2FA mandatory for owners (after onboarding) and all platform admins; admin portal on a separate subdomain.
 - [ ] Session security: httpOnly, Secure, SameSite cookies; device list and remote logout (Settings).
 - [ ] No PII in logs or error reports.
@@ -340,10 +340,10 @@ Every tenant table has `chamber_id` (RLS), `created_at`, `updated_at`, and soft-
 - **Done when:** `pnpm dev` runs, theme switches correctly in both modes, the PWA is installable, CI is green.
 
 ### M1 — Auth, chambers, audit
-- [ ] Phone OTP login (console SMS provider in dev), password (Argon2id), sessions, TOTP.
-- [ ] Onboarding creates the chamber and the owner membership, with the consent step (`Onboarding.dc.html`).
-- [ ] Invitations by SMS; accept → active membership with the chosen role (`InviteMember.dc.html`).
-- [ ] `authz` module, RLS policies, audit log.
+- [x] Phone OTP login (console SMS provider in dev), password (Argon2id), sessions, TOTP.
+- [x] Onboarding creates the chamber and the owner membership, with the consent step (`Onboarding.dc.html`).
+- [x] Invitations by SMS; accept → active membership with the chosen role (`InviteMember.dc.html`).
+- [x] `authz` module, RLS policies, audit log.
 - **Done when:** login, invite and role tests pass; two test chambers cannot see each other's data at DB and API level.
 
 ### M2 — Cases core (F1–F4, F7, F13, F17–F19)

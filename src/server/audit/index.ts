@@ -33,7 +33,9 @@ export async function audit(
     ipHash?: string | null;
   },
 ) {
-  await tx.auditLog.create({
+  // createMany: a plain INSERT without RETURNING. Rows without a chamber (sign-in events) are
+  // deliberately unreadable by the app role, so reading the new row back would violate RLS.
+  await tx.auditLog.createMany({
     data: {
       chamberId: entry.chamberId,
       actorUserId: entry.actorUserId,

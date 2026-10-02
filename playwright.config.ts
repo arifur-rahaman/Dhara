@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { e2eEnv } from './tests/e2e/env';
 
 const port = Number(process.env.E2E_PORT ?? 3100);
 const executablePath = process.env.PLAYWRIGHT_CHROMIUM_PATH || undefined;
@@ -10,6 +11,8 @@ const sizes = {
 
 export default defineConfig({
   testDir: 'tests/e2e',
+  globalSetup: './tests/e2e/global-setup.ts',
+  timeout: 60_000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
@@ -26,9 +29,9 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], ...sizes[size], colorScheme },
     })),
   ),
-  // M0 uses the dev server: the role-shell preview is development-only until sign-in exists (M1).
   webServer: {
     command: `pnpm exec next dev --port ${port}`,
+    env: { ...e2eEnv, APP_URL: `http://localhost:${port}` },
     url: `http://localhost:${port}/login`,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,

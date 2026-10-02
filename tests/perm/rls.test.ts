@@ -1,5 +1,6 @@
 import pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { audit } from '@/server/audit';
 import { prisma } from '@/server/db/client';
 import { withTenant } from '@/server/db/tenant';
 import { seedTwoChambers } from './fixtures';
@@ -112,6 +113,31 @@ describe('row-level security', () => {
     await expect(withTenant({ chamberId: a.chamberId }, (tx) => tx.auditLog.deleteMany())).rejects.toThrow(
       /permission denied/,
     );
+  });
+
+  it('records sign-in events without a chamber, which the app can then not read back', async () => {
+    const { a } = seed;
+    await withTenant({}, (tx) =>
+      audit(tx, { chamberId: null, actorUserId: a.members.owner.userId, action: 'auth.sign_in', entity: 'user' }),
+    );
+    const visible = await withTenant({ chamberId: a.chamberId }, (tx) =>
+      tx.auditLog.count({ where: { action: 'auth.sign_in' } }),
+    );
+    expect(visible).toBe(0);
+  });
+
+  it('cannot record an audit event for another chamber', async () => {
+    const { a, b } = seed;
+    await expect(
+      withTenant({ chamberId: a.chamberId }, (tx) =>
+        audit(tx, {
+          chamberId: b.chamberId,
+          actorUserId: a.members.owner.userId,
+          action: 'chamber.create',
+          entity: 'chamber',
+        }),
+      ),
+    ).rejects.toThrow();
   });
 
   it('the admin portal role has no access to chamber tables', async () => {

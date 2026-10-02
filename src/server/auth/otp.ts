@@ -2,6 +2,7 @@ import 'server-only';
 import { randomInt } from 'node:crypto';
 import { keyedHash, safeEqual } from '@/server/crypto';
 import { prisma } from '@/server/db/client';
+import { env } from '@/server/env';
 import { smsProvider, type E164 } from '@/server/providers/sms';
 
 /** plan.md section 8: 6 digits, 5-minute expiry, attempt limit, rate limit per phone and IP. */
@@ -9,7 +10,6 @@ export const OTP_TTL_MS = 5 * 60 * 1000;
 export const OTP_MAX_ATTEMPTS = 5;
 const WINDOW_MS = 15 * 60 * 1000;
 const MAX_PER_PHONE = 3;
-const MAX_PER_IP = 10;
 
 const codeHash = (phone: string, code: string) => keyedHash(`otp:${phone}:${code}`);
 
@@ -24,7 +24,7 @@ export async function requestOtp(
     prisma.otpChallenge.count({ where: { phone, createdAt: { gte: since } } }),
     opts.ipHash ? prisma.otpChallenge.count({ where: { ipHash: opts.ipHash, createdAt: { gte: since } } }) : 0,
   ]);
-  if (byPhone >= MAX_PER_PHONE || byIp >= MAX_PER_IP) return { ok: false, reason: 'rate_limited' };
+  if (byPhone >= MAX_PER_PHONE || byIp >= env().OTP_LIMIT_PER_IP) return { ok: false, reason: 'rate_limited' };
 
   const code = String(randomInt(0, 1_000_000)).padStart(6, '0');
   const challenge = await prisma.otpChallenge.create({

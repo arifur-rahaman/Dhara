@@ -1,14 +1,13 @@
 import type { Metadata } from 'next';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { canOpenSection, navByRole, sectionMilestone } from '@/features/shell/nav';
 import { PlaceholderScreen } from '@/features/shell/placeholder';
-import { getPreviewRole } from '@/features/shell/preview-role';
+import { requireCtx } from '@/server/context';
 
 async function resolveSection(params: Promise<{ section: string }>) {
   const { section } = await params;
-  const role = await getPreviewRole();
-  if (!role) redirect('/login');
+  const { role } = await requireCtx();
   if (!canOpenSection(role, section)) notFound();
   return { section, isTab: navByRole[role].tabs.some((tab) => tab.section === section) };
 }

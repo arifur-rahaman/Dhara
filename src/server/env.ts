@@ -26,6 +26,7 @@ export const envSchema = z.object({
   SMS_API_KEY: optional,
   SMS_SENDER_ID: optional,
   SMS_OUTBOX_FILE: optional,
+  OTP_LIMIT_PER_IP: z.coerce.number().int().positive().default(10),
 
   WHATSAPP_PHONE_NUMBER_ID: optional,
   WHATSAPP_ACCESS_TOKEN: optional,

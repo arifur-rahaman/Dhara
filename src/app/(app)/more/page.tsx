@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { Icon } from '@/components/icons';
 import { navByRole } from '@/features/shell/nav';
-import { getPreviewRole } from '@/features/shell/preview-role';
+import { requireCtx } from '@/server/context';
+import { signOut } from '@/features/auth/actions';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('more');
@@ -12,8 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function MorePage() {
-  const role = await getPreviewRole();
-  if (!role) redirect('/login');
+  const { role } = await requireCtx();
   const t = await getTranslations();
 
   return (
@@ -30,6 +29,11 @@ export default async function MorePage() {
           </li>
         ))}
       </ul>
+      <form action={signOut}>
+        <button className="flex min-h-14 w-full items-center rounded-card border border-border bg-surface px-4 text-[16px] font-semibold text-lock-text">
+          {t('settings.signOut')}
+        </button>
+      </form>
     </div>
   );
 }
