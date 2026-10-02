@@ -2,30 +2,41 @@
   "app": {
     "name": "Dhara",
     "tagline": "Cases, dates, clients — all in one flow.",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "back": "Back"
   },
   "login": {
-    "title": "Sign in to Dhara",
-    "subtitle": "For lawyers, associates, munshis and office staff.",
-    "comingSoon": "Sign-in with your mobile number arrives in the next milestone (M1).",
+    "title": "Sign in to your chamber",
+    "subtitle": "One login for everyone. The app sets itself up for your role.",
+    "phone": "Mobile number",
+    "phonePlaceholder": "01XXXXXXXXX",
+    "sendOtp": "Send OTP",
+    "withPassword": "Sign in with password",
+    "comingSoon": "Sign-in is built in the next milestone (M1).",
+    "noRoleTitle": "No need to pick a role",
+    "noRoleBody": "Your chamber owner chose your role when they invited you. It turns on after you sign in.",
+    "security": "Two-step verification is on. Platform admins sign in on a separate link.",
     "previewTitle": "Preview the app shell",
     "previewHint": "Development only. Pick a role to see its navigation."
   },
   "language": {
     "label": "Language",
     "en": "English",
-    "bn": "বাংলা"
+    "bn": "বাংলা",
+    "switchTo": "বাংলা",
+    "switchToLabel": "বাংলায় দেখুন"
   },
   "theme": {
     "label": "Theme",
     "light": "Light",
     "dark": "Dark",
-    "system": "System"
+    "system": "System",
+    "toggle": "Change theme"
   },
   "numerals": {
-    "label": "Digits in Bangla mode",
-    "bn": "Bangla (১২৩)",
-    "latn": "English (123)"
+    "label": "Numbers",
+    "bn": "Bangla ১২৩",
+    "latn": "English 123"
   },
   "roles": {
     "owner": "Owner",
@@ -34,21 +45,26 @@
     "staff": "Office staff"
   },
   "nav": {
-    "label": "Main",
+    "label": "Main menu",
     "today": "Today",
     "cases": "Cases",
     "clients": "Clients",
     "accounts": "Accounts",
     "more": "More",
-    "drafts": "Drafts",
+    "drafts": "AI draft",
+    "photo": "Take photo",
     "calendar": "Calendar",
-    "tasks": "Tasks",
+    "tasks": "All tasks",
     "documents": "Documents",
-    "team": "Team",
+    "team": "Team & permissions",
     "reports": "Reports",
     "courses": "Courses",
     "notifications": "Notifications",
     "settings": "Settings"
+  },
+  "shell": {
+    "you": "You",
+    "youInitial": "Y"
   },
   "placeholder": {
     "title": "Not built yet",
@@ -57,18 +73,25 @@
   "settings": {
     "title": "Settings",
     "display": "Display",
-    "language": "Language"
+    "language": "Language",
+    "theme": "Theme",
+    "numbers": "Numbers"
   },
   "more": {
     "title": "More"
   },
   "admin": {
-    "title": "Dhara admin",
+    "title": "Platform admin",
+    "superAdmin": "Super admin",
+    "superAdminInitial": "S",
+    "banner": "Super admin portal · separate link · two-step verification required",
     "nav": {
-      "label": "Admin",
+      "label": "Admin menu",
+      "dashboard": "Dashboard",
       "chambers": "Chambers",
-      "plans": "Plans",
+      "subscriptions": "Subscriptions",
       "support": "Support access",
+      "team": "Admin team",
       "audit": "Audit log"
     },
     "placeholder": "The admin portal is built in milestone M3."

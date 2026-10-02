@@ -1,14 +1,17 @@
-import { Building2, CreditCard, LifeBuoy, ScrollText } from 'lucide-react';
+import type { IconName } from '@/components/icons';
 
-export const adminSections = ['chambers', 'plans', 'support', 'audit'] as const;
+export const adminSections = ['dashboard', 'chambers', 'subscriptions', 'support', 'team', 'audit'] as const;
 export type AdminSection = (typeof adminSections)[number];
 
-export const adminNav = [
-  { section: 'chambers', href: '/admin/chambers', icon: Building2 },
-  { section: 'plans', href: '/admin/plans', icon: CreditCard },
-  { section: 'support', href: '/admin/support', icon: LifeBuoy },
-  { section: 'audit', href: '/admin/audit', icon: ScrollText },
-] as const satisfies ReadonlyArray<{ section: AdminSection; href: `/admin/${string}`; icon: unknown }>;
+/** From docs/design/SuperAdmin.dc.html. */
+export const adminNav: { section: AdminSection; href: `/admin/${string}`; icon: IconName }[] = [
+  { section: 'dashboard', href: '/admin/dashboard', icon: 'dashboard' },
+  { section: 'chambers', href: '/admin/chambers', icon: 'cases' },
+  { section: 'subscriptions', href: '/admin/subscriptions', icon: 'accounts' },
+  { section: 'support', href: '/admin/support', icon: 'lock' },
+  { section: 'team', href: '/admin/team', icon: 'team' },
+  { section: 'audit', href: '/admin/audit', icon: 'list' },
+];
 
 export function isAdminSection(value: string): value is AdminSection {
   return (adminSections as readonly string[]).includes(value);

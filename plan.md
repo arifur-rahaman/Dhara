@@ -335,7 +335,7 @@ Every tenant table has `chamber_id` (RLS), `created_at`, `updated_at`, and soft-
 - [x] Scaffold Next.js + TypeScript (strict) + pnpm; ESLint, Prettier; Vitest; Playwright; GitHub Actions CI.
 - [x] Design tokens (light, dark), theme switch Light / Dark / System (default System), fonts.
 - [x] next-intl with English default and Bangla; language switch on the login screen and in Settings; numerals preference (Bangla / English digits) in Bangla mode.
-- [ ] App shells: mobile bottom tabs per role (owner 5 tabs, associate 5, munshi 4, staff 3 — see designs); web sidebar (owner); admin portal shell on its own route group/subdomain.
+- [x] App shells: mobile bottom tabs per role (owner 5 tabs, associate 5, munshi 4, staff 3 — see designs); web sidebar (owner); admin portal shell on its own route group/subdomain.
 - [ ] Docker Compose (app, Postgres, MinIO); `.env.example`.
 - **Done when:** `pnpm dev` runs, theme switches correctly in both modes, the PWA is installable, CI is green.
 

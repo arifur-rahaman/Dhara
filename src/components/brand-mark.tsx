@@ -1,13 +1,14 @@
-/** Placeholder mark until the logo is designed (plan.md section 12). */
-export function BrandMark({ size = 40 }: { size?: number }) {
+import { Icon } from './icons';
+
+/** Book mark from docs/design (Main, TeamRoles). Logo is still an open decision (plan.md section 12). */
+export function BrandMark({ size = 44 }: { size?: number }) {
   return (
     <span
       aria-hidden="true"
-      className="inline-flex shrink-0 items-center justify-center rounded-[12px] bg-accent font-title text-on-accent"
-      style={{ width: size, height: size, fontSize: size * 0.6 }}
-      lang="bn"
+      className="inline-flex shrink-0 items-center justify-center bg-accent text-on-accent"
+      style={{ width: size, height: size, borderRadius: size >= 44 ? 12 : 10 }}
     >
-      ধ
+      <Icon name="brand" size={size / 2} />
     </span>
   );
 }

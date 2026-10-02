@@ -1,20 +1,4 @@
-import {
-  BarChart3,
-  Bell,
-  BookOpen,
-  Briefcase,
-  CalendarDays,
-  CircleEllipsis,
-  FileText,
-  Folder,
-  ListChecks,
-  Settings,
-  Sun,
-  Users,
-  UsersRound,
-  Wallet,
-  type LucideIcon,
-} from 'lucide-react';
+import type { IconName } from '@/components/icons';
 
 export const roles = ['owner', 'associate', 'munshi', 'staff'] as const;
 export type Role = (typeof roles)[number];
@@ -30,6 +14,7 @@ export type Section =
   | 'accounts'
   | 'more'
   | 'drafts'
+  | 'photo'
   | 'calendar'
   | 'tasks'
   | 'documents'
@@ -39,65 +24,56 @@ export type Section =
   | 'notifications'
   | 'settings';
 
-export type NavItem = { section: Section; href: `/${string}`; icon: LucideIcon };
+export type NavItem = { section: Section; href: `/${string}`; icon: IconName };
 
-const item = (section: Section, icon: LucideIcon): NavItem => ({ section, href: `/${section}`, icon });
+const item = (section: Section, icon: IconName = section as IconName): NavItem => ({
+  section,
+  href: `/${section}`,
+  icon,
+});
 
-const today = item('today', Sun);
-const cases = item('cases', Briefcase);
-const clients = item('clients', Users);
-const accounts = item('accounts', Wallet);
-const more = item('more', CircleEllipsis);
-const drafts = item('drafts', FileText);
-const calendar = item('calendar', CalendarDays);
-const tasks = item('tasks', ListChecks);
-const documents = item('documents', Folder);
-const team = item('team', UsersRound);
-const reports = item('reports', BarChart3);
-const courses = item('courses', BookOpen);
-const notifications = item('notifications', Bell);
-const settings = item('settings', Settings);
+const today = item('today');
+const cases = item('cases');
+const clients = item('clients');
+const accounts = item('accounts');
+const more = item('more');
+const drafts = item('drafts');
+const photo = item('photo');
+const calendar = item('calendar');
+const tasks = item('tasks');
+const documents = item('documents');
+const team = item('team');
+const reports = item('reports');
+const courses = item('courses');
+const notifications = item('notifications');
+const settings = item('settings');
 
 /**
- * Navigation per role. Owner tabs come from CLAUDE.md; the associate, munshi
- * and staff tabs follow the counts in plan.md M0 (5, 4, 3) and the permission
- * matrix, and must be checked against docs/design once those files are added.
+ * Navigation per role, from docs/design:
+ * tabs — OwnerToday, AssociateClient, MunshiToday, StaffToday; owner web sidebar — TeamRoles, Reports.
+ * The "More" lists are not in the designs; they collect the remaining screens each role may open (plan.md 3.1).
  *
  * Navigation is cosmetic: the server decides access (src/server/authz, from M1).
  */
 export const navByRole: Record<Role, { tabs: NavItem[]; more: NavItem[]; sidebar: NavItem[] | null }> = {
   owner: {
     tabs: [today, cases, clients, accounts, more],
-    more: [calendar, tasks, documents, drafts, team, reports, courses, notifications, settings],
-    sidebar: [
-      today,
-      cases,
-      calendar,
-      clients,
-      accounts,
-      documents,
-      tasks,
-      drafts,
-      team,
-      reports,
-      courses,
-      notifications,
-      settings,
-    ],
+    more: [notifications, calendar, tasks, documents, drafts, team, reports, courses, settings],
+    sidebar: [today, cases, clients, accounts, reports, team, settings],
   },
   associate: {
     tabs: [today, cases, clients, drafts, more],
-    more: [calendar, tasks, documents, courses, notifications, settings],
+    more: [notifications, calendar, tasks, documents, courses, settings],
     sidebar: null,
   },
   munshi: {
-    tabs: [today, cases, calendar, more],
-    more: [tasks, documents, courses, notifications, settings],
+    tabs: [today, cases, photo, more],
+    more: [notifications, calendar, tasks, documents, courses, settings],
     sidebar: null,
   },
   staff: {
     tabs: [today, tasks, more],
-    more: [courses, notifications, settings],
+    more: [notifications, courses, settings],
     sidebar: null,
   },
 };
@@ -108,6 +84,7 @@ export const sectionMilestone: Record<Section, string> = {
   cases: 'M2',
   clients: 'M2',
   calendar: 'M2',
+  photo: 'M4',
   accounts: 'M4',
   documents: 'M4',
   reports: 'M4',

@@ -9,8 +9,24 @@ describe('role navigation (plan.md M0)', () => {
     expect(navByRole.staff.tabs).toHaveLength(3);
   });
 
-  it('gives the owner Today, Cases, Clients, Accounts, More (CLAUDE.md)', () => {
-    expect(navByRole.owner.tabs.map((i) => i.section)).toEqual(['today', 'cases', 'clients', 'accounts', 'more']);
+  it('matches the tab bars in docs/design', () => {
+    const tabs = (role: keyof typeof navByRole) => navByRole[role].tabs.map((i) => i.section);
+    expect(tabs('owner')).toEqual(['today', 'cases', 'clients', 'accounts', 'more']); // OwnerToday
+    expect(tabs('associate')).toEqual(['today', 'cases', 'clients', 'drafts', 'more']); // AssociateClient
+    expect(tabs('munshi')).toEqual(['today', 'cases', 'photo', 'more']); // MunshiToday
+    expect(tabs('staff')).toEqual(['today', 'tasks', 'more']); // StaffToday
+  });
+
+  it('matches the owner web sidebar in docs/design (TeamRoles, Reports)', () => {
+    expect(navByRole.owner.sidebar?.map((i) => i.section)).toEqual([
+      'today',
+      'cases',
+      'clients',
+      'accounts',
+      'reports',
+      'team',
+      'settings',
+    ]);
   });
 
   it('shows the web sidebar to the owner only', () => {
