@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<title>ক্লায়েন্ট · অ্যাসোসিয়েট ভিউ</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Tiro+Bangla&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding-top: 36px; background: {{c.bg}}; color: {{c.text}}; font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif; display: flex; flex-direction: column">
+<header style="height: 56px; box-sizing: border-box; padding: 0 8px; display: flex; align-items: center; justify-content: space-between">
+<button aria-label="ফিরে যান" style="width: 44px; height: 44px; border: none; border-radius: 22px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<div style="font-size: 17px; font-weight: 600">ক্লায়েন্ট</div>
+<button aria-label="আরও অপশন" style="width: 44px; height: 44px; border: none; border-radius: 22px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5h.01M12 12h.01M12 19h.01"></path></svg></button>
+</header>
+<main style="flex-grow: 1; min-height: 0; overflow: hidden; box-sizing: border-box; padding: 4px 20px 16px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex">
+<span style="display: flex; align-items: center; gap: 6px; padding: 5px 12px 5px 10px; border-radius: 999px; background: {{c.surface2}}; color: {{c.text}}; font-size: 13px; font-weight: 600"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"></path></svg>আপনার রোল: অ্যাসোসিয়েট</span>
+</div>
+<section style="display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 16px; background: {{c.surface}}; border: 1px solid {{c.border}}">
+<div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 26px; background: {{c.accentSoft}}; color: {{c.accent}}; display: flex; align-items: center; justify-content: center; font-family: 'Tiro Bangla', serif; font-size: 24px">ক</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 19px; font-weight: 600">মোঃ করিম হোসেন</div>
+<div style="font-size: 14px; color: {{c.muted}}">২টি কেস আপনাকে অ্যাসাইন করা</div>
+</div>
+</section>
+<section aria-label="কন্টাক্ট" style="padding: 12px 16px 14px; border-radius: 16px; background: {{c.surface}}; border: 1px solid {{c.border}}; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<h2 style="margin: 0; font-size: 15px; font-weight: 600">কন্টাক্ট</h2>
+<span style="display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; background: {{c.lockBg}}; color: {{c.lockText}}; font-size: 12px; font-weight: 600"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>শুধু ওনার</span>
+</div>
+<div style="display: flex; gap: 12px; padding: 12px; border-radius: 12px; background: {{c.lockBg}}">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; color: {{c.lockText}}; margin-top: 2px"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 15px; font-weight: 600">কন্টাক্ট ইনফো প্রাইভেট</div>
+<div style="font-size: 13.5px; line-height: 1.55; color: {{c.muted}}">ফোন, ইমেইল, NID আর ঠিকানা শুধু চেম্বারের ওনার দেখতে পারেন।</div>
+</div>
+</div>
+<div style="display: flex; align-items: center; justify-content: space-between; min-height: 48px; border-top: 1px solid {{c.border}}">
+<div style="display: flex; flex-direction: column; gap: 1px">
+<span style="font-size: 12px; color: {{c.muted}}">ফোন</span>
+<span style="font-size: 16px; font-weight: 500; letter-spacing: 2px; color: {{c.muted}}">••••• ••••••</span>
+</div>
+<span style="font-size: 12px; color: {{c.muted}}">প্রাইভেট</span>
+</div>
+<button style="height: 48px; border-radius: 12px; border: none; background: {{c.accent}}; color: {{c.onAccent}}; font-size: 15px; font-weight: 600; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 5h15v10.5H10l-4.5 3.5v-3.5h-1z"></path></svg>নম্বর না দেখেই ক্লায়েন্টকে জানান</button>
+</section>
+<section aria-label="কেস" style="padding: 12px 16px 4px; border-radius: 16px; background: {{c.surface}}; border: 1px solid {{c.border}}; display: flex; flex-direction: column">
+<h2 style="margin: 0 0 8px; font-size: 15px; font-weight: 600">আপনার কেস</h2>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 58px; border-top: 1px solid {{c.border}}">
+<div style="display: flex; flex-direction: column; gap: 1px">
+<span style="font-size: 15px; font-weight: 600">দেওয়ানি মামলা ২৪৫/২০২৬</span>
+<span style="font-size: 13px; color: {{c.muted}}">যুগ্ম জেলা জজ আদালত-২, চট্টগ্রাম</span>
+</div>
+<span style="flex-shrink: 0; padding: 5px 10px; border-radius: 8px; background: {{c.accentSoft}}; color: {{c.accent}}; font-size: 13px; font-weight: 600">১৪ অক্টো</span>
+</div>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 58px; border-top: 1px solid {{c.border}}">
+<div style="display: flex; flex-direction: column; gap: 1px">
+<span style="font-size: 15px; font-weight: 600">রিট পিটিশন ১১০২/২০২৬</span>
+<span style="font-size: 13px; color: {{c.muted}}">হাইকোর্ট বিভাগ, ঢাকা</span>
+</div>
+<span style="flex-shrink: 0; padding: 5px 10px; border-radius: 8px; background: {{c.accentSoft}}; color: {{c.accent}}; font-size: 13px; font-weight: 600">২১ অক্টো</span>
+</div>
+</section>
+<section style="display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 0 16px; border-radius: 16px; background: {{c.surface}}; border: 1px solid {{c.border}}">
+<span style="font-size: 15px; font-weight: 600">ফি ও বকেয়া</span>
+<span style="display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; background: {{c.lockBg}}; color: {{c.lockText}}; font-size: 12px; font-weight: 600"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>শুধু ওনার</span>
+</section>
+</main>
+<nav aria-label="মেইন মেনু" style="height: 76px; flex-shrink: 0; box-sizing: border-box; padding: 6px 4px 14px; border-top: 1px solid {{c.border}}; background: {{c.surface}}; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr))">
+<a href="#" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 48px; color: {{c.muted}}; text-decoration: none; font-size: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"></rect><path d="M8 3v4M16 3v4M3.5 10h17"></path></svg><span>আজ</span></a>
+<a href="#" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 48px; color: {{c.muted}}; text-decoration: none; font-size: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="7" width="17" height="12.5" rx="2"></rect><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7M3.5 12.5h17"></path></svg><span>কেস</span></a>
+<a href="#" aria-current="page" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 48px; color: {{c.accent}}; text-decoration: none; font-size: 12px; font-weight: 600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"></path></svg><span>ক্লায়েন্ট</span></a>
+<a href="#" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 48px; color: {{c.muted}}; text-decoration: none; font-size: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4.5-1L19 8.5 15.5 5 5 15.5z"></path><path d="M13.5 7l3.5 3.5"></path></svg><span>AI ড্রাফট</span></a>
+<a href="#" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 48px; color: {{c.muted}}; text-decoration: none; font-size: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"></path></svg><span>আরও</span></a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const c = dark
+      ? { bg: '#121417', surface: '#1B1E23', surface2: '#252930', text: '#E8E6E1', muted: '#A7ACB5', border: '#2F343B', accent: '#8FA8F0', onAccent: '#0F1320', accentSoft: '#1F2842', lockBg: '#2B2317', lockText: '#E8B36A', okBg: '#16271F', ok: '#7FD0A6', nav: '#0C0E11', navText: '#E8E6E1', navMuted: '#9BA1AB', navActive: '#1C2027' }
+      : { bg: '#F6F4EF', surface: '#FFFFFF', surface2: '#EFECE5', text: '#1B1D22', muted: '#575C66', border: '#E2DED5', accent: '#2F4FA3', onAccent: '#FFFFFF', accentSoft: '#E6ECFA', lockBg: '#FBF0DC', lockText: '#8A520A', okBg: '#E2F1E8', ok: '#1E6A44', nav: '#1B1D22', navText: '#F6F4EF', navMuted: '#B9BDC4', navActive: '#2C3038' };
+    return { c };
+  }
+}
+</script>
+</body>
+</html>
