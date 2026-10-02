@@ -1,0 +1,74 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-lock-bg: var(--lock-bg);
+  --color-lock-text: var(--lock-text);
+  --color-ok-bg: var(--ok-bg);
+  --color-ok: var(--ok);
+  --color-nav: var(--nav);
+  --color-nav-text: var(--nav-text);
+  --color-nav-muted: var(--nav-muted);
+  --color-nav-active: var(--nav-active);
+
+  --font-sans: var(--font-hind-siliguri), 'Noto Sans Bengali', sans-serif;
+  --font-title: var(--font-tiro-bangla), 'Noto Serif Bengali', serif;
+
+  --radius-control: 12px;
+  --radius-card: 16px;
+
+  --spacing-tabbar: 76px;
+  --spacing-sidebar: 248px;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  :lang(bn) p {
+    line-height: 1.7;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@utility page-title {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.25;
+}

@@ -1,0 +1,82 @@
+/* Design tokens — values from CLAUDE.md. Components use these, never raw hex. */
+:root {
+  --bg: #f6f4ef;
+  --surface: #ffffff;
+  --surface-2: #efece5;
+  --text: #1b1d22;
+  --muted: #575c66;
+  --border: #e2ded5;
+  --accent: #2f4fa3;
+  --on-accent: #ffffff;
+  --accent-soft: #e6ecfa;
+  --lock-bg: #fbf0dc;
+  --lock-text: #8a520a;
+  --ok-bg: #e2f1e8;
+  --ok: #1e6a44;
+  --nav: #1b1d22;
+  --nav-text: #f6f4ef;
+  --nav-muted: #b9bdc4;
+  --nav-active: #2c3038;
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --bg: #121417;
+  --surface: #1b1e23;
+  --surface-2: #252930;
+  --text: #e8e6e1;
+  --muted: #a7acb5;
+  --border: #2f343b;
+  --accent: #8fa8f0;
+  --on-accent: #0f1320;
+  --accent-soft: #1f2842;
+  --lock-bg: #2b2317;
+  --lock-text: #e8b36a;
+  --ok-bg: #16271f;
+  --ok: #7fd0a6;
+  --nav: #0c0e11;
+  --nav-text: #e8e6e1;
+  --nav-muted: #9ba1ab;
+  --nav-active: #1c2027;
+  color-scheme: dark;
+}
+
+/* "System" theme before the theme script runs (or without JS): dark values unless light is chosen. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #121417;
+    --surface: #1b1e23;
+    --surface-2: #252930;
+    --text: #e8e6e1;
+    --muted: #a7acb5;
+    --border: #2f343b;
+    --accent: #8fa8f0;
+    --on-accent: #0f1320;
+    --accent-soft: #1f2842;
+    --lock-bg: #2b2317;
+    --lock-text: #e8b36a;
+    --ok-bg: #16271f;
+    --ok: #7fd0a6;
+    --nav: #0c0e11;
+    --nav-text: #e8e6e1;
+    --nav-muted: #9ba1ab;
+    --nav-active: #1c2027;
+    color-scheme: dark;
+  }
+}
+
+/* Printouts are always light. */
+@media print {
+  :root,
+  [data-theme='dark'] {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --surface-2: #efece5;
+    --text: #1b1d22;
+    --muted: #575c66;
+    --border: #e2ded5;
+    --accent: #2f4fa3;
+    --on-accent: #ffffff;
+    color-scheme: light;
+  }
+}

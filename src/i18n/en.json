@@ -1,0 +1,99 @@
+{
+  "app": {
+    "name": "Dhara",
+    "tagline": "Cases, dates, clients — all in one flow.",
+    "skipToContent": "Skip to content",
+    "back": "Back"
+  },
+  "login": {
+    "title": "Sign in to your chamber",
+    "subtitle": "One login for everyone. The app sets itself up for your role.",
+    "phone": "Mobile number",
+    "phonePlaceholder": "01XXXXXXXXX",
+    "sendOtp": "Send OTP",
+    "withPassword": "Sign in with password",
+    "comingSoon": "Sign-in is built in the next milestone (M1).",
+    "noRoleTitle": "No need to pick a role",
+    "noRoleBody": "Your chamber owner chose your role when they invited you. It turns on after you sign in.",
+    "security": "Two-step verification is on. Platform admins sign in on a separate link.",
+    "previewTitle": "Preview the app shell",
+    "previewHint": "Development only. Pick a role to see its navigation."
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "bn": "বাংলা",
+    "switchTo": "বাংলা",
+    "switchToLabel": "বাংলায় দেখুন"
+  },
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "toggle": "Change theme"
+  },
+  "numerals": {
+    "label": "Numbers",
+    "bn": "Bangla ১২৩",
+    "latn": "English 123"
+  },
+  "roles": {
+    "owner": "Owner",
+    "associate": "Associate",
+    "munshi": "Munshi",
+    "staff": "Office staff"
+  },
+  "nav": {
+    "label": "Main menu",
+    "today": "Today",
+    "cases": "Cases",
+    "clients": "Clients",
+    "accounts": "Accounts",
+    "more": "More",
+    "drafts": "AI draft",
+    "photo": "Take photo",
+    "calendar": "Calendar",
+    "tasks": "All tasks",
+    "documents": "Documents",
+    "team": "Team & permissions",
+    "reports": "Reports",
+    "courses": "Courses",
+    "notifications": "Notifications",
+    "settings": "Settings"
+  },
+  "shell": {
+    "you": "You",
+    "youInitial": "Y"
+  },
+  "placeholder": {
+    "title": "Not built yet",
+    "body": "This screen is built in milestone {milestone}."
+  },
+  "settings": {
+    "title": "Settings",
+    "display": "Display",
+    "language": "Language",
+    "theme": "Theme",
+    "numbers": "Numbers"
+  },
+  "more": {
+    "title": "More"
+  },
+  "admin": {
+    "title": "Platform admin",
+    "superAdmin": "Super admin",
+    "superAdminInitial": "S",
+    "banner": "Super admin portal · separate link · two-step verification required",
+    "nav": {
+      "label": "Admin menu",
+      "dashboard": "Dashboard",
+      "chambers": "Chambers",
+      "subscriptions": "Subscriptions",
+      "support": "Support access",
+      "team": "Admin team",
+      "audit": "Audit log"
+    },
+    "placeholder": "The admin portal is built in milestone M3."
+  }
+}
