@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<title>মেম্বার অ্যাড করুন</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Tiro+Bangla&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding-top: 36px; background: {{c.bg}}; color: {{c.text}}; font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif; display: flex; flex-direction: column">
+<header style="height: 56px; flex-shrink: 0; box-sizing: border-box; padding: 0 8px; display: flex; align-items: center; justify-content: space-between">
+<button aria-label="বন্ধ করুন" style="width: 44px; height: 44px; border: none; border-radius: 22px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+<div style="font-size: 17px; font-weight: 600">মেম্বার অ্যাড করুন</div>
+<div style="width: 44px; height: 44px"></div>
+</header>
+<main style="flex-grow: 1; min-height: 0; overflow: hidden; box-sizing: border-box; padding: 4px 20px 12px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="inv-name" style="font-size: 14px; font-weight: 600">নাম</label>
+<input id="inv-name" type="text" placeholder="যেমন: নুসরাত জাহান" style="height: 48px; box-sizing: border-box; border-radius: 12px; border: 1px solid {{c.border}}; background: {{c.surface}}; color: {{c.text}}; font-size: 16px; padding: 0 14px; font-family: inherit">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="inv-phone" style="font-size: 14px; font-weight: 600">মোবাইল নম্বর</label>
+<input id="inv-phone" type="tel" placeholder="০১XXXXXXXXX" style="height: 48px; box-sizing: border-box; border-radius: 12px; border: 1px solid {{c.border}}; background: {{c.surface}}; color: {{c.text}}; font-size: 16px; padding: 0 14px; font-family: inherit">
+</div>
+<fieldset style="margin: 0; padding: 0; border: none; display: flex; flex-direction: column; gap: 8px">
+<legend style="padding: 0 0 6px; font-size: 14px; font-weight: 600">রোল</legend>
+<label style="display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border-radius: 14px; border: 2px solid {{c.accent}}; background: {{c.accentSoft}}; cursor: pointer">
+<input type="radio" name="role" checked="checked" style="width: 20px; height: 20px; margin: 2px 0 0; accent-color: {{c.accent}}">
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 600">অ্যাসোসিয়েট</span><span style="font-size: 13px; line-height: 1.5; color: {{c.muted}}">অ্যাসাইন করা কেস, তারিখ আর AI ড্রাফট। ক্লায়েন্টের কন্টাক্ট দেখবেন না।</span></span>
+</label>
+<label style="display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border-radius: 14px; border: 1px solid {{c.border}}; background: {{c.surface}}; cursor: pointer">
+<input type="radio" name="role" style="width: 20px; height: 20px; margin: 2px 0 0; accent-color: {{c.accent}}">
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 600">মুহুরি</span><span style="font-size: 13px; line-height: 1.5; color: {{c.muted}}">আজকের লিস্ট, পরের তারিখ আর অর্ডারের ছবি অ্যাড করা।</span></span>
+</label>
+<label style="display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border-radius: 14px; border: 1px solid {{c.border}}; background: {{c.surface}}; cursor: pointer">
+<input type="radio" name="role" style="width: 20px; height: 20px; margin: 2px 0 0; accent-color: {{c.accent}}">
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 600">অফিস স্টাফ বা পিয়ন</span><span style="font-size: 13px; line-height: 1.5; color: {{c.muted}}">আজ কোন কোর্টে কোন ফাইল, আর তাঁকে অ্যাসাইন করা কাজ।</span></span>
+</label>
+</fieldset>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 14px; font-weight: 600">কোন কেস দেখবেন</span>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 12px; background: {{c.surface2}}">
+<button aria-pressed="false" style="height: 40px; border: none; border-radius: 9px; background: transparent; color: {{c.muted}}; font-size: 15px; font-family: inherit; cursor: pointer">সব কেস</button>
+<button aria-pressed="true" style="height: 40px; border: none; border-radius: 9px; background: {{c.surface}}; color: {{c.text}}; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer">শুধু অ্যাসাইন করা</button>
+</div>
+</div>
+<p style="margin: 0; font-size: 13px; line-height: 1.6; color: {{c.muted}}">ইনভাইট SMS-এ যাবে। প্রথম লগইনের পর এই রোল নিজে চালু হবে, পরে যেকোনো সময় চেঞ্জ বা বন্ধ করতে পারবেন।</p>
+</main>
+<div style="flex-shrink: 0; box-sizing: border-box; padding: 12px 20px 22px; border-top: 1px solid {{c.border}}; background: {{c.surface}}">
+<button style="width: 100%; height: 50px; border-radius: 12px; border: none; background: {{c.accent}}; color: {{c.onAccent}}; font-size: 16px; font-weight: 600; font-family: inherit; cursor: pointer">ইনভাইট পাঠান</button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const c = dark
+      ? { bg: '#121417', surface: '#1B1E23', surface2: '#252930', text: '#E8E6E1', muted: '#A7ACB5', border: '#2F343B', accent: '#8FA8F0', onAccent: '#0F1320', accentSoft: '#1F2842', lockBg: '#2B2317', lockText: '#E8B36A', okBg: '#16271F', ok: '#7FD0A6', nav: '#0C0E11', navText: '#E8E6E1', navMuted: '#9BA1AB', navActive: '#1C2027' }
+      : { bg: '#F6F4EF', surface: '#FFFFFF', surface2: '#EFECE5', text: '#1B1D22', muted: '#575C66', border: '#E2DED5', accent: '#2F4FA3', onAccent: '#FFFFFF', accentSoft: '#E6ECFA', lockBg: '#FBF0DC', lockText: '#8A520A', okBg: '#E2F1E8', ok: '#1E6A44', nav: '#1B1D22', navText: '#F6F4EF', navMuted: '#B9BDC4', navActive: '#2C3038' };
+    return { c };
+  }
+}
+</script>
+</body>
+</html>

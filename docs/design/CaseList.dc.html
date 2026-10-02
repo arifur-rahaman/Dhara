@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<title>কেস লিস্ট</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Tiro+Bangla&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding-top: 36px; background: {{c.bg}}; color: {{c.text}}; font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif; display: flex; flex-direction: column">
+<header style="padding: 8px 20px 0; display: flex; align-items: center; justify-content: space-between">
+<h1 style="margin: 0; font-family: 'Tiro Bangla', 'Noto Serif Bengali', serif; font-weight: 400; font-size: 30px; line-height: 1.3">কেস</h1>
+<button style="height: 44px; padding: 0 16px; border-radius: 22px; border: none; background: {{c.accent}}; color: {{c.onAccent}}; font-size: 15px; font-weight: 600; font-family: inherit; display: flex; align-items: center; gap: 6px; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>নতুন</button>
+</header>
+<main style="flex-grow: 1; min-height: 0; overflow: hidden; box-sizing: border-box; padding: 14px 20px 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="position: relative">
+<label for="case-search" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">কেস সার্চ করুন</label>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; left: 14px; top: 14px; color: {{c.muted}}"><path d="M11 4.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zM16 16l4 4"></path></svg>
+<input id="case-search" type="search" placeholder="নম্বর, ক্লায়েন্ট বা কোর্ট" style="width: 100%; height: 48px; box-sizing: border-box; border-radius: 12px; border: 1px solid {{c.border}}; background: {{c.surface}}; color: {{c.text}}; font-size: 16px; padding: 0 16px 0 44px; font-family: inherit">
+</div>
+<div style="display: flex; gap: 8px; overflow: hidden">
+<button aria-pressed="true" style="flex-shrink: 0; height: 36px; padding: 0 14px; border-radius: 18px; border: none; background: {{c.text}}; color: {{c.bg}}; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer">সব</button>
+<button aria-pressed="false" style="flex-shrink: 0; height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid {{c.border}}; background: {{c.surface}}; color: {{c.text}}; font-size: 14px; font-family: inherit; cursor: pointer">আজ</button>
+<button aria-pressed="false" style="flex-shrink: 0; height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid {{c.border}}; background: {{c.surface}}; color: {{c.text}}; font-size: 14px; font-family: inherit; cursor: pointer">এই সপ্তাহ</button>
+<button aria-pressed="false" style="flex-shrink: 0; height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid {{c.border}}; background: {{c.surface}}; color: {{c.text}}; font-size: 14px; font-family: inherit; cursor: pointer">হাইকোর্ট</button>
+<button aria-pressed="false" style="flex-shrink: 0; height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid {{c.border}}; background: {{c.surface}}; color: {{c.text}}; font-size: 14px; font-family: inherit; cursor: pointer">জেলা কোর্ট</button>
+</div>
+<div style="border-radius: 16px; background: {{c.surface}}; border: 1px solid {{c.border}}; padding: 0 16px; display: flex; flex-direction: column">
+<sc-for list="{{cases}}" as="k" hint-placeholder-count="6">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 72px; border-top: {{k.divider}}">
+<div style="min-width: 0; display: flex; flex-direction: column; gap: 1px">
+<span style="font-size: 15px; font-weight: 600">{{k.caseNo}}</span>
+<span style="font-size: 13px; color: {{c.muted}}">{{k.court}}</span>
+<span style="font-size: 13px">{{k.client}}</span>
+</div>
+<span style="flex-shrink: 0; padding: 5px 10px; border-radius: 8px; background: {{k.chipBg}}; color: {{k.chipFg}}; font-size: 13px; font-weight: 600">{{k.next}}</span>
+</div>
+</sc-for>
+</div>
+</main>
+<nav aria-label="মেইন মেনু" style="height: 76px; flex-shrink: 0; box-sizing: border-box; padding: 6px 4px 14px; border-top: 1px solid {{c.border}}; background: {{c.surface}}; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr))">
+<a href="#" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 48px; color: {{c.muted}}; text-decoration: none; font-size: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 5h12a2.5 2.5 0 0 1 2.5 2.5v10A2.5 2.5 0 0 1 18 20H6a2.5 2.5 0 0 1-2.5-2.5v-10A2.5 2.5 0 0 1 6 5zM8 3v4M16 3v4M3.5 10h17"></path></svg><span>আজ</span></a>
+<a href="#" aria-current="page" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 48px; color: {{c.accent}}; text-decoration: none; font-size: 12px; font-weight: 600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 7h13a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zM9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7M3.5 12.5h17"></path></svg><span>কেস</span></a>
+<a href="#" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 48px; color: {{c.muted}}; text-decoration: none; font-size: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"></path></svg><span>ক্লায়েন্ট</span></a>
+<a href="#" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 48px; color: {{c.muted}}; text-decoration: none; font-size: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6h12a2.5 2.5 0 0 1 2.5 2.5v8A2.5 2.5 0 0 1 18 19H6a2.5 2.5 0 0 1-2.5-2.5v-8A2.5 2.5 0 0 1 6 6zM3.5 10h17M16 14.5h.01"></path></svg><span>হিসাব</span></a>
+<a href="#" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 48px; color: {{c.muted}}; text-decoration: none; font-size: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"></path></svg><span>আরও</span></a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const c = dark
+      ? { bg: '#121417', surface: '#1B1E23', surface2: '#252930', text: '#E8E6E1', muted: '#A7ACB5', border: '#2F343B', accent: '#8FA8F0', onAccent: '#0F1320', accentSoft: '#1F2842', lockBg: '#2B2317', lockText: '#E8B36A', okBg: '#16271F', ok: '#7FD0A6', nav: '#0C0E11', navText: '#E8E6E1', navMuted: '#9BA1AB', navActive: '#1C2027' }
+      : { bg: '#F6F4EF', surface: '#FFFFFF', surface2: '#EFECE5', text: '#1B1D22', muted: '#575C66', border: '#E2DED5', accent: '#2F4FA3', onAccent: '#FFFFFF', accentSoft: '#E6ECFA', lockBg: '#FBF0DC', lockText: '#8A520A', okBg: '#E2F1E8', ok: '#1E6A44', nav: '#1B1D22', navText: '#F6F4EF', navMuted: '#B9BDC4', navActive: '#2C3038' };
+    const line = '1px solid ' + c.border;
+    const soon = { chipBg: c.accentSoft, chipFg: c.accent };
+    const today = { chipBg: c.accent, chipFg: c.onAccent };
+    const cases = [
+      { caseNo: 'দেওয়ানি মামলা ২৪৫/২০২৬', court: 'যুগ্ম জেলা জজ আদালত-২', client: 'মোঃ করিম হোসেন', next: '১৪ অক্টো', divider: 'none', ...soon },
+      { caseNo: 'রিট পিটিশন ১১০২/২০২৬', court: 'হাইকোর্ট বিভাগ', client: 'মোঃ করিম হোসেন', next: '২১ অক্টো', divider: line, ...soon },
+      { caseNo: 'সিআর মামলা ৮৮/২০২৬', court: 'সিএমএম আদালত', client: 'সালমা বেগম', next: 'আজ', divider: line, ...today },
+      { caseNo: 'দেওয়ানি মামলা ৩১০/২০২৫', court: 'যুগ্ম জেলা জজ আদালত-২', client: 'নূর আলম', next: 'আজ', divider: line, ...today },
+      { caseNo: 'পারিবারিক মামলা ৫৬/২০২৬', court: 'পারিবারিক আদালত', client: 'রুমানা আক্তার', next: '৩ অক্টো', divider: line, ...soon },
+      { caseNo: 'অর্থঋণ মামলা ১২/২০২৬', court: 'অর্থঋণ আদালত', client: 'মেসার্স সাফা ট্রেডার্স', next: '৯ অক্টো', divider: line, ...soon }
+    ];
+    return { c, cases };
+  }
+}
+</script>
+</body>
+</html>

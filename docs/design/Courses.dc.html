@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<title>কোর্স</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Tiro+Bangla&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding-top: 36px; background: {{c.bg}}; color: {{c.text}}; font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif; display: flex; flex-direction: column">
+<header style="height: 56px; flex-shrink: 0; box-sizing: border-box; padding: 0 8px; display: flex; align-items: center; justify-content: space-between">
+<button aria-label="ফিরে যান" style="width: 44px; height: 44px; border: none; border-radius: 22px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<div style="font-size: 17px; font-weight: 600">কোর্স</div>
+<div style="width: 44px; height: 44px"></div>
+</header>
+<main style="flex-grow: 1; min-height: 0; overflow: hidden; box-sizing: border-box; padding: 4px 20px 16px; display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 14px; color: {{c.muted}}">Hadia Academy-র সাথে</span>
+<article style="padding: 16px; border-radius: 16px; background: {{c.surface}}; border: 1px solid {{c.border}}; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<h2 style="margin: 0; font-family: 'Tiro Bangla', 'Noto Serif Bengali', serif; font-weight: 400; font-size: 21px">বেসিক কম্পিউটার</h2>
+<span style="flex-shrink: 0; padding: 3px 10px; border-radius: 999px; background: {{c.okBg}}; color: {{c.ok}}; font-size: 12px; font-weight: 600">ফ্রি</span>
+</div>
+<span style="font-size: 13px; color: {{c.muted}}">৬টি মডিউল · প্রতিটি ৫–১০ মিনিটের বাংলা ভিডিও</span>
+<div style="display: flex; align-items: center; gap: 10px">
+<div style="flex-grow: 1; height: 8px; border-radius: 4px; background: {{c.surface2}}; display: flex"><span style="width: 33%; height: 8px; border-radius: 4px; background: {{c.accent}}"></span></div>
+<span style="font-size: 13px; font-weight: 600">২/৬</span>
+</div>
+<button style="height: 46px; border-radius: 12px; border: none; background: {{c.accent}}; color: {{c.onAccent}}; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer">চালিয়ে যান</button>
+</article>
+<article style="padding: 16px; border-radius: 16px; background: {{c.surface}}; border: 1px solid {{c.border}}; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<h2 style="margin: 0; font-family: 'Tiro Bangla', 'Noto Serif Bengali', serif; font-weight: 400; font-size: 21px">আইনজীবীদের জন্য AI</h2>
+<span style="flex-shrink: 0; padding: 3px 10px; border-radius: 999px; background: {{c.accentSoft}}; color: {{c.accent}}; font-size: 12px; font-weight: 600">সার্টিফিকেট</span>
+</div>
+<span style="font-size: 13px; line-height: 1.55; color: {{c.muted}}">ড্রাফট, রায়ের সামারি, প্রম্পট লেখা, আর ফেক রেফারেন্স চেনার আলাদা মডিউল</span>
+<button style="height: 46px; border-radius: 12px; border: 1px solid {{c.border}}; background: transparent; color: {{c.text}}; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer">শুরু করুন</button>
+</article>
+<section aria-label="বেসিক কম্পিউটারের মডিউল" style="padding: 8px 16px 4px; border-radius: 16px; background: {{c.surface}}; border: 1px solid {{c.border}}; display: flex; flex-direction: column">
+<sc-for list="{{modules}}" as="m" hint-placeholder-count="6">
+<div style="display: flex; align-items: center; gap: 12px; min-height: 44px; border-top: {{m.divider}}">
+<span style="width: 26px; height: 26px; flex-shrink: 0; border-radius: 13px; background: {{m.bg}}; color: {{m.fg}}; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700">{{m.mark}}</span>
+<span style="font-size: 14px; font-weight: {{m.weight}}">{{m.name}}</span>
+</div>
+</sc-for>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const c = dark
+      ? { bg: '#121417', surface: '#1B1E23', surface2: '#252930', text: '#E8E6E1', muted: '#A7ACB5', border: '#2F343B', accent: '#8FA8F0', onAccent: '#0F1320', accentSoft: '#1F2842', lockBg: '#2B2317', lockText: '#E8B36A', okBg: '#16271F', ok: '#7FD0A6', nav: '#0C0E11', navText: '#E8E6E1', navMuted: '#9BA1AB', navActive: '#1C2027' }
+      : { bg: '#F6F4EF', surface: '#FFFFFF', surface2: '#EFECE5', text: '#1B1D22', muted: '#575C66', border: '#E2DED5', accent: '#2F4FA3', onAccent: '#FFFFFF', accentSoft: '#E6ECFA', lockBg: '#FBF0DC', lockText: '#8A520A', okBg: '#E2F1E8', ok: '#1E6A44', nav: '#1B1D22', navText: '#F6F4EF', navMuted: '#B9BDC4', navActive: '#2C3038' };
+    const line = '1px solid ' + c.border;
+    const doneM = { mark: '✓', bg: c.okBg, fg: c.ok, weight: 400 };
+    const nowM = { bg: c.accent, fg: c.onAccent, weight: 600 };
+    const nextM = { bg: c.surface2, fg: c.muted, weight: 400 };
+    const modules = [
+      { name: 'বাংলা ও ইংরেজি টাইপিং', divider: 'none', ...doneM },
+      { name: 'Word-এ আরজি ও নোটিশের ফরম্যাট', divider: line, ...doneM },
+      { name: 'PDF স্ক্যান, মার্জ, সাইন', mark: '৩', divider: line, ...nowM },
+      { name: 'ইমেইল আর Google Drive', mark: '৪', divider: line, ...nextM },
+      { name: 'সাইবার সিকিউরিটি', mark: '৫', divider: line, ...nextM },
+      { name: 'ধারা অ্যাপ ব্যবহার', mark: '৬', divider: line, ...nextM }
+    ];
+    return { c, modules };
+  }
+}
+</script>
+</body>
+</html>
