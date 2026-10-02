@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<title>আইন সহজ ভাষায়</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Tiro+Bangla&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding-top: 36px; background: {{c.bg}}; color: {{c.text}}; font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif; display: flex; flex-direction: column">
+<header style="height: 56px; flex-shrink: 0; box-sizing: border-box; padding: 0 8px; display: flex; align-items: center; justify-content: space-between">
+<button aria-label="ফিরে যান" style="width: 44px; height: 44px; border: none; border-radius: 22px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<div style="font-size: 17px; font-weight: 600">আইন সহজ ভাষায়</div>
+<div style="width: 44px; height: 44px"></div>
+</header>
+<main style="flex-grow: 1; min-height: 0; overflow: hidden; box-sizing: border-box; padding: 4px 20px 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="position: relative">
+<label for="law-search" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">আইন বা ধারা সার্চ করুন</label>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; left: 14px; top: 14px; color: {{c.muted}}"><path d="M11 4.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zM16 16l4 4"></path></svg>
+<input id="law-search" type="search" placeholder="আইনের নাম আর ধারা লিখুন" style="width: 100%; height: 48px; box-sizing: border-box; border-radius: 12px; border: 1px solid {{c.border}}; background: {{c.surface}}; color: {{c.text}}; font-size: 16px; padding: 0 16px 0 44px; font-family: inherit">
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-family: 'Tiro Bangla', 'Noto Serif Bengali', serif; font-weight: 400; font-size: 23px; line-height: 1.4">[আইনের নাম], ধারা [নম্বর]</h1>
+<span style="font-size: 13px; color: {{c.muted}}">সোর্স: bdlaws · লাস্ট আপডেট: [তারিখ] · <a href="#" style="color: {{c.accent}}; font-weight: 600">মূল লেখা</a></span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 12px; background: {{c.surface2}}">
+<button aria-pressed="true" style="height: 40px; border: none; border-radius: 9px; background: {{c.surface}}; color: {{c.text}}; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer">সহজ ব্যাখ্যা</button>
+<button aria-pressed="false" style="height: 40px; border: none; border-radius: 9px; background: transparent; color: {{c.muted}}; font-size: 14px; font-family: inherit; cursor: pointer">মূল লেখা</button>
+</div>
+<p style="margin: 0; font-size: 15px; line-height: 1.75">[এই ধারা কী বলে, সহজ বাংলায় তিন-চার লাইনে। লেখা আসবে ভেরিফাইড লাইব্রেরি থেকে, AI-এর মুখস্থ থেকে নয়।]</p>
+<section aria-label="শাস্তি" style="padding: 12px 16px 4px; border-radius: 16px; background: {{c.surface}}; border: 1px solid {{c.border}}; display: flex; flex-direction: column">
+<h2 style="margin: 0 0 6px; font-size: 15px; font-weight: 600">শাস্তি ও ডিটেইলস</h2>
+<sc-for list="{{facts}}" as="f" hint-placeholder-count="5">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 40px; border-top: 1px solid {{c.border}}">
+<span style="font-size: 14px; color: {{c.muted}}">{{f.label}}</span>
+<span style="font-size: 14px; font-weight: 600">{{f.value}}</span>
+</div>
+</sc-for>
+</section>
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: {{c.lockBg}}">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; color: {{c.lockText}}"><path d="M7 11h10a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2zM8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+<div style="display: flex; flex-direction: column; gap: 1px">
+<span style="font-size: 14px; font-weight: 600">রিলেটেড কেস রেফারেন্স</span>
+<span style="font-size: 13px; color: {{c.muted}}">রায়ের লাইসেন্স পাওয়ার পর চালু হবে</span>
+</div>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const c = dark
+      ? { bg: '#121417', surface: '#1B1E23', surface2: '#252930', text: '#E8E6E1', muted: '#A7ACB5', border: '#2F343B', accent: '#8FA8F0', onAccent: '#0F1320', accentSoft: '#1F2842', lockBg: '#2B2317', lockText: '#E8B36A', okBg: '#16271F', ok: '#7FD0A6', nav: '#0C0E11', navText: '#E8E6E1', navMuted: '#9BA1AB', navActive: '#1C2027' }
+      : { bg: '#F6F4EF', surface: '#FFFFFF', surface2: '#EFECE5', text: '#1B1D22', muted: '#575C66', border: '#E2DED5', accent: '#2F4FA3', onAccent: '#FFFFFF', accentSoft: '#E6ECFA', lockBg: '#FBF0DC', lockText: '#8A520A', okBg: '#E2F1E8', ok: '#1E6A44', nav: '#1B1D22', navText: '#F6F4EF', navMuted: '#B9BDC4', navActive: '#2C3038' };
+    const facts = [
+      { label: 'সর্বোচ্চ সাজা', value: '[সময়]' },
+      { label: 'জরিমানা', value: '[অ্যামাউন্ট]' },
+      { label: 'জামিনযোগ্য', value: '[হ্যাঁ বা না]' },
+      { label: 'আমলযোগ্য', value: '[হ্যাঁ বা না]' },
+      { label: 'আপসযোগ্য', value: '[হ্যাঁ বা না]' }
+    ];
+    return { c, facts };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<title>কেস · কিছু নেই</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Tiro+Bangla&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding-top: 36px; background: {{c.bg}}; color: {{c.text}}; font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif; display: flex; flex-direction: column">
+<header style="padding: 8px 20px 0">
+<h1 style="margin: 0; font-family: 'Tiro Bangla', 'Noto Serif Bengali', serif; font-weight: 400; font-size: 30px; line-height: 1.3">কেস</h1>
+</header>
+<main style="flex-grow: 1; min-height: 0; box-sizing: border-box; padding: 24px 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center">
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: {{c.muted}}"><path d="M22 28c12-5 25-5 38 3v66c-13-8-26-8-38-3z"></path><path d="M98 28c-12-5-25-5-38 3v66c13-8 26-8 38-3z"></path><path d="M32 44h16M32 56h16M32 68h12M72 44h16M72 56h16"></path></svg>
+<h2 style="margin: 0; font-size: 20px; font-weight: 700">এখনো কোনো কেস নেই</h2>
+<p style="margin: 0; font-size: 15px; line-height: 1.7; color: {{c.muted}}">প্রথম কেসটা অ্যাড করুন, অথবা পুরনো ডায়েরি বা Excel থেকে একবারে সব ইমপোর্ট করুন।</p>
+<div style="width: 100%; display: flex; flex-direction: column; gap: 10px; padding-top: 8px">
+<button style="height: 52px; border-radius: 12px; border: none; background: {{c.accent}}; color: {{c.onAccent}}; font-size: 16px; font-weight: 600; font-family: inherit; cursor: pointer">প্রথম কেস অ্যাড করুন</button>
+<button style="height: 48px; border-radius: 12px; border: 1px solid {{c.border}}; background: {{c.surface}}; color: {{c.text}}; font-size: 15px; font-weight: 500; font-family: inherit; cursor: pointer">Excel থেকে ইমপোর্ট করুন</button>
+</div>
+<a href="#" style="font-size: 14px; font-weight: 600; color: {{c.accent}}">কিভাবে করবেন, ২ মিনিটের ভিডিও</a>
+</main>
+<nav aria-label="মেইন মেনু" style="height: 76px; flex-shrink: 0; box-sizing: border-box; padding: 6px 4px 14px; border-top: 1px solid {{c.border}}; background: {{c.surface}}; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr))">
+<a href="#" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 48px; color: {{c.muted}}; text-decoration: none; font-size: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 5h12a2.5 2.5 0 0 1 2.5 2.5v10A2.5 2.5 0 0 1 18 20H6a2.5 2.5 0 0 1-2.5-2.5v-10A2.5 2.5 0 0 1 6 5zM8 3v4M16 3v4M3.5 10h17"></path></svg><span>আজ</span></a>
+<a href="#" aria-current="page" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 48px; color: {{c.accent}}; text-decoration: none; font-size: 12px; font-weight: 600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 7h13a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zM9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7M3.5 12.5h17"></path></svg><span>কেস</span></a>
+<a href="#" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 48px; color: {{c.muted}}; text-decoration: none; font-size: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"></path></svg><span>ক্লায়েন্ট</span></a>
+<a href="#" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 48px; color: {{c.muted}}; text-decoration: none; font-size: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6h12a2.5 2.5 0 0 1 2.5 2.5v8A2.5 2.5 0 0 1 18 19H6a2.5 2.5 0 0 1-2.5-2.5v-8A2.5 2.5 0 0 1 6 6zM3.5 10h17M16 14.5h.01"></path></svg><span>হিসাব</span></a>
+<a href="#" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 48px; color: {{c.muted}}; text-decoration: none; font-size: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"></path></svg><span>আরও</span></a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const c = dark
+      ? { bg: '#121417', surface: '#1B1E23', surface2: '#252930', text: '#E8E6E1', muted: '#A7ACB5', border: '#2F343B', accent: '#8FA8F0', onAccent: '#0F1320', accentSoft: '#1F2842', lockBg: '#2B2317', lockText: '#E8B36A', okBg: '#16271F', ok: '#7FD0A6', nav: '#0C0E11', navText: '#E8E6E1', navMuted: '#9BA1AB', navActive: '#1C2027' }
+      : { bg: '#F6F4EF', surface: '#FFFFFF', surface2: '#EFECE5', text: '#1B1D22', muted: '#575C66', border: '#E2DED5', accent: '#2F4FA3', onAccent: '#FFFFFF', accentSoft: '#E6ECFA', lockBg: '#FBF0DC', lockText: '#8A520A', okBg: '#E2F1E8', ok: '#1E6A44', nav: '#1B1D22', navText: '#F6F4EF', navMuted: '#B9BDC4', navActive: '#2C3038' };
+    return { c };
+  }
+}
+</script>
+</body>
+</html>

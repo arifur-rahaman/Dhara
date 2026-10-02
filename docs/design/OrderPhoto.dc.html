@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<title>অর্ডারের ছবি</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Tiro+Bangla&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding-top: 36px; background: {{c.bg}}; color: {{c.text}}; font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif; display: flex; flex-direction: column">
+<header style="height: 56px; flex-shrink: 0; box-sizing: border-box; padding: 0 8px; display: flex; align-items: center; justify-content: space-between">
+<button aria-label="ফিরে যান" style="width: 44px; height: 44px; border: none; border-radius: 22px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<div style="font-size: 17px; font-weight: 600">অর্ডারের ছবি</div>
+<div style="width: 44px; height: 44px"></div>
+</header>
+<main style="flex-grow: 1; min-height: 0; overflow: hidden; box-sizing: border-box; padding: 4px 20px 12px; display: flex; flex-direction: column; gap: 14px">
+<div style="position: relative; height: 280px; border-radius: 16px; background: {{c.surface2}}; display: flex; align-items: center; justify-content: center">
+<div style="width: 210px; height: 244px; box-sizing: border-box; padding: 22px 20px; background: #FFFDF8; border-radius: 4px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12); display: flex; flex-direction: column; gap: 12px">
+<span style="height: 8px; width: 60%; border-radius: 4px; background: #D8D2C4"></span>
+<span style="height: 6px; width: 100%; border-radius: 3px; background: #E6E1D6"></span>
+<span style="height: 6px; width: 92%; border-radius: 3px; background: #E6E1D6"></span>
+<span style="height: 6px; width: 97%; border-radius: 3px; background: #E6E1D6"></span>
+<span style="height: 6px; width: 70%; border-radius: 3px; background: #E6E1D6"></span>
+<span style="height: 6px; width: 95%; border-radius: 3px; background: #E6E1D6"></span>
+<span style="height: 6px; width: 84%; border-radius: 3px; background: #E6E1D6"></span>
+<span style="height: 6px; width: 40%; border-radius: 3px; background: #E6E1D6"></span>
+</div>
+<span style="position: absolute; left: 44px; top: 12px; width: 22px; height: 22px; border-left: 3px solid {{c.accent}}; border-top: 3px solid {{c.accent}}; border-radius: 4px 0 0 0"></span>
+<span style="position: absolute; right: 44px; top: 12px; width: 22px; height: 22px; border-right: 3px solid {{c.accent}}; border-top: 3px solid {{c.accent}}; border-radius: 0 4px 0 0"></span>
+<span style="position: absolute; left: 44px; bottom: 12px; width: 22px; height: 22px; border-left: 3px solid {{c.accent}}; border-bottom: 3px solid {{c.accent}}; border-radius: 0 0 0 4px"></span>
+<span style="position: absolute; right: 44px; bottom: 12px; width: 22px; height: 22px; border-right: 3px solid {{c.accent}}; border-bottom: 3px solid {{c.accent}}; border-radius: 0 0 4px 0"></span>
+</div>
+<section aria-label="AI যা পেয়েছে" style="padding: 14px 16px 6px; border-radius: 16px; background: {{c.surface}}; border: 1px solid {{c.border}}; display: flex; flex-direction: column">
+<div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 8px">
+<h2 style="margin: 0; font-size: 15px; font-weight: 600">AI যা পেয়েছে</h2>
+<span style="padding: 4px 10px; border-radius: 999px; background: {{c.lockBg}}; color: {{c.lockText}}; font-size: 12px; font-weight: 600">চেক করে নিন</span>
+</div>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 54px; border-top: 1px solid {{c.border}}">
+<div style="display: flex; flex-direction: column; gap: 1px">
+<span style="font-size: 12px; color: {{c.muted}}">পরের তারিখ</span>
+<span style="font-size: 17px; font-weight: 700">১৪ অক্টোবর ২০২৬</span>
+</div>
+<a href="#" style="font-size: 14px; font-weight: 600; color: {{c.accent}}">এডিট</a>
+</div>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 54px; border-top: 1px solid {{c.border}}">
+<div style="display: flex; flex-direction: column; gap: 1px">
+<span style="font-size: 12px; color: {{c.muted}}">অর্ডারের সামারি</span>
+<span style="font-size: 15px">বাদীর সময়ের আবেদন মঞ্জুর</span>
+</div>
+<a href="#" style="font-size: 14px; font-weight: 600; color: {{c.accent}}">এডিট</a>
+</div>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 54px; border-top: 1px solid {{c.border}}">
+<div style="display: flex; flex-direction: column; gap: 1px">
+<span style="font-size: 12px; color: {{c.muted}}">কেস</span>
+<span style="font-size: 15px">দেওয়ানি ২৪৫/২০২৬</span>
+</div>
+<span style="display: flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: {{c.ok}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>মিলেছে</span>
+</div>
+</section>
+<p style="margin: 0; font-size: 13px; line-height: 1.6; color: {{c.muted}}">হাতের লেখা পড়তে ভুল হতে পারে। সেভ করার আগে তারিখটা অর্ডারের সাথে মিলিয়ে নিন।</p>
+</main>
+<div style="flex-shrink: 0; box-sizing: border-box; padding: 12px 20px 22px; border-top: 1px solid {{c.border}}; background: {{c.surface}}; display: flex; flex-direction: column; gap: 10px">
+<button style="height: 50px; border-radius: 12px; border: none; background: {{c.accent}}; color: {{c.onAccent}}; font-size: 16px; font-weight: 600; font-family: inherit; cursor: pointer">ঠিক আছে, সেভ করুন</button>
+<button style="height: 46px; border-radius: 12px; border: 1px solid {{c.border}}; background: transparent; color: {{c.text}}; font-size: 15px; font-weight: 500; font-family: inherit; cursor: pointer">আবার ছবি তুলুন</button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const c = dark
+      ? { bg: '#121417', surface: '#1B1E23', surface2: '#252930', text: '#E8E6E1', muted: '#A7ACB5', border: '#2F343B', accent: '#8FA8F0', onAccent: '#0F1320', accentSoft: '#1F2842', lockBg: '#2B2317', lockText: '#E8B36A', okBg: '#16271F', ok: '#7FD0A6', nav: '#0C0E11', navText: '#E8E6E1', navMuted: '#9BA1AB', navActive: '#1C2027' }
+      : { bg: '#F6F4EF', surface: '#FFFFFF', surface2: '#EFECE5', text: '#1B1D22', muted: '#575C66', border: '#E2DED5', accent: '#2F4FA3', onAccent: '#FFFFFF', accentSoft: '#E6ECFA', lockBg: '#FBF0DC', lockText: '#8A520A', okBg: '#E2F1E8', ok: '#1E6A44', nav: '#1B1D22', navText: '#F6F4EF', navMuted: '#B9BDC4', navActive: '#2C3038' };
+    return { c };
+  }
+}
+</script>
+</body>
+</html>

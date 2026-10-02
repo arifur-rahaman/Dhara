@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<title>সাপোর্ট অ্যাক্সেস রিকোয়েস্ট</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Tiro+Bangla&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding-top: 36px; background: {{c.bg}}; color: {{c.text}}; font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif; display: flex; flex-direction: column">
+<header style="height: 56px; flex-shrink: 0; box-sizing: border-box; padding: 0 8px; display: flex; align-items: center; justify-content: space-between">
+<button aria-label="ফিরে যান" style="width: 44px; height: 44px; border: none; border-radius: 22px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<div style="font-size: 17px; font-weight: 600">সাপোর্ট অ্যাক্সেস</div>
+<div style="width: 44px; height: 44px"></div>
+</header>
+<main style="flex-grow: 1; min-height: 0; overflow: hidden; box-sizing: border-box; padding: 4px 20px 16px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 10px">
+<span style="width: 52px; height: 52px; border-radius: 16px; background: {{c.lockBg}}; color: {{c.lockText}}; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.2-3 7.4-7 9-4-1.6-7-4.8-7-9V6z"></path></svg></span>
+<h1 style="margin: 0; font-family: 'Tiro Bangla', 'Noto Serif Bengali', serif; font-weight: 400; font-size: 24px; line-height: 1.4">প্ল্যাটফর্ম সাপোর্ট আপনার চেম্বারে অ্যাক্সেস চাইছে</h1>
+<span style="font-size: 14px; color: {{c.muted}}">[অ্যাডমিনের নাম], সাপোর্ট টিম · সকাল ১০:১৫</span>
+</div>
+<div style="padding: 14px 16px; border-radius: 14px; background: {{c.surface}}; border: 1px solid {{c.border}}; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 13px; font-weight: 600; color: {{c.muted}}">কারণ</span>
+<span style="font-size: 15px; line-height: 1.6">[অ্যাডমিন যে কারণ লিখবেন, যেমন আপনার জানানো কোনো সমস্যা]</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<div style="padding: 14px; border-radius: 14px; background: {{c.surface}}; border: 1px solid {{c.border}}; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 13px; font-weight: 600; color: {{c.ok}}">দেখতে পারবে</span>
+<span style="font-size: 14px; line-height: 1.5">অ্যাপের সেটিংস</span>
+<span style="font-size: 14px; line-height: 1.5">কেস নম্বর ও তারিখ</span>
+<span style="font-size: 14px; line-height: 1.5">সমস্যার লগ</span>
+</div>
+<div style="padding: 14px; border-radius: 14px; background: {{c.lockBg}}; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 13px; font-weight: 600; color: {{c.lockText}}">কখনো দেখবে না</span>
+<span style="font-size: 14px; line-height: 1.5">ক্লায়েন্টের কন্টাক্ট</span>
+<span style="font-size: 14px; line-height: 1.5">প্রাইভেট ডকুমেন্ট</span>
+<span style="font-size: 14px; line-height: 1.5">ফি ও ইনকামের ডিটেইলস</span>
+</div>
+</div>
+<div style="display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.6; color: {{c.muted}}">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 3px"><path d="M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17zM12 7.5V12l3 2"></path></svg>
+<span>অ্যাপ্রুভ করলে ২৪ ঘণ্টা পর নিজে বন্ধ হবে। যেকোনো সময় আগেই বন্ধ করতে পারবেন, আর প্রতিটি কাজ অ্যাক্টিভিটি লগে থাকবে।</span>
+</div>
+</main>
+<div style="flex-shrink: 0; box-sizing: border-box; padding: 12px 20px 22px; border-top: 1px solid {{c.border}}; background: {{c.surface}}; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<button style="height: 50px; border-radius: 12px; border: 1px solid {{c.border}}; background: transparent; color: {{c.text}}; font-size: 16px; font-weight: 500; font-family: inherit; cursor: pointer">রিজেক্ট করুন</button>
+<button style="height: 50px; border-radius: 12px; border: none; background: {{c.accent}}; color: {{c.onAccent}}; font-size: 16px; font-weight: 600; font-family: inherit; cursor: pointer">২৪ ঘণ্টার জন্য অ্যাপ্রুভ করুন</button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const c = dark
+      ? { bg: '#121417', surface: '#1B1E23', surface2: '#252930', text: '#E8E6E1', muted: '#A7ACB5', border: '#2F343B', accent: '#8FA8F0', onAccent: '#0F1320', accentSoft: '#1F2842', lockBg: '#2B2317', lockText: '#E8B36A', okBg: '#16271F', ok: '#7FD0A6', nav: '#0C0E11', navText: '#E8E6E1', navMuted: '#9BA1AB', navActive: '#1C2027' }
+      : { bg: '#F6F4EF', surface: '#FFFFFF', surface2: '#EFECE5', text: '#1B1D22', muted: '#575C66', border: '#E2DED5', accent: '#2F4FA3', onAccent: '#FFFFFF', accentSoft: '#E6ECFA', lockBg: '#FBF0DC', lockText: '#8A520A', okBg: '#E2F1E8', ok: '#1E6A44', nav: '#1B1D22', navText: '#F6F4EF', navMuted: '#B9BDC4', navActive: '#2C3038' };
+    return { c };
+  }
+}
+</script>
+</body>
+</html>

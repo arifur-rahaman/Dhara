@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<title>কেস ডিটেইলস</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Tiro+Bangla&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding-top: 36px; background: {{c.bg}}; color: {{c.text}}; font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif; display: flex; flex-direction: column">
+<header style="height: 56px; flex-shrink: 0; box-sizing: border-box; padding: 0 8px; display: flex; align-items: center; justify-content: space-between">
+<button aria-label="ফিরে যান" style="width: 44px; height: 44px; border: none; border-radius: 22px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<div style="font-size: 17px; font-weight: 600">কেস</div>
+<button aria-label="আরও অপশন" style="width: 44px; height: 44px; border: none; border-radius: 22px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5h.01M12 12h.01M12 19h.01"></path></svg></button>
+</header>
+<main style="flex-grow: 1; min-height: 0; overflow: hidden; box-sizing: border-box; padding: 4px 20px 16px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-family: 'Tiro Bangla', 'Noto Serif Bengali', serif; font-weight: 400; font-size: 25px; line-height: 1.35">দেওয়ানি মামলা ২৪৫/২০২৬</h1>
+<span style="font-size: 14px; color: {{c.muted}}">যুগ্ম জেলা জজ আদালত-২, চট্টগ্রাম</span>
+<span style="font-size: 14px">মোঃ করিম হোসেন বনাম রফিক উদ্দিন গং</span>
+</div>
+<section aria-label="পরের তারিখ" style="padding: 14px 16px; border-radius: 16px; background: {{c.accentSoft}}; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; font-weight: 600; color: {{c.accent}}">পরের তারিখ</span>
+<span style="font-size: 20px; font-weight: 700">১৪ অক্টোবর ২০২৬, বুধবার</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; padding-top: 2px">
+<span style="padding: 4px 10px; border-radius: 999px; background: {{c.surface}}; font-size: 13px">হিয়ারিংয়ের জন্য</span>
+<span style="padding: 4px 10px; border-radius: 999px; background: {{c.surface}}; font-size: 13px">অ্যাসাইন: নুসরাত জাহান</span>
+</div>
+</section>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 12px; background: {{c.surface2}}">
+<button aria-pressed="true" style="height: 40px; border: none; border-radius: 9px; background: {{c.surface}}; color: {{c.text}}; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer">টাইমলাইন</button>
+<button aria-pressed="false" style="height: 40px; border: none; border-radius: 9px; background: transparent; color: {{c.muted}}; font-size: 14px; font-family: inherit; cursor: pointer">ডকুমেন্ট</button>
+<button aria-pressed="false" style="height: 40px; border: none; border-radius: 9px; background: transparent; color: {{c.muted}}; font-size: 14px; font-family: inherit; cursor: pointer">নোট</button>
+<button aria-pressed="false" style="height: 40px; border: none; border-radius: 9px; background: transparent; color: {{c.muted}}; font-size: 14px; font-family: inherit; cursor: pointer">ফি</button>
+</div>
+<section aria-label="টাইমলাইন" style="display: flex; flex-direction: column">
+<sc-for list="{{events}}" as="e" hint-placeholder-count="3">
+<div style="display: flex; gap: 14px">
+<div style="width: 12px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center">
+<span style="width: 12px; height: 12px; margin-top: 5px; border-radius: 6px; background: {{e.dot}}"></span>
+<span style="width: 2px; flex-grow: 1; background: {{e.line}}"></span>
+</div>
+<div style="flex-grow: 1; padding-bottom: 18px; display: flex; flex-direction: column; gap: 3px">
+<span style="font-size: 13px; font-weight: 600; color: {{c.muted}}">{{e.date}}</span>
+<span style="font-size: 15px; line-height: 1.5">{{e.text}}</span>
+<span style="font-size: 12px; color: {{c.muted}}">{{e.who}}</span>
+</div>
+</div>
+</sc-for>
+</section>
+</main>
+<div style="flex-shrink: 0; box-sizing: border-box; padding: 12px 20px 22px; border-top: 1px solid {{c.border}}; background: {{c.surface}}; display: flex; gap: 10px">
+<button style="flex-grow: 1; height: 50px; border-radius: 12px; border: none; background: {{c.accent}}; color: {{c.onAccent}}; font-size: 16px; font-weight: 600; font-family: inherit; cursor: pointer">পরের তারিখ দিন</button>
+<button aria-label="অর্ডারের ছবি তুলুন" style="width: 50px; height: 50px; flex-shrink: 0; border-radius: 12px; border: 1px solid {{c.border}}; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5h3.2L9 6h6l1.8 2.5H20V19H4zM12 10.2a3.3 3.3 0 1 1 0 6.6 3.3 3.3 0 0 1 0-6.6z"></path></svg></button>
+<button aria-label="ক্লায়েন্টকে জানান" style="width: 50px; height: 50px; flex-shrink: 0; border-radius: 12px; border: 1px solid {{c.border}}; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 5h15v10.5H10l-4.5 3.5v-3.5h-1z"></path></svg></button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const c = dark
+      ? { bg: '#121417', surface: '#1B1E23', surface2: '#252930', text: '#E8E6E1', muted: '#A7ACB5', border: '#2F343B', accent: '#8FA8F0', onAccent: '#0F1320', accentSoft: '#1F2842', lockBg: '#2B2317', lockText: '#E8B36A', okBg: '#16271F', ok: '#7FD0A6', nav: '#0C0E11', navText: '#E8E6E1', navMuted: '#9BA1AB', navActive: '#1C2027' }
+      : { bg: '#F6F4EF', surface: '#FFFFFF', surface2: '#EFECE5', text: '#1B1D22', muted: '#575C66', border: '#E2DED5', accent: '#2F4FA3', onAccent: '#FFFFFF', accentSoft: '#E6ECFA', lockBg: '#FBF0DC', lockText: '#8A520A', okBg: '#E2F1E8', ok: '#1E6A44', nav: '#1B1D22', navText: '#F6F4EF', navMuted: '#B9BDC4', navActive: '#2C3038' };
+    const events = [
+      { date: '১৪ সেপ্টেম্বর ২০২৬', text: 'বাদীর সময়ের আবেদন মঞ্জুর, পরের তারিখ ১৪ অক্টোবর', who: 'নুসরাত জাহান অ্যাড করেছেন · অর্ডারের ছবিসহ', dot: c.accent, line: c.border },
+      { date: '১৭ আগস্ট ২০২৬', text: 'বিবাদীর জবাব দাখিল', who: 'আবদুল মালেক (মুহুরি) অ্যাড করেছেন', dot: c.muted, line: c.border },
+      { date: '২০ জুলাই ২০২৬', text: 'মামলা দায়ের, সমন জারির অর্ডার', who: 'আপনি অ্যাড করেছেন', dot: c.muted, line: 'transparent' }
+    ];
+    return { c, events };
+  }
+}
+</script>
+</body>
+</html>

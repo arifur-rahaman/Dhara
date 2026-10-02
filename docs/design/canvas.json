@@ -1,0 +1,386 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-09-28T09:00:00Z"
+  },
+  "title": "ধারা — অ্যাপ ডিজাইন",
+  "launch": {
+    "view": "canvas"
+  },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "লগইন · সবার জন্য একটাই"
+    },
+    "OwnerClient.dc.html": {
+      "x": 470,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "ক্লায়েন্ট · ওনার ভিউ"
+    },
+    "AssociateClient.dc.html": {
+      "x": 940,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "ক্লায়েন্ট · অ্যাসোসিয়েট ভিউ"
+    },
+    "MunshiToday.dc.html": {
+      "x": 1410,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "আজ · মুহুরি ভিউ"
+    },
+    "MainDark.dc.html": {
+      "x": 0,
+      "y": 1300,
+      "w": 390,
+      "h": 844,
+      "title": "লগইন · ডার্ক"
+    },
+    "OwnerClientDark.dc.html": {
+      "x": 470,
+      "y": 1300,
+      "w": 390,
+      "h": 844,
+      "title": "ক্লায়েন্ট · ওনার · ডার্ক"
+    },
+    "AssociateClientDark.dc.html": {
+      "x": 940,
+      "y": 1300,
+      "w": 390,
+      "h": 844,
+      "title": "ক্লায়েন্ট · অ্যাসোসিয়েট · ডার্ক"
+    },
+    "MunshiTodayDark.dc.html": {
+      "x": 1410,
+      "y": 1300,
+      "w": 390,
+      "h": 844,
+      "title": "আজ · মুহুরি · ডার্ক"
+    },
+    "TeamRoles.dc.html": {
+      "x": 0,
+      "y": 2544,
+      "w": 1280,
+      "h": 860,
+      "title": "টিম ও পারমিশন · ওনার (ওয়েব)"
+    },
+    "SuperAdmin.dc.html": {
+      "x": 1360,
+      "y": 2544,
+      "w": 1280,
+      "h": 860,
+      "title": "সুপার অ্যাডমিন পোর্টাল (ওয়েব)"
+    },
+    "TeamRolesDark.dc.html": {
+      "x": 2720,
+      "y": 2544,
+      "w": 1280,
+      "h": 860,
+      "title": "টিম ও পারমিশন · ডার্ক"
+    },
+    "Reports.dc.html": {
+      "x": 4080,
+      "y": 2544,
+      "w": 1280,
+      "h": 860,
+      "title": "রিপোর্ট · ওনার (ওয়েব)"
+    },
+    "OwnerToday.dc.html": {
+      "x": 0,
+      "y": 3804,
+      "w": 390,
+      "h": 844,
+      "title": "আজ · ওনারের হোম"
+    },
+    "CaseList.dc.html": {
+      "x": 470,
+      "y": 3804,
+      "w": 390,
+      "h": 844,
+      "title": "কেস লিস্ট"
+    },
+    "CaseDetail.dc.html": {
+      "x": 940,
+      "y": 3804,
+      "w": 390,
+      "h": 844,
+      "title": "কেস ডিটেইলস ও টাইমলাইন"
+    },
+    "AddCase.dc.html": {
+      "x": 1410,
+      "y": 3804,
+      "w": 390,
+      "h": 844,
+      "title": "নতুন কেস অ্যাড"
+    },
+    "NextDate.dc.html": {
+      "x": 1880,
+      "y": 3804,
+      "w": 390,
+      "h": 844,
+      "title": "পরের তারিখ দেওয়া"
+    },
+    "OrderPhoto.dc.html": {
+      "x": 2350,
+      "y": 3804,
+      "w": 390,
+      "h": 844,
+      "title": "অর্ডারের ছবি থেকে তারিখ (AI)"
+    },
+    "Accounts.dc.html": {
+      "x": 0,
+      "y": 5048,
+      "w": 390,
+      "h": 844,
+      "title": "হিসাব · ফি ও বকেয়া"
+    },
+    "ReceiptView.dc.html": {
+      "x": 470,
+      "y": 5048,
+      "w": 390,
+      "h": 844,
+      "title": "রসিদ"
+    },
+    "Documents.dc.html": {
+      "x": 940,
+      "y": 5048,
+      "w": 390,
+      "h": 844,
+      "title": "ডকুমেন্ট"
+    },
+    "Notifications.dc.html": {
+      "x": 1410,
+      "y": 5048,
+      "w": 390,
+      "h": 844,
+      "title": "নোটিফিকেশন"
+    },
+    "SupportApproval.dc.html": {
+      "x": 1880,
+      "y": 5048,
+      "w": 390,
+      "h": 844,
+      "title": "সাপোর্ট রিকোয়েস্ট · ওনারের অ্যাপ্রুভাল"
+    },
+    "InviteMember.dc.html": {
+      "x": 0,
+      "y": 6292,
+      "w": 390,
+      "h": 844,
+      "title": "মেম্বার ইনভাইট"
+    },
+    "StaffToday.dc.html": {
+      "x": 470,
+      "y": 6292,
+      "w": 390,
+      "h": 844,
+      "title": "আজ · অফিস স্টাফ বা পিয়ন"
+    },
+    "Settings.dc.html": {
+      "x": 940,
+      "y": 6292,
+      "w": 390,
+      "h": 844,
+      "title": "সেটিংস · থিম ও রিমাইন্ডার"
+    },
+    "AIDraft.dc.html": {
+      "x": 0,
+      "y": 7536,
+      "w": 390,
+      "h": 844,
+      "title": "AI ড্রাফট"
+    },
+    "LawExplain.dc.html": {
+      "x": 470,
+      "y": 7536,
+      "w": 390,
+      "h": 844,
+      "title": "আইন সহজ ভাষায়"
+    },
+    "Courses.dc.html": {
+      "x": 940,
+      "y": 7536,
+      "w": 390,
+      "h": 844,
+      "title": "কোর্স"
+    },
+    "Onboarding.dc.html": {
+      "x": 0,
+      "y": 8780,
+      "w": 390,
+      "h": 844,
+      "title": "অনবোর্ডিং"
+    },
+    "EmptyState.dc.html": {
+      "x": 470,
+      "y": 8780,
+      "w": 390,
+      "h": 844,
+      "title": "কিছু না থাকলে"
+    },
+    "Offline.dc.html": {
+      "x": 940,
+      "y": 8780,
+      "w": 390,
+      "h": 844,
+      "title": "অফলাইন"
+    },
+    "OwnerTodayDark.dc.html": {
+      "x": 0,
+      "y": 10024,
+      "w": 390,
+      "h": 844,
+      "title": "আজ · ওনার · ডার্ক"
+    },
+    "CaseDetailDark.dc.html": {
+      "x": 470,
+      "y": 10024,
+      "w": 390,
+      "h": 844,
+      "title": "কেস ডিটেইলস · ডার্ক"
+    },
+    "AccountsDark.dc.html": {
+      "x": 940,
+      "y": 10024,
+      "w": 390,
+      "h": 844,
+      "title": "হিসাব · ডার্ক"
+    },
+    "AIDraftDark.dc.html": {
+      "x": 1410,
+      "y": 10024,
+      "w": 390,
+      "h": 844,
+      "title": "AI ড্রাফট · ডার্ক"
+    },
+    "SettingsDark.dc.html": {
+      "x": 1880,
+      "y": 10024,
+      "w": 390,
+      "h": 844,
+      "title": "সেটিংস · ডার্ক"
+    },
+    "MainEnglish.dc.html": {
+      "x": 1880,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Login · English (default)"
+    }
+  },
+  "order": [
+    "MainEnglish.dc.html",
+    "Main.dc.html",
+    "OwnerClient.dc.html",
+    "AssociateClient.dc.html",
+    "MunshiToday.dc.html",
+    "MainDark.dc.html",
+    "OwnerClientDark.dc.html",
+    "AssociateClientDark.dc.html",
+    "MunshiTodayDark.dc.html",
+    "TeamRoles.dc.html",
+    "SuperAdmin.dc.html",
+    "TeamRolesDark.dc.html",
+    "Reports.dc.html",
+    "OwnerToday.dc.html",
+    "CaseList.dc.html",
+    "CaseDetail.dc.html",
+    "AddCase.dc.html",
+    "NextDate.dc.html",
+    "OrderPhoto.dc.html",
+    "Accounts.dc.html",
+    "ReceiptView.dc.html",
+    "Documents.dc.html",
+    "Notifications.dc.html",
+    "SupportApproval.dc.html",
+    "InviteMember.dc.html",
+    "StaffToday.dc.html",
+    "Settings.dc.html",
+    "AIDraft.dc.html",
+    "LawExplain.dc.html",
+    "Courses.dc.html",
+    "Onboarding.dc.html",
+    "EmptyState.dc.html",
+    "Offline.dc.html",
+    "OwnerTodayDark.dc.html",
+    "CaseDetailDark.dc.html",
+    "AccountsDark.dc.html",
+    "AIDraftDark.dc.html",
+    "SettingsDark.dc.html"
+  ],
+  "notes": {
+    "t1": {
+      "x": 0,
+      "y": -300,
+      "text": "মোবাইল · লাইট মোড",
+      "kind": "title1",
+      "maxW": 2270
+    },
+    "t2": {
+      "x": 0,
+      "y": 1000,
+      "text": "মোবাইল · ডার্ক মোড",
+      "kind": "title1",
+      "maxW": 1800
+    },
+    "t3": {
+      "x": 0,
+      "y": 2244,
+      "text": "ওয়েব · টিম ও পারমিশন, সুপার অ্যাডমিন, রিপোর্ট",
+      "kind": "title1",
+      "maxW": 5360
+    },
+    "t4": {
+      "x": 0,
+      "y": 3544,
+      "text": "প্রতিদিনের কাজ",
+      "kind": "title1",
+      "maxW": 2740
+    },
+    "t5": {
+      "x": 0,
+      "y": 4788,
+      "text": "হিসাব, ডকুমেন্ট ও নোটিফিকেশন",
+      "kind": "title1",
+      "maxW": 2270
+    },
+    "t6": {
+      "x": 0,
+      "y": 6032,
+      "text": "টিম, স্টাফ ও সেটিংস",
+      "kind": "title1",
+      "maxW": 1330
+    },
+    "t7": {
+      "x": 0,
+      "y": 7276,
+      "text": "AI ও কোর্স",
+      "kind": "title1",
+      "maxW": 1330
+    },
+    "t8": {
+      "x": 0,
+      "y": 8520,
+      "text": "অনবোর্ডিং, এম্পটি ও অফলাইন",
+      "kind": "title1",
+      "maxW": 1330
+    },
+    "t9": {
+      "x": 0,
+      "y": 9764,
+      "text": "নতুন স্ক্রিন · ডার্ক মোড",
+      "kind": "title1",
+      "maxW": 2270
+    }
+  },
+  "designSystems": []
+}

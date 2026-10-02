@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<title>সুপার অ্যাডমিন পোর্টাল</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Tiro+Bangla&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 1280px; height: 860px; box-sizing: border-box; background: {{c.bg}}; color: {{c.text}}; font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif; display: flex">
+<aside style="width: 248px; flex-shrink: 0; box-sizing: border-box; background: {{c.nav}}; color: {{c.navText}}; padding: 24px 16px; display: flex; flex-direction: column; gap: 4px">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px 20px">
+<div style="width: 36px; height: 36px; border-radius: 10px; background: {{c.navActive}}; color: {{c.navText}}; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.2-3 7.4-7 9-4-1.6-7-4.8-7-9V6z"></path></svg></div>
+<div style="display: flex; flex-direction: column">
+<span style="font-size: 15px; font-weight: 600">ধারা</span>
+<span style="font-size: 12px; color: {{c.navMuted}}">প্ল্যাটফর্ম অ্যাডমিন</span>
+</div>
+</div>
+<nav aria-label="অ্যাডমিন মেনু" style="display: flex; flex-direction: column; gap: 4px">
+<a href="#" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: {{c.navMuted}}; text-decoration: none; font-size: 15px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></svg>ড্যাশবোর্ড</a>
+<a href="#" aria-current="page" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; background: {{c.navActive}}; color: {{c.navText}}; text-decoration: none; font-size: 15px; font-weight: 600"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="7" width="17" height="12.5" rx="2"></rect><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7M3.5 12.5h17"></path></svg>চেম্বার</a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: {{c.navMuted}}; text-decoration: none; font-size: 15px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="6" width="17" height="13" rx="2.5"></rect><path d="M3.5 10h17M16 14.5h.01"></path></svg>সাবস্ক্রিপশন</a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: {{c.navMuted}}; text-decoration: none; font-size: 15px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>সাপোর্ট অ্যাক্সেস</a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: {{c.navMuted}}; text-decoration: none; font-size: 15px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8.5" r="3"></circle><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"></path><path d="M15.5 5.8a3 3 0 0 1 0 5.4M17.5 14.3c1.8.6 3 2.3 3 4.7"></path></svg>অ্যাডমিন টিম</a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: {{c.navMuted}}; text-decoration: none; font-size: 15px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"></path></svg>অডিট লগ</a>
+</nav>
+<div style="margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 12px; background: {{c.navActive}}">
+<div style="width: 36px; height: 36px; flex-shrink: 0; border-radius: 18px; background: {{c.nav}}; color: {{c.navText}}; display: flex; align-items: center; justify-content: center; font-family: 'Tiro Bangla', serif; font-size: 17px">স</div>
+<div style="display: flex; flex-direction: column">
+<span style="font-size: 14px; font-weight: 600">আপনি</span>
+<span style="font-size: 12px; color: {{c.navMuted}}">সুপার অ্যাডমিন</span>
+</div>
+</div>
+</aside>
+<main style="flex-grow: 1; min-width: 0; box-sizing: border-box; padding: 28px 40px 32px; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex">
+<span style="display: flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: {{c.lockBg}}; color: {{c.lockText}}; font-size: 13px; font-weight: 600"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.2-3 7.4-7 9-4-1.6-7-4.8-7-9V6z"></path></svg>সুপার অ্যাডমিন পোর্টাল · আলাদা লিংক · টু-স্টেপ ভেরিফিকেশন বাধ্যতামূলক</span>
+</div>
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h1 style="margin: 0; font-family: 'Tiro Bangla', 'Noto Serif Bengali', serif; font-weight: 400; font-size: 32px; line-height: 1.3">চেম্বার</h1>
+<p style="margin: 0; font-size: 15px; color: {{c.muted}}">প্ল্যাটফর্মের সব চেম্বার। ক্লায়েন্ট আর কেসের কনটেন্ট এখানে দেখা যায় না।</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="admin-search" style="font-size: 13px; font-weight: 600">চেম্বার সার্চ করুন</label>
+<input id="admin-search" type="search" placeholder="চেম্বার বা ওনারের নাম" style="width: 280px; height: 44px; box-sizing: border-box; border-radius: 10px; border: 1px solid {{c.border}}; background: {{c.surface}}; color: {{c.text}}; font-size: 15px; padding: 0 14px; font-family: inherit">
+</div>
+</div>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 24px; align-items: start">
+<section aria-label="চেম্বার লিস্ট" style="padding: 8px 20px 4px; border-radius: 16px; background: {{c.surface}}; border: 1px solid {{c.border}}; display: flex; flex-direction: column">
+<div style="display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr) minmax(0, 0.9fr) minmax(0, 0.6fr) minmax(0, 0.8fr) minmax(0, 1.4fr); gap: 12px; align-items: center; min-height: 44px; font-size: 13px; font-weight: 600; color: {{c.muted}}">
+<span>চেম্বার</span>
+<span>ওনার</span>
+<span>প্ল্যান</span>
+<span>মেম্বার</span>
+<span>স্ট্যাটাস</span>
+<span>সাপোর্ট অ্যাক্সেস</span>
+</div>
+<sc-for list="{{chambers}}" as="ch" hint-placeholder-count="4">
+<div style="display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr) minmax(0, 0.9fr) minmax(0, 0.6fr) minmax(0, 0.8fr) minmax(0, 1.4fr); gap: 12px; align-items: center; min-height: 60px; border-top: 1px solid {{c.border}}; font-size: 14px">
+<span style="font-size: 15px; font-weight: 600">{{ch.name}}</span>
+<span>{{ch.owner}}</span>
+<span>{{ch.plan}}</span>
+<span>{{ch.members}}</span>
+<span style="justify-self: start; padding: 3px 10px; border-radius: 999px; background: {{ch.sBg}}; color: {{ch.sFg}}; font-size: 12px; font-weight: 600">{{ch.status}}</span>
+<span style="font-size: 13px; line-height: 1.45; color: {{ch.aFg}}">{{ch.access}}</span>
+</div>
+</sc-for>
+<div style="display: flex; align-items: center; gap: 8px; min-height: 52px; border-top: 1px solid {{c.border}}; font-size: 13px; color: {{c.muted}}">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; color: {{c.lockText}}"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+<span>ক্লায়েন্টের নাম, কন্টাক্ট, কেসের ডিটেইলস আর ডকুমেন্ট এই পোর্টালে দেখা যায় না।</span>
+</div>
+</section>
+<section aria-label="সাপোর্ট অ্যাক্সেস" style="padding: 18px 20px 20px; border-radius: 16px; background: {{c.surface}}; border: 1px solid {{c.border}}; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 600">সাপোর্ট অ্যাক্সেস কিভাবে কাজ করে</h2>
+<div style="display: flex; align-items: flex-start; gap: 12px">
+<span style="width: 26px; height: 26px; flex-shrink: 0; border-radius: 13px; background: {{c.accentSoft}}; color: {{c.accent}}; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700">১</span>
+<span style="font-size: 14px; line-height: 1.6">অ্যাডমিন কারণ লিখে রিকোয়েস্ট পাঠান</span>
+</div>
+<div style="display: flex; align-items: flex-start; gap: 12px">
+<span style="width: 26px; height: 26px; flex-shrink: 0; border-radius: 13px; background: {{c.accentSoft}}; color: {{c.accent}}; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700">২</span>
+<span style="font-size: 14px; line-height: 1.6">চেম্বারের ওনার অ্যাপে অ্যাপ্রুভ করেন</span>
+</div>
+<div style="display: flex; align-items: flex-start; gap: 12px">
+<span style="width: 26px; height: 26px; flex-shrink: 0; border-radius: 13px; background: {{c.accentSoft}}; color: {{c.accent}}; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700">৩</span>
+<span style="font-size: 14px; line-height: 1.6">২৪ ঘণ্টা পর নিজে বন্ধ হয়, প্রতিটি কাজ অডিট লগে থাকে</span>
+</div>
+<div style="display: flex; align-items: flex-start; gap: 10px; padding: 12px; border-radius: 12px; background: {{c.lockBg}}">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; color: {{c.lockText}}; margin-top: 2px"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+<span style="font-size: 13.5px; line-height: 1.55">অ্যাপ্রুভাল পেলেও ক্লায়েন্টের কন্টাক্ট ইনফো হাইড থাকে।</span>
+</div>
+<button style="height: 44px; border-radius: 10px; border: 1px solid {{c.border}}; background: transparent; color: {{c.text}}; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer">রিকোয়েস্ট পাঠান</button>
+</section>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":1280,"height":860}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const c = dark
+      ? { bg: '#121417', surface: '#1B1E23', surface2: '#252930', text: '#E8E6E1', muted: '#A7ACB5', border: '#2F343B', accent: '#8FA8F0', onAccent: '#0F1320', accentSoft: '#1F2842', lockBg: '#2B2317', lockText: '#E8B36A', okBg: '#16271F', ok: '#7FD0A6', nav: '#0C0E11', navText: '#E8E6E1', navMuted: '#9BA1AB', navActive: '#1C2027' }
+      : { bg: '#F6F4EF', surface: '#FFFFFF', surface2: '#EFECE5', text: '#1B1D22', muted: '#575C66', border: '#E2DED5', accent: '#2F4FA3', onAccent: '#FFFFFF', accentSoft: '#E6ECFA', lockBg: '#FBF0DC', lockText: '#8A520A', okBg: '#E2F1E8', ok: '#1E6A44', nav: '#1B1D22', navText: '#F6F4EF', navMuted: '#B9BDC4', navActive: '#2C3038' };
+    const chambers = [
+      { name: 'খান ল চেম্বার', owner: 'অ্যাড. সাইফুল খান', plan: 'Chamber', members: '৫', status: 'অ্যাক্টিভ', sBg: c.okBg, sFg: c.ok, access: 'নেই', aFg: c.muted },
+      { name: 'রহমান অ্যান্ড অ্যাসোসিয়েটস', owner: 'অ্যাড. ফারহানা রহমান', plan: 'Solo', members: '১', status: 'ট্রায়াল', sBg: c.accentSoft, sFg: c.accent, access: 'নেই', aFg: c.muted },
+      { name: 'চৌধুরী লিগ্যাল', owner: 'অ্যাড. তারেক চৌধুরী', plan: 'Organization', members: '১২', status: 'অ্যাক্টিভ', sBg: c.okBg, sFg: c.ok, access: 'অ্যাপ্রুভড · ২৩ ঘণ্টা বাকি', aFg: c.ok },
+      { name: 'হক ল চেম্বার', owner: 'অ্যাড. মাহমুদুল হক', plan: 'Chamber', members: '৪', status: 'বকেয়া', sBg: c.lockBg, sFg: c.lockText, access: 'ওনারের অ্যাপ্রুভালের অপেক্ষায়', aFg: c.lockText }
+    ];
+    return { c, chambers };
+  }
+}
+</script>
+</body>
+</html>

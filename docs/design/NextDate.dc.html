@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<title>পরের তারিখ দিন</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Tiro+Bangla&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding-top: 36px; background: {{c.bg}}; color: {{c.text}}; font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif; display: flex; flex-direction: column; position: relative; overflow: hidden">
+<div style="padding: 16px 20px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-family: 'Tiro Bangla', 'Noto Serif Bengali', serif; font-size: 24px">দেওয়ানি মামলা ২৪৫/২০২৬</span>
+<span style="font-size: 14px; color: {{c.muted}}">যুগ্ম জেলা জজ আদালত-২, চট্টগ্রাম</span>
+</div>
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; background: rgba(0, 0, 0, 0.45)"></div>
+<section aria-label="পরের তারিখ দিন" style="position: absolute; left: 0; bottom: 0; width: 390px; height: 730px; box-sizing: border-box; border-radius: 24px 24px 0 0; background: {{c.surface}}; padding: 10px 20px 22px; display: flex; flex-direction: column; gap: 12px">
+<div style="align-self: center; width: 40px; height: 5px; border-radius: 3px; background: {{c.border}}"></div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<h1 style="margin: 0; font-size: 19px; font-weight: 700">পরের তারিখ দিন</h1>
+<span style="font-size: 13px; color: {{c.muted}}">আজ: ২৮ সেপ্টেম্বর</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px">
+<button style="height: 44px; border-radius: 10px; border: 1px solid {{c.border}}; background: {{c.surface}}; color: {{c.text}}; font-size: 13px; font-family: inherit; cursor: pointer">৭ দিন পর</button>
+<button style="height: 44px; border-radius: 10px; border: 1px solid {{c.border}}; background: {{c.surface}}; color: {{c.text}}; font-size: 13px; font-family: inherit; cursor: pointer">১৪ দিন পর</button>
+<button style="height: 44px; border-radius: 10px; border: 1px solid {{c.border}}; background: {{c.surface}}; color: {{c.text}}; font-size: 13px; font-family: inherit; cursor: pointer">১ মাস পর</button>
+<button style="height: 44px; border-radius: 10px; border: 1px solid {{c.accent}}; background: {{c.accentSoft}}; color: {{c.accent}}; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer">অন্য তারিখ</button>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 10px 12px 12px; border-radius: 14px; border: 1px solid {{c.border}}">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<button aria-label="আগের মাস" style="width: 44px; height: 36px; border: none; border-radius: 10px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<span style="font-size: 15px; font-weight: 600">অক্টোবর ২০২৬</span>
+<button aria-label="পরের মাস" style="width: 44px; height: 36px; border: none; border-radius: 10px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></button>
+</div>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; font-size: 12px; font-weight: 600; color: {{c.muted}}; text-align: center">
+<span>রবি</span><span>সোম</span><span>মঙ্গল</span><span>বুধ</span><span>বৃহঃ</span><span>শুক্র</span><span>শনি</span>
+</div>
+<sc-for list="{{weeks}}" as="w" hint-placeholder-count="5">
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px">
+<button aria-label="{{w.d0.label}}" disabled="{{w.d0.off}}" style="height: 36px; border: none; border-radius: 18px; background: {{w.d0.bg}}; color: {{w.d0.fg}}; font-size: 14px; font-weight: {{w.d0.fw}}; font-family: inherit; padding: 0; cursor: pointer">{{w.d0.t}}</button>
+<button aria-label="{{w.d1.label}}" disabled="{{w.d1.off}}" style="height: 36px; border: none; border-radius: 18px; background: {{w.d1.bg}}; color: {{w.d1.fg}}; font-size: 14px; font-weight: {{w.d1.fw}}; font-family: inherit; padding: 0; cursor: pointer">{{w.d1.t}}</button>
+<button aria-label="{{w.d2.label}}" disabled="{{w.d2.off}}" style="height: 36px; border: none; border-radius: 18px; background: {{w.d2.bg}}; color: {{w.d2.fg}}; font-size: 14px; font-weight: {{w.d2.fw}}; font-family: inherit; padding: 0; cursor: pointer">{{w.d2.t}}</button>
+<button aria-label="{{w.d3.label}}" disabled="{{w.d3.off}}" style="height: 36px; border: none; border-radius: 18px; background: {{w.d3.bg}}; color: {{w.d3.fg}}; font-size: 14px; font-weight: {{w.d3.fw}}; font-family: inherit; padding: 0; cursor: pointer">{{w.d3.t}}</button>
+<button aria-label="{{w.d4.label}}" disabled="{{w.d4.off}}" style="height: 36px; border: none; border-radius: 18px; background: {{w.d4.bg}}; color: {{w.d4.fg}}; font-size: 14px; font-weight: {{w.d4.fw}}; font-family: inherit; padding: 0; cursor: pointer">{{w.d4.t}}</button>
+<button aria-label="{{w.d5.label}}" disabled="{{w.d5.off}}" style="height: 36px; border: none; border-radius: 18px; background: {{w.d5.bg}}; color: {{w.d5.fg}}; font-size: 14px; font-weight: {{w.d5.fw}}; font-family: inherit; padding: 0; cursor: pointer">{{w.d5.t}}</button>
+<button aria-label="{{w.d6.label}}" disabled="{{w.d6.off}}" style="height: 36px; border: none; border-radius: 18px; background: {{w.d6.bg}}; color: {{w.d6.fg}}; font-size: 14px; font-weight: {{w.d6.fw}}; font-family: inherit; padding: 0; cursor: pointer">{{w.d6.t}}</button>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="order-note" style="font-size: 14px; font-weight: 600">আজ কী হলো</label>
+<textarea id="order-note" rows="2" placeholder="যেমন: বাদীর সময়ের আবেদন মঞ্জুর" style="box-sizing: border-box; border-radius: 12px; border: 1px solid {{c.border}}; background: {{c.bg}}; color: {{c.text}}; font-size: 15px; line-height: 1.6; padding: 10px 14px; font-family: inherit; resize: none"></textarea>
+</div>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 15px; font-weight: 600">ক্লায়েন্টকে SMS পাঠান</span>
+<span style="font-size: 12.5px; line-height: 1.5; color: {{c.muted}}">যাবে: "আপনার মামলার পরের তারিখ ১৪ অক্টোবর"</span>
+</div>
+<button aria-pressed="true" aria-label="ক্লায়েন্টকে SMS পাঠান" style="flex-shrink: 0; width: 56px; height: 44px; border: none; background: transparent; padding: 0; display: flex; align-items: center; justify-content: center; cursor: pointer"><span style="width: 52px; height: 30px; box-sizing: border-box; border-radius: 15px; background: {{c.accent}}; padding: 3px; display: flex; justify-content: flex-end"><span style="width: 24px; height: 24px; border-radius: 12px; background: {{c.onAccent}}"></span></span></button>
+</div>
+<button style="margin-top: auto; height: 50px; border-radius: 12px; border: none; background: {{c.accent}}; color: {{c.onAccent}}; font-size: 16px; font-weight: 600; font-family: inherit; cursor: pointer">১৪ অক্টোবর সেভ করুন</button>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const c = dark
+      ? { bg: '#121417', surface: '#1B1E23', surface2: '#252930', text: '#E8E6E1', muted: '#A7ACB5', border: '#2F343B', accent: '#8FA8F0', onAccent: '#0F1320', accentSoft: '#1F2842', lockBg: '#2B2317', lockText: '#E8B36A', okBg: '#16271F', ok: '#7FD0A6', nav: '#0C0E11', navText: '#E8E6E1', navMuted: '#9BA1AB', navActive: '#1C2027' }
+      : { bg: '#F6F4EF', surface: '#FFFFFF', surface2: '#EFECE5', text: '#1B1D22', muted: '#575C66', border: '#E2DED5', accent: '#2F4FA3', onAccent: '#FFFFFF', accentSoft: '#E6ECFA', lockBg: '#FBF0DC', lockText: '#8A520A', okBg: '#E2F1E8', ok: '#1E6A44', nav: '#1B1D22', navText: '#F6F4EF', navMuted: '#B9BDC4', navActive: '#2C3038' };
+    const digits = '০১২৩৪৫৬৭৮৯';
+    const bn = (n) => String(n).split('').map((d) => digits[Number(d)]).join('');
+    const picked = 14;
+    const weeks = [];
+    for (let r = 0; r < 5; r++) {
+      const w = {};
+      for (let k = 0; k < 7; k++) {
+        const n = r * 7 + k - 3;
+        const real = n >= 1 && n <= 31;
+        const on = n === picked;
+        w['d' + k] = {
+          t: real ? bn(n) : '',
+          label: real ? bn(n) + ' অক্টোবর' : 'ফাঁকা',
+          off: !real,
+          bg: on ? c.accent : 'transparent',
+          fg: on ? c.onAccent : c.text,
+          fw: on ? 700 : 400
+        };
+      }
+      weeks.push(w);
+    }
+    return { c, weeks };
+  }
+}
+</script>
+</body>
+</html>
