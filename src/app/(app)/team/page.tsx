@@ -94,7 +94,7 @@ export default async function TeamPage({ searchParams }: PageProps<'/team'>) {
             </li>
           ))}
           {invitations.map((inv) => (
-            <li key={inv.id} className="flex min-h-16 items-center gap-3 border-t border-border">
+            <li key={inv.id} className="flex min-h-16 items-center gap-3 border-t border-border py-2">
               <span
                 aria-hidden="true"
                 className="flex size-9 shrink-0 items-center justify-center rounded-full bg-surface-2 font-title text-[16px]"
@@ -107,15 +107,17 @@ export default async function TeamPage({ searchParams }: PageProps<'/team'>) {
                   {t(`roles.${inv.role}`)} · <span lang="en">{maskPhone(inv.phone)}</span>
                 </span>
               </div>
-              <span className="rounded-full bg-lock-bg px-2.5 py-[3px] text-[12px] font-semibold text-lock-text">
-                {t('team.inviteSent')}
-              </span>
-              <form action={revokeInvitation}>
-                <input type="hidden" name="invitationId" value={inv.id} />
-                <button className="flex h-11 items-center px-2 text-[13px] font-semibold text-muted underline">
-                  {t('team.withdraw')}
-                </button>
-              </form>
+              <div className="flex shrink-0 flex-col items-end">
+                <span className="rounded-full bg-lock-bg px-2.5 py-[3px] text-[12px] font-semibold text-lock-text">
+                  {t('team.inviteSent')}
+                </span>
+                <form action={revokeInvitation}>
+                  <input type="hidden" name="invitationId" value={inv.id} />
+                  <button className="flex h-11 items-center text-[13px] font-semibold text-muted underline">
+                    {t('team.withdraw')}
+                  </button>
+                </form>
+              </div>
             </li>
           ))}
         </ul>
