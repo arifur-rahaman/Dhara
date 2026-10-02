@@ -1,0 +1,76 @@
+{
+  "app": {
+    "name": "Dhara",
+    "tagline": "Cases, dates, clients — all in one flow.",
+    "skipToContent": "Skip to content"
+  },
+  "login": {
+    "title": "Sign in to Dhara",
+    "subtitle": "For lawyers, associates, munshis and office staff.",
+    "comingSoon": "Sign-in with your mobile number arrives in the next milestone (M1).",
+    "previewTitle": "Preview the app shell",
+    "previewHint": "Development only. Pick a role to see its navigation."
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "bn": "বাংলা"
+  },
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "numerals": {
+    "label": "Digits in Bangla mode",
+    "bn": "Bangla (১২৩)",
+    "latn": "English (123)"
+  },
+  "roles": {
+    "owner": "Owner",
+    "associate": "Associate",
+    "munshi": "Munshi",
+    "staff": "Office staff"
+  },
+  "nav": {
+    "label": "Main",
+    "today": "Today",
+    "cases": "Cases",
+    "clients": "Clients",
+    "accounts": "Accounts",
+    "more": "More",
+    "drafts": "Drafts",
+    "calendar": "Calendar",
+    "tasks": "Tasks",
+    "documents": "Documents",
+    "team": "Team",
+    "reports": "Reports",
+    "courses": "Courses",
+    "notifications": "Notifications",
+    "settings": "Settings"
+  },
+  "placeholder": {
+    "title": "Not built yet",
+    "body": "This screen is built in milestone {milestone}."
+  },
+  "settings": {
+    "title": "Settings",
+    "display": "Display",
+    "language": "Language"
+  },
+  "more": {
+    "title": "More"
+  },
+  "admin": {
+    "title": "Dhara admin",
+    "nav": {
+      "label": "Admin",
+      "chambers": "Chambers",
+      "plans": "Plans",
+      "support": "Support access",
+      "audit": "Audit log"
+    },
+    "placeholder": "The admin portal is built in milestone M3."
+  }
+}
