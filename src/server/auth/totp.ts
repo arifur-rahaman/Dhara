@@ -16,14 +16,18 @@ export function totpUri(secret: string, account: string) {
 /** Checks a code; rejects reuse of an already accepted time step. */
 export async function checkTotp(secretEnc: string, token: string, lastStep: bigint | null) {
   if (!/^\d{6}$/.test(token)) return { ok: false as const };
+  const now = Math.floor(Date.now() / 1000);
   const result = await verify({
     secret: decryptField(secretEnc),
     token,
+    epoch: now,
     epochTolerance: 30,
     ...(lastStep !== null ? { afterTimeStep: Number(lastStep) } : {}),
   });
-  // Step = start of the matched 30-second period / 30 (RFC 6238), stored to block reuse.
-  return result.valid ? { ok: true as const, step: BigInt(Math.floor(result.epoch / 30)) } : { ok: false as const };
+  // Matched time step (RFC 6238, 30-second periods), stored to block reuse of the same code.
+  return result.valid
+    ? { ok: true as const, step: BigInt(Math.floor(now / 30) + result.delta) }
+    : { ok: false as const };
 }
 
 /** Ten one-time recovery codes, shown once. Only hashes are stored. */
