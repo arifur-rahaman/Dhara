@@ -53,6 +53,11 @@ export const can = {
   /** P10 — fixed. */
   manageTeam: (c: Ctx) => isOwner(c),
   inviteMember: (c: Ctx) => isOwner(c),
+  /** P11 — the owner assigns tasks and sees all; everyone else sees and ticks off their own. */
+  assignTask: (c: Ctx) => isOwner(c),
+  viewAllTasks: (c: Ctx) => isOwner(c),
+  completeTask: (c: Ctx, t: { assigneeMembershipId: string }) =>
+    isOwner(c) || t.assigneeMembershipId === c.membershipId,
   /** P12 */
   editChamberSettings: (c: Ctx) => isOwner(c),
   /** P13 — fixed. */

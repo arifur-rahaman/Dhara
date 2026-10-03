@@ -326,3 +326,106 @@ model Hearing {
   @@index([caseId, date])
   @@map("hearings")
 }
+
+/// P11: owner assigns and sees all; everyone else sees and completes their own.
+model Task {
+  id                   String    @id @default(uuid(7)) @db.Uuid
+  chamberId            String    @map("chamber_id") @db.Uuid
+  assigneeMembershipId String    @map("assignee_membership_id") @db.Uuid
+  caseId               String?   @map("case_id") @db.Uuid
+  title                String
+  dueOn                DateTime? @map("due_on") @db.Date
+  doneAt               DateTime? @map("done_at") @db.Timestamptz
+  createdBy            String    @map("created_by") @db.Uuid
+  createdAt            DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt            DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@index([chamberId, assigneeMembershipId])
+  @@map("tasks")
+}
+
+enum AdminRole {
+  super_admin
+  support
+}
+
+/// Platform staff (plan.md 3.2). A separate identity from chamber users; used only by the admin portal.
+model PlatformAdmin {
+  id            String    @id @default(uuid(7)) @db.Uuid
+  phone         String    @unique
+  name          String
+  role          AdminRole
+  passwordHash  String    @map("password_hash")
+  totpSecretEnc String    @map("totp_secret_enc")
+  totpLastStep  BigInt?   @map("totp_last_step")
+  disabledAt    DateTime? @map("disabled_at") @db.Timestamptz
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  sessions AdminSession[]
+
+  @@map("platform_admins")
+}
+
+model AdminSession {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  tokenHash String    @unique @map("token_hash")
+  adminId   String    @map("admin_id") @db.Uuid
+  ipHash    String?   @map("ip_hash")
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  expiresAt DateTime  @map("expires_at") @db.Timestamptz
+  revokedAt DateTime? @map("revoked_at") @db.Timestamptz
+
+  admin PlatformAdmin @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@index([adminId])
+  @@map("admin_sessions")
+}
+
+/// Every admin action. Append-only for the admin role; the chamber app cannot read it.
+model AdminAuditLog {
+  id        String   @id @default(uuid(7)) @db.Uuid
+  adminId   String?  @map("admin_id") @db.Uuid
+  action    String
+  chamberId String?  @map("chamber_id") @db.Uuid
+  entity    String
+  entityId  String?  @map("entity_id")
+  fields    Json?
+  ipHash    String?  @map("ip_hash")
+  at        DateTime @default(now()) @db.Timestamptz
+
+  @@index([at])
+  @@map("admin_audit_log")
+}
+
+/// Support access (plan.md 3.2): admin asks with a reason → owner approves → valid 24 hours, revocable.
+model SupportGrant {
+  id          String    @id @default(uuid(7)) @db.Uuid
+  chamberId   String    @map("chamber_id") @db.Uuid
+  adminId     String    @map("admin_id") @db.Uuid
+  reason      String
+  requestedAt DateTime  @default(now()) @map("requested_at") @db.Timestamptz
+  approvedBy  String?   @map("approved_by") @db.Uuid
+  approvedAt  DateTime? @map("approved_at") @db.Timestamptz
+  rejectedAt  DateTime? @map("rejected_at") @db.Timestamptz
+  expiresAt   DateTime? @map("expires_at") @db.Timestamptz
+  revokedAt   DateTime? @map("revoked_at") @db.Timestamptz
+
+  @@index([chamberId])
+  @@map("support_grants")
+}
+
+/// Subscription payments recorded by hand in the admin portal (M3); gateway payments come later.
+model SubscriptionPayment {
+  id           String   @id @default(uuid(7)) @db.Uuid
+  chamberId    String   @map("chamber_id") @db.Uuid
+  amountPoisha Int      @map("amount_poisha")
+  method       String
+  reference    String?
+  paidOn       DateTime @map("paid_on") @db.Date
+  recordedBy   String   @map("recorded_by") @db.Uuid
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([chamberId])
+  @@map("subscription_payments")
+}

@@ -19,6 +19,10 @@ export type AuditAction =
   | 'membership.create'
   | 'membership.role_change'
   | 'membership.revoke'
+  | 'membership.permission_change'
+  | 'support.approve'
+  | 'support.reject'
+  | 'support.revoke'
   | 'client_contact.view'
   | 'client_contact.update'
   | 'case.delete';

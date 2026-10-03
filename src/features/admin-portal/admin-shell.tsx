@@ -4,13 +4,22 @@ import { useTranslations } from 'next-intl';
 import type { ReactNode } from 'react';
 import { Icon } from '@/components/icons';
 import { Avatar, Sidebar } from '@/features/shell/sidebar';
+import { adminSignOut } from './actions';
 import { adminNav } from './nav';
 
 /**
- * Platform admin portal shell (SuperAdmin design). It is a separate route group now;
- * from M3 it is served on its own subdomain with its own session, IP allowlist and TOTP.
+ * Platform admin portal shell (SuperAdmin design). Served on its own origin (ADMIN_URL) with its own
+ * session, IP allowlist and TOTP at every sign-in; see src/proxy.ts and src/server/admin.
  */
-export function AdminShell({ children }: { children: ReactNode }) {
+export function AdminShell({
+  children,
+  name,
+  role,
+}: {
+  children: ReactNode;
+  name: string;
+  role: 'super_admin' | 'support';
+}) {
   const t = useTranslations();
   return (
     <div className="min-h-dvh">
@@ -35,11 +44,16 @@ export function AdminShell({ children }: { children: ReactNode }) {
         }
         footer={
           <>
-            <Avatar initial={t('admin.superAdminInitial')} tone="dark" />
-            <div className="flex flex-col">
-              <span className="text-[14px] font-semibold">{t('shell.you')}</span>
-              <span className="text-[12px] text-nav-muted">{t('admin.superAdmin')}</span>
+            <Avatar initial={name.trim().charAt(0) || '?'} tone="dark" />
+            <div className="flex min-w-0 flex-1 flex-col">
+              <span className="truncate text-[14px] font-semibold">{name}</span>
+              <span className="text-[12px] text-nav-muted">{t(`admin.roles.${role}`)}</span>
             </div>
+            <form action={adminSignOut}>
+              <button className="flex h-11 items-center px-2 text-[13px] font-semibold text-nav-muted underline hover:text-nav-text">
+                {t('admin.signOut')}
+              </button>
+            </form>
           </>
         }
       />

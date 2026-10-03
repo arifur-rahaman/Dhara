@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, type Browser, type Page } from '@playwright/test';
+import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { generate } from 'otplib';
 import { e2eEnv } from './env';
@@ -106,4 +107,29 @@ export async function expectNoSeriousA11yIssues(page: Page) {
   const results = await new AxeBuilder({ page }).analyze();
   const serious = results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
   expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`)).toEqual([]);
+}
+
+/** Creates a platform admin with the real provisioning script; returns its phone, password and TOTP secret. */
+export function createAdmin(name = `E2E Admin ${Date.now()}`) {
+  const phone = randomPhone();
+  const out = execFileSync(
+    'node',
+    ['scripts/admin-create.mjs', '--phone', phone, '--name', name, '--role', 'support'],
+    {
+      env: { ...process.env, ...e2eEnv },
+      encoding: 'utf8',
+    },
+  );
+  const password = out.match(/Password \(shown once; hand it over in person\): (\S+)/)![1];
+  const secret = out.match(/setup key: (\S+)/)![1];
+  return { phone, password, secret, name };
+}
+
+export async function signInAdmin(page: Page, admin: ReturnType<typeof createAdmin>) {
+  await page.goto('/admin/login');
+  await page.getByLabel('Mobile number').fill(admin.phone);
+  await page.getByLabel('Password').fill(admin.password);
+  await page.getByLabel('Authenticator code').fill(await generate({ secret: admin.secret }));
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await expect(page).toHaveURL(/\/admin\/dashboard$/);
 }

@@ -2,10 +2,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { Icon } from '@/components/icons';
-import { addDays } from '@/lib/dates';
+import { addDays, todayInDhaka } from '@/lib/dates';
 import { can } from '@/server/authz';
 import { requireCtx } from '@/server/context';
 import { caseDisplay } from '@/features/cases/display';
+import { supportBanner } from '@/features/support/queries';
+import { listTasks } from '@/features/tasks/queries';
+import { TaskList } from '@/features/tasks/task-list';
 import { countHearingsOn, hearingsOn, todayForStaff, type TodayHearing } from '@/features/cases/queries';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -25,7 +28,11 @@ async function OwnerToday() {
   const ctx = await requireCtx();
   const t = await getTranslations();
   const d = await caseDisplay();
-  const [hearings, tomorrow] = await Promise.all([hearingsOn(ctx, d.today), countHearingsOn(ctx, addDays(d.today, 1))]);
+  const [hearings, tomorrow, support] = await Promise.all([
+    hearingsOn(ctx, d.today),
+    countHearingsOn(ctx, addDays(d.today, 1)),
+    supportBanner(ctx),
+  ]);
 
   return (
     <div className="relative flex flex-col gap-4">
@@ -42,6 +49,21 @@ async function OwnerToday() {
           <Icon name="notifications" size={20} />
         </Link>
       </header>
+
+      {(support.pending > 0 || support.active) && (
+        <Link
+          href="/support"
+          className="flex min-h-14 items-center gap-3 rounded-[14px] bg-lock-bg px-4 py-3 text-[15px] text-lock-text md:max-w-[560px]"
+        >
+          <Icon name="shield" size={22} className="shrink-0" />
+          <span className="flex-1 font-semibold">
+            {support.pending > 0
+              ? t('support.bannerPending')
+              : t('support.bannerActive', { name: support.active!.adminName })}
+          </span>
+          <Icon name="chevron" size={18} className="shrink-0" />
+        </Link>
+      )}
 
       <div className="grid grid-cols-2 gap-2.5 md:max-w-[420px]">
         <Stat value={d.number(hearings.length)} label={t('today.statToday')} />
@@ -157,7 +179,9 @@ async function StaffToday() {
   const ctx = await requireCtx();
   const t = await getTranslations();
   const d = await caseDisplay();
-  const items = await todayForStaff(ctx);
+  const [items, { open, done }] = await Promise.all([todayForStaff(ctx), listTasks(ctx)]);
+  // Open tasks, then those finished today (StaffToday design shows both).
+  const tasks = [...open, ...done.filter((x) => x.doneAt && todayInDhaka(x.doneAt) === d.today)];
   const byCourt = new Map<string, typeof items>();
   for (const item of items) {
     const key = d.court(item.court, item.courtNo);
@@ -178,9 +202,11 @@ async function StaffToday() {
         <h2 id="staff-tasks" className="text-[16px] font-semibold">
           {t('today.staffTasks')}
         </h2>
-        <p className="rounded-card border border-border bg-surface p-4 text-[14px] text-muted">
-          {t('today.tasksLater')}
-        </p>
+        {tasks.length === 0 ? (
+          <p className="rounded-card border border-border bg-surface p-4 text-[15px] text-muted">{t('tasks.none')}</p>
+        ) : (
+          <TaskList items={tasks} showAssignee={false} />
+        )}
       </section>
 
       <section aria-labelledby="staff-courts" className="flex flex-col gap-2">

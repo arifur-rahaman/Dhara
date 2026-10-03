@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { signUpOwner } from './helpers';
+import { createAdmin, signInAdmin, signUpOwner } from './helpers';
 
 test('owner web sidebar matches the design and tabs are 44px+ on mobile', async ({ page }, testInfo) => {
   await signUpOwner(page);
@@ -33,9 +33,10 @@ test('settings switches language, theme and Bangla numbers', async ({ page }) =>
   await expect(numbers.getByRole('radio', { name: 'English 123' })).toBeChecked();
 });
 
-test('admin portal shell has the dark sidebar (development only until M3)', async ({ page }, testInfo) => {
+test('admin portal needs its own sign-in and has the dark sidebar', async ({ page }, testInfo) => {
   test.skip(!testInfo.project.name.startsWith('web'), 'web layout');
   await page.goto('/admin');
-  await expect(page).toHaveURL(/\/admin\/chambers$/);
+  await expect(page).toHaveURL(/\/admin\/login$/);
+  await signInAdmin(page, createAdmin());
   await expect(page.getByRole('navigation', { name: 'Admin menu' }).getByRole('link')).toHaveCount(6);
 });

@@ -1,17 +1,19 @@
-// Fails when bn.json is missing a key from en.json (the source), has extra keys, or has empty values.
+// Fails when bn.json is missing a key from en.json (the source), has extra keys, or has empty values,
+// or when a key contains a dot (next-intl reads dots as nesting).
 import { readFileSync } from 'node:fs';
 
 const load = (name) => JSON.parse(readFileSync(new URL(`../src/i18n/${name}.json`, import.meta.url), 'utf8'));
+const problems = [];
 
 function flatten(obj, prefix = '') {
-  return Object.entries(obj).flatMap(([key, value]) =>
-    value && typeof value === 'object' ? flatten(value, `${prefix}${key}.`) : [[`${prefix}${key}`, value]],
-  );
+  return Object.entries(obj).flatMap(([key, value]) => {
+    if (key.includes('.')) problems.push(`"${prefix}${key}" contains a dot; use another character`);
+    return value && typeof value === 'object' ? flatten(value, `${prefix}${key}.`) : [[`${prefix}${key}`, value]];
+  });
 }
 
 const en = new Map(flatten(load('en')));
 const bn = new Map(flatten(load('bn')));
-const problems = [];
 
 for (const key of en.keys()) if (!bn.has(key)) problems.push(`bn.json is missing "${key}"`);
 for (const key of bn.keys()) if (!en.has(key)) problems.push(`bn.json has "${key}", which is not in en.json`);
