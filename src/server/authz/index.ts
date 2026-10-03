@@ -29,6 +29,17 @@ export const can = {
     isOwner(c) ||
     c.role === 'munshi' ||
     (c.role === 'associate' && (c.caseScope === 'all' || k.assigneeMembershipId === c.membershipId)),
+  /** Case list and detail screens (P3). Staff get only today's list. */
+  listCases: (c: Ctx) => c.role !== 'staff',
+  /** AddCase design: owner and associate add cases. */
+  createCase: (c: Ctx) => isOwner(c) || c.role === 'associate',
+  /** Only the owner reassigns cases (assignment is a permission decision). */
+  assignCase: (c: Ctx) => isOwner(c),
+  /** Clients list: names only (P2). Staff never. */
+  listClients: (c: Ctx) => c.role !== 'staff',
+  /** New clients by name; contact details stay owner-only (P1). */
+  createClient: (c: Ctx) => isOwner(c) || c.role === 'associate',
+  editClientContact: (c: Ctx) => isOwner(c),
   /** P4 */
   addHearing: (c: Ctx, k: CaseRef) => c.role !== 'staff' && can.viewCase(c, k),
   /** P7 */
