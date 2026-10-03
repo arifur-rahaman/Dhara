@@ -35,21 +35,21 @@ enum ActorKind {
 
 /// People who sign in. Not a tenant table: one person can belong to several chambers.
 model User {
-  id                     String    @id @default(uuid(7)) @db.Uuid
-  phone                  String    @unique // E.164, +8801XXXXXXXXX
-  name                   String?
-  passwordHash           String?   @map("password_hash")
-  totpSecretEnc          String?   @map("totp_secret_enc")
-  totpEnabledAt          DateTime? @map("totp_enabled_at") @db.Timestamptz
-  totpLastStep           BigInt?   @map("totp_last_step")
-  recoveryCodeHashes     String[]  @default([]) @map("recovery_code_hashes")
-  privacyConsentAt       DateTime? @map("privacy_consent_at") @db.Timestamptz
-  privacyConsentVersion  String?   @map("privacy_consent_version")
-  locale                 String?
-  theme                  String?
-  numerals               String?
-  createdAt              DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt              DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  id                    String    @id @default(uuid(7)) @db.Uuid
+  phone                 String    @unique // E.164, +8801XXXXXXXXX
+  name                  String?
+  passwordHash          String?   @map("password_hash")
+  totpSecretEnc         String?   @map("totp_secret_enc")
+  totpEnabledAt         DateTime? @map("totp_enabled_at") @db.Timestamptz
+  totpLastStep          BigInt?   @map("totp_last_step")
+  recoveryCodeHashes    String[]  @default([]) @map("recovery_code_hashes")
+  privacyConsentAt      DateTime? @map("privacy_consent_at") @db.Timestamptz
+  privacyConsentVersion String?   @map("privacy_consent_version")
+  locale                String?
+  theme                 String?
+  numerals              String?
+  createdAt             DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt             DateTime  @updatedAt @map("updated_at") @db.Timestamptz
 
   memberships Membership[]
   sessions    Session[]
@@ -173,4 +173,156 @@ model AuthAttempt {
 
   @@index([keyHash, createdAt])
   @@map("auth_attempts")
+}
+
+enum CourtLevel {
+  supreme
+  district
+  tribunal
+}
+
+enum CaseType {
+  civil
+  criminal_cr
+  criminal_gr
+  writ
+  family
+  money_loan
+  other
+}
+
+enum OurSide {
+  plaintiff
+  defendant
+}
+
+enum CaseStatus {
+  active
+  disposed
+}
+
+enum HearingSource {
+  manual
+  photo_ai
+  court_sync
+}
+
+/// Court directory (F2). Rows without chamber_id are the shared directory (seeded by migration);
+/// a chamber can add its own courts. Official names stay exactly as written in court records.
+model Court {
+  id          String     @id @default(uuid(7)) @db.Uuid
+  chamberId   String?    @map("chamber_id") @db.Uuid
+  nameBn      String     @map("name_bn")
+  nameEn      String     @map("name_en")
+  level       CourtLevel
+  district    String?
+  officialUrl String?    @map("official_url")
+  createdAt   DateTime   @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime   @updatedAt @map("updated_at") @db.Timestamptz
+
+  cases Case[]
+
+  @@index([district])
+  @@index([chamberId])
+  @@map("courts")
+}
+
+/// Client name only (P2). Contact details live in client_contacts (P1, owner-only, encrypted).
+model Client {
+  id          String    @id @default(uuid(7)) @db.Uuid
+  chamberId   String    @map("chamber_id") @db.Uuid
+  displayName String    @map("display_name")
+  createdBy   String    @map("created_by") @db.Uuid
+  deletedAt   DateTime? @map("deleted_at") @db.Timestamptz
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  contact          ClientContact?
+  contactInChamber ClientContact[] @relation("ContactClientChamber")
+  cases            Case[]
+  casesInChamber   Case[]          @relation("CaseClientChamber")
+
+  @@unique([id, chamberId], map: "clients_id_chamber_idx")
+  @@index([chamberId])
+  @@map("clients")
+}
+
+/// Owner-only (P1). Every value is AES-256-GCM encrypted by the app; RLS also requires the owner role.
+model ClientContact {
+  clientId   String    @id @map("client_id") @db.Uuid
+  chamberId  String    @map("chamber_id") @db.Uuid
+  phoneEnc   String?   @map("phone_enc")
+  emailEnc   String?   @map("email_enc")
+  nidEnc     String?   @map("nid_enc")
+  addressEnc String?   @map("address_enc")
+  consentAt  DateTime? @map("consent_at") @db.Timestamptz
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt  DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  client          Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  // Contact and client must belong to the same chamber.
+  clientInChamber Client @relation("ContactClientChamber", fields: [clientId, chamberId], references: [id, chamberId], map: "client_contacts_client_chamber_fkey")
+
+  @@index([chamberId])
+  @@map("client_contacts")
+}
+
+model Case {
+  id                   String     @id @default(uuid(7)) @db.Uuid
+  chamberId            String     @map("chamber_id") @db.Uuid
+  type                 CaseType
+  number               String
+  year                 String
+  courtId              String     @map("court_id") @db.Uuid
+  courtNo              String?    @map("court_no")
+  ourSide              OurSide    @map("our_side")
+  clientId             String?    @map("client_id") @db.Uuid
+  partiesText          String?    @map("parties_text")
+  opposingCounsel      String?    @map("opposing_counsel")
+  note                 String?
+  assigneeMembershipId String?    @map("assignee_membership_id") @db.Uuid
+  status               CaseStatus @default(active)
+  createdBy            String     @map("created_by") @db.Uuid
+  deletedAt            DateTime?  @map("deleted_at") @db.Timestamptz
+  createdAt            DateTime   @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt            DateTime   @updatedAt @map("updated_at") @db.Timestamptz
+
+  court             Court     @relation(fields: [courtId], references: [id])
+  client            Client?   @relation(fields: [clientId], references: [id])
+  // Client must belong to the same chamber as the case.
+  clientInChamber   Client?   @relation("CaseClientChamber", fields: [clientId, chamberId], references: [id, chamberId], map: "cases_client_chamber_fkey")
+  hearings          Hearing[]
+  hearingsInChamber Hearing[] @relation("HearingCaseChamber")
+
+  @@unique([id, chamberId], map: "cases_id_chamber_idx")
+  @@index([chamberId])
+  @@index([chamberId, assigneeMembershipId])
+  @@map("cases")
+}
+
+/// One court date of a case. outcome_note records what happened that day (the timeline).
+model Hearing {
+  id           String        @id @default(uuid(7)) @db.Uuid
+  chamberId    String        @map("chamber_id") @db.Uuid
+  caseId       String        @map("case_id") @db.Uuid
+  date         DateTime      @db.Date
+  serialOrItem String?       @map("serial_or_item")
+  purpose      String?
+  outcomeNote  String?       @map("outcome_note")
+  /// User who recorded what happened (may differ from who added the date).
+  outcomeBy    String?       @map("outcome_by") @db.Uuid
+  source       HearingSource @default(manual)
+  addedBy      String        @map("added_by") @db.Uuid
+  sourceUrl    String?       @map("source_url")
+  fetchedAt    DateTime?     @map("fetched_at") @db.Timestamptz
+  createdAt    DateTime      @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime      @updatedAt @map("updated_at") @db.Timestamptz
+
+  case          Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  // Hearing must belong to a case of the same chamber.
+  caseInChamber Case @relation("HearingCaseChamber", fields: [caseId, chamberId], references: [id, chamberId], map: "hearings_case_chamber_fkey")
+
+  @@index([chamberId, date])
+  @@index([caseId, date])
+  @@map("hearings")
 }

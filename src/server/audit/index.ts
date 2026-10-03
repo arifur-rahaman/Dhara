@@ -18,7 +18,10 @@ export type AuditAction =
   | 'invitation.revoke'
   | 'membership.create'
   | 'membership.role_change'
-  | 'membership.revoke';
+  | 'membership.revoke'
+  | 'client_contact.view'
+  | 'client_contact.update'
+  | 'case.delete';
 
 export async function audit(
   tx: Tx,

@@ -11,7 +11,14 @@ export type TenantScope = {
   inviteTokenHash?: string | null;
   /** Signed-in user's phone: shows open invitations sent to that number. */
   userPhone?: string | null;
+  /** Role of the active membership. client_contacts rows are visible only when this is 'owner' (P1). */
+  role?: string | null;
 };
+
+/** RLS scope for a signed-in member acting in their active chamber. */
+export function scopeOf(ctx: { chamberId: string; userId: string; role: string }): TenantScope {
+  return { chamberId: ctx.chamberId, userId: ctx.userId, role: ctx.role };
+}
 
 /**
  * Runs fn in a transaction with the RLS context set (TECH_GUIDE section 4).
@@ -26,7 +33,8 @@ export async function withTenant<T>(
     await tx.$executeRaw`SELECT set_config('app.chamber_id', ${scope.chamberId ?? ''}, true),
                                 set_config('app.user_id', ${scope.userId ?? ''}, true),
                                 set_config('app.invite_token_hash', ${scope.inviteTokenHash ?? ''}, true),
-                                set_config('app.user_phone', ${scope.userPhone ?? ''}, true)`;
+                                set_config('app.user_phone', ${scope.userPhone ?? ''}, true),
+                                set_config('app.role', ${scope.role ?? ''}, true)`;
     return fn(tx);
   });
 }
