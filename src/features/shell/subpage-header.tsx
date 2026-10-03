@@ -6,7 +6,17 @@ import { Icon } from '@/components/icons';
  * Header for screens opened from "More": back button and centred title on phones
  * (Settings, Notifications designs); a page title on the owner's web layout.
  */
-export async function SubpageHeader({ title, backHref = '/more' }: { title: string; backHref?: string }) {
+export async function SubpageHeader({
+  title,
+  backHref = '/more',
+  heading = true,
+}: {
+  title: string;
+  backHref?: string;
+  /** false when the page has its own h1 below (e.g. a case number) and this title is just a label. */
+  heading?: boolean;
+}) {
+  const Title = heading ? 'h1' : 'p';
   const t = await getTranslations('app');
   return (
     <>
@@ -18,10 +28,10 @@ export async function SubpageHeader({ title, backHref = '/more' }: { title: stri
         >
           <Icon name="back" />
         </Link>
-        <h1 className="text-[17px] font-semibold">{title}</h1>
+        <Title className="text-[17px] font-semibold">{title}</Title>
         <span className="size-11" aria-hidden="true" />
       </header>
-      <h1 className="hidden page-title md:block">{title}</h1>
+      {heading && <h1 className="hidden page-title md:block">{title}</h1>}
     </>
   );
 }

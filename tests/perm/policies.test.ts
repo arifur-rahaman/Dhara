@@ -80,6 +80,20 @@ describe('P10 team and permissions (fixed)', () => {
   it('only the owner invites', () => expectOnly(can.inviteMember, ['owner']));
 });
 
+describe('cases and clients', () => {
+  it('owner and associate add and edit cases and clients; only the owner assigns or deletes', () => {
+    expectOnly(can.createCase, ['owner', 'associate']);
+    expectOnly(can.createClient, ['owner', 'associate']);
+    expectOnly(can.assignCase, ['owner']);
+    expectOnly(can.deleteCase, ['owner']);
+    expectOnly(can.editClientContact, ['owner']);
+  });
+  it('staff get neither case nor client lists', () => {
+    expectOnly(can.listCases, ['owner', 'associate', 'munshi']);
+    expectOnly(can.listClients, ['owner', 'associate', 'munshi']);
+  });
+});
+
 describe('P12–P14', () => {
   it('chamber settings, support approval and export are owner-only', () => {
     expectOnly(can.editChamberSettings, ['owner']);

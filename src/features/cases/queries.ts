@@ -187,14 +187,18 @@ export async function getCase(ctx: Ctx, id: string): Promise<CaseDetail | null> 
         : null,
       timeline: row.hearings
         .filter((h) => ymdFromDb(h.date) < today || h.outcomeNote)
-        .map((h) => ({
-          id: h.id,
-          date: ymdFromDb(h.date),
-          purpose: h.purpose,
-          outcomeNote: h.outcomeNote,
-          addedByName: nameOf(h.addedBy),
-          byYou: h.addedBy === ctx.userId,
-        })),
+        .map((h) => {
+          // Credit whoever wrote what happened; otherwise whoever added the date.
+          const by = (h.outcomeNote && h.outcomeBy) || h.addedBy;
+          return {
+            id: h.id,
+            date: ymdFromDb(h.date),
+            purpose: h.purpose,
+            outcomeNote: h.outcomeNote,
+            addedByName: nameOf(by),
+            byYou: by === ctx.userId,
+          };
+        }),
       canAddHearing: can.addHearing(ctx, { assigneeMembershipId: row.assigneeMembershipId }),
     };
   });
@@ -316,15 +320,32 @@ export async function hearingCountsInMonth(ctx: Ctx, year: number, month: number
 
 export type CourtOption = { id: string; label: CourtRef; supreme: boolean };
 
+const DIRECTORY_ORDER = [
+  'Appellate Division',
+  'High Court Division',
+  'District and Sessions Judge Court',
+  'Additional District and Sessions Judge Court',
+  'Joint District Judge Court',
+  'Senior Assistant Judge Court',
+  'Assistant Judge Court',
+  'Chief Judicial Magistrate Court',
+  'Chief Metropolitan Magistrate Court',
+  'Family Court',
+  'Artha Rin Adalat (Money Loan Court)',
+  'Nari o Shishu Nirjatan Daman Tribunal',
+];
+
 /** Courts to pick from: the Supreme Court, the chamber's district, and the chamber's own courts. */
 export async function courtOptions(ctx: Ctx): Promise<CourtOption[]> {
   return withTenant(scopeOf(ctx), async (tx) => {
     const chamber = await tx.chamber.findUniqueOrThrow({ where: { id: ctx.chamberId }, select: { district: true } });
     const courts = await tx.court.findMany({
       where: { OR: [{ level: 'supreme' }, { district: chamber.district }, { chamberId: ctx.chamberId }] },
-      orderBy: [{ level: 'asc' }, { createdAt: 'asc' }],
       select: { id: true, ...courtSelect },
     });
+    // Seed order is the directory order (district courts by seniority); keep it stable by name within a level.
+    const rank = (c: (typeof courts)[number]) => DIRECTORY_ORDER.indexOf(c.nameEn) + 1 || 99;
+    courts.sort((a, b) => rank(a) - rank(b) || a.nameBn.localeCompare(b.nameBn));
     return courts.map((c) => ({ id: c.id, label: c, supreme: c.level === 'supreme' }));
   });
 }

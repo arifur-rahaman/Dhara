@@ -309,6 +309,8 @@ model Hearing {
   serialOrItem String?       @map("serial_or_item")
   purpose      String?
   outcomeNote  String?       @map("outcome_note")
+  /// User who recorded what happened (may differ from who added the date).
+  outcomeBy    String?       @map("outcome_by") @db.Uuid
   source       HearingSource @default(manual)
   addedBy      String        @map("added_by") @db.Uuid
   sourceUrl    String?       @map("source_url")
