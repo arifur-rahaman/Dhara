@@ -8,7 +8,10 @@ services:
     build: .
     env_file: .env
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      # The app connects as the RLS-bound app role, never as the Postgres superuser.
+      # Local stack only: run `pnpm db:migrate` against this database first (it creates the roles).
+      DATABASE_URL: postgresql://dhara_app:dhara_app@postgres:5432/${POSTGRES_DB}
+      DATABASE_ADMIN_URL: postgresql://dhara_admin:dhara_admin@postgres:5432/${POSTGRES_DB}
       S3_ENDPOINT: http://minio:9000
     ports:
       - '3000:3000'

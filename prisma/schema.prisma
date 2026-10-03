@@ -1,0 +1,176 @@
+// Dhara database schema. plan.md section 6, TECH_GUIDE section 4.
+// Tenant tables carry chamber_id and are protected by RLS (prisma/sql, applied by migrations).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  owner
+  associate
+  munshi
+  staff
+}
+
+enum CaseScope {
+  all
+  assigned
+}
+
+enum MembershipStatus {
+  active
+  revoked
+}
+
+enum ActorKind {
+  member
+  admin
+  system
+}
+
+/// People who sign in. Not a tenant table: one person can belong to several chambers.
+model User {
+  id                     String    @id @default(uuid(7)) @db.Uuid
+  phone                  String    @unique // E.164, +8801XXXXXXXXX
+  name                   String?
+  passwordHash           String?   @map("password_hash")
+  totpSecretEnc          String?   @map("totp_secret_enc")
+  totpEnabledAt          DateTime? @map("totp_enabled_at") @db.Timestamptz
+  totpLastStep           BigInt?   @map("totp_last_step")
+  recoveryCodeHashes     String[]  @default([]) @map("recovery_code_hashes")
+  privacyConsentAt       DateTime? @map("privacy_consent_at") @db.Timestamptz
+  privacyConsentVersion  String?   @map("privacy_consent_version")
+  locale                 String?
+  theme                  String?
+  numerals               String?
+  createdAt              DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt              DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  memberships Membership[]
+  sessions    Session[]
+
+  @@map("users")
+}
+
+model Session {
+  id              String    @id @default(uuid(7)) @db.Uuid
+  tokenHash       String    @unique @map("token_hash")
+  userId          String    @map("user_id") @db.Uuid
+  activeChamberId String?   @map("active_chamber_id") @db.Uuid
+  mfaVerifiedAt   DateTime? @map("mfa_verified_at") @db.Timestamptz
+  userAgent       String?   @map("user_agent")
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  lastSeenAt      DateTime  @default(now()) @map("last_seen_at") @db.Timestamptz
+  expiresAt       DateTime  @map("expires_at") @db.Timestamptz
+  revokedAt       DateTime? @map("revoked_at") @db.Timestamptz
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+/// Login codes. Only a hash of the code is stored.
+model OtpChallenge {
+  id         String    @id @default(uuid(7)) @db.Uuid
+  phone      String
+  codeHash   String    @map("code_hash")
+  attempts   Int       @default(0)
+  ipHash     String?   @map("ip_hash")
+  expiresAt  DateTime  @map("expires_at") @db.Timestamptz
+  consumedAt DateTime? @map("consumed_at") @db.Timestamptz
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([phone, createdAt])
+  @@index([ipHash, createdAt])
+  @@map("otp_challenges")
+}
+
+model Chamber {
+  id          String    @id @default(uuid(7)) @db.Uuid
+  name        String
+  district    String
+  plan        String    @default("trial")
+  status      String    @default("active")
+  trialEndsAt DateTime? @map("trial_ends_at") @db.Timestamptz
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  memberships Membership[]
+  invitations Invitation[]
+
+  @@map("chambers")
+}
+
+model Membership {
+  id         String           @id @default(uuid(7)) @db.Uuid
+  chamberId  String           @map("chamber_id") @db.Uuid
+  userId     String           @map("user_id") @db.Uuid
+  role       Role
+  caseScope  CaseScope        @default(assigned) @map("case_scope")
+  canSeeFees Boolean          @default(false) @map("can_see_fees")
+  status     MembershipStatus @default(active)
+  createdAt  DateTime         @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt  DateTime         @updatedAt @map("updated_at") @db.Timestamptz
+
+  chamber Chamber @relation(fields: [chamberId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([chamberId, userId])
+  @@index([chamberId])
+  @@index([userId])
+  @@map("memberships")
+}
+
+model Invitation {
+  id         String    @id @default(uuid(7)) @db.Uuid
+  chamberId  String    @map("chamber_id") @db.Uuid
+  phone      String
+  name       String
+  role       Role
+  caseScope  CaseScope @default(assigned) @map("case_scope")
+  tokenHash  String    @unique @map("token_hash")
+  invitedBy  String    @map("invited_by") @db.Uuid
+  expiresAt  DateTime  @map("expires_at") @db.Timestamptz
+  acceptedAt DateTime? @map("accepted_at") @db.Timestamptz
+  revokedAt  DateTime? @map("revoked_at") @db.Timestamptz
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt  DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  chamber Chamber @relation(fields: [chamberId], references: [id], onDelete: Cascade)
+
+  @@index([chamberId])
+  @@map("invitations")
+}
+
+/// Append-only. The app role may insert and select, never update or delete.
+model AuditLog {
+  id          String    @id @default(uuid(7)) @db.Uuid
+  chamberId   String?   @map("chamber_id") @db.Uuid
+  actorUserId String?   @map("actor_user_id") @db.Uuid
+  actorKind   ActorKind @map("actor_kind")
+  action      String
+  entity      String
+  entityId    String?   @map("entity_id")
+  fields      Json?
+  ipHash      String?   @map("ip_hash")
+  at          DateTime  @default(now()) @db.Timestamptz
+
+  @@index([chamberId, at])
+  @@map("audit_log")
+}
+
+/// Failed password and two-step attempts, for rate limiting. Keys are keyed hashes, never raw phones or IPs.
+model AuthAttempt {
+  id        String   @id @default(uuid(7)) @db.Uuid
+  keyHash   String   @map("key_hash")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([keyHash, createdAt])
+  @@map("auth_attempts")
+}

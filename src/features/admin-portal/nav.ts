@@ -16,3 +16,6 @@ export const adminNav: { section: AdminSection; href: `/admin/${string}`; icon: 
 export function isAdminSection(value: string): value is AdminSection {
   return (adminSections as readonly string[]).includes(value);
 }
+
+/** The admin portal has no sign-in until M3 (separate subdomain, session and TOTP), so it is development-only. */
+export const adminPreviewEnabled = process.env.NODE_ENV !== 'production';

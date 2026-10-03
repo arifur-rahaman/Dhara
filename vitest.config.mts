@@ -14,7 +14,17 @@ export default defineConfig({
   test: {
     projects: [
       { extends: true, test: { name: 'unit', include: ['tests/unit/**/*.test.{ts,tsx}'], environment: 'node' } },
-      { extends: true, test: { name: 'perm', include: ['tests/perm/**/*.test.ts'], environment: 'node' } },
+      {
+        extends: true,
+        test: {
+          name: 'perm',
+          include: ['tests/perm/**/*.test.ts'],
+          environment: 'node',
+          globalSetup: ['tests/perm/global-setup.ts'],
+          setupFiles: ['tests/perm/setup.ts'],
+          fileParallelism: false,
+        },
+      },
     ],
   },
 });
