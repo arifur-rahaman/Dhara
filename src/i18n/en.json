@@ -105,8 +105,6 @@
   },
   "admin": {
     "title": "Platform admin",
-    "superAdmin": "Super admin",
-    "superAdminInitial": "S",
     "banner": "Super admin portal · separate link · two-step verification required",
     "nav": {
       "label": "Admin menu",
@@ -117,7 +115,142 @@
       "team": "Admin team",
       "audit": "Audit log"
     },
-    "placeholder": "The admin portal is built in milestone M3."
+    "signOut": "Log out",
+    "roles": {
+      "super_admin": "Super admin",
+      "support": "Support"
+    },
+    "login": {
+      "title": "Admin sign-in",
+      "hint": "Phone, password and the code from your authenticator app, every time.",
+      "code": "Authenticator code"
+    },
+    "plans": {
+      "trial": "Trial",
+      "solo": "Solo",
+      "chamber": "Chamber",
+      "organization": "Organization"
+    },
+    "status": {
+      "active": "Active",
+      "trial": "Trial",
+      "past_due": "Due",
+      "suspended": "Suspended"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "subtitle": "Counts across the platform. No client or case content.",
+      "chambers": "Chambers",
+      "trials": "On trial",
+      "paid": "Paid and active",
+      "pastDue": "Payment due",
+      "members": "Members in all chambers",
+      "pendingSupport": "Support requests waiting",
+      "activeSupport": "Support access open now"
+    },
+    "chambers": {
+      "subtitle": "Every chamber on the platform. Client and case content is not visible here.",
+      "search": "Search chambers",
+      "searchPlaceholder": "Chamber or owner name",
+      "listLabel": "Chamber list",
+      "colChamber": "Chamber",
+      "colOwner": "Owner",
+      "colPlan": "Plan",
+      "colMembers": "Members",
+      "colStatus": "Status",
+      "colSupport": "Support access",
+      "none": "No chambers found.",
+      "privacyNote": "Client names, contact, case details and documents are not visible in this portal."
+    },
+    "chamber": {
+      "since": "Since {date}",
+      "ownerPhone": "Owner's login phone",
+      "cases": "Active cases",
+      "plan": "Plan",
+      "status": "Status",
+      "planTitle": "Plan and status",
+      "trialEnds": "Trial ends",
+      "savePlan": "Save plan",
+      "saved": "Plan saved."
+    },
+    "payments": {
+      "title": "Payments",
+      "subtitle": "Subscription payments entered by hand. Payment gateways come later.",
+      "none": "No payments recorded.",
+      "recordTitle": "Record a payment",
+      "amount": "Amount (taka)",
+      "method": "Method",
+      "reference": "Reference (optional)",
+      "paidOn": "Paid on",
+      "record": "Record payment",
+      "saved": "Payment recorded.",
+      "recordedBy": "Recorded by",
+      "methods": {
+        "bkash": "bKash",
+        "nagad": "Nagad",
+        "bank": "Bank",
+        "cash": "Cash",
+        "other": "Other"
+      }
+    },
+    "support": {
+      "howTitle": "How support access works",
+      "how1": "An admin sends a request with a reason",
+      "how2": "The chamber owner approves in the app",
+      "how3": "It closes by itself after 24 hours; every action stays in the audit log",
+      "contactHidden": "Even after approval, client contact stays hidden.",
+      "reason": "Reason",
+      "reasonHint": "The owner sees this. At least 10 characters.",
+      "send": "Send request",
+      "sent": "Request sent. The owner decides in the app.",
+      "approvedLeft": "Approved · {hours} hours left",
+      "waiting": "Waiting for the owner's approval",
+      "none": "None",
+      "open": "Open support view",
+      "alreadyOpen": "A request is already waiting or open for this chamber.",
+      "state": {
+        "pending": "Waiting",
+        "active": "Approved",
+        "ended": "Ended"
+      },
+      "subtitle": "Requests to chamber owners and their answers.",
+      "by": "Asked by",
+      "requested": "Asked at",
+      "stateLabel": "State",
+      "until": "Until {time}",
+      "noneYet": "No requests yet.",
+      "viewTitle": "Support view",
+      "viewSubtitle": "Case numbers, courts and dates only, while the owner's approval lasts.",
+      "noGrant": "There is no approved, unexpired support access for you on this chamber.",
+      "colCase": "Case",
+      "colCourt": "Court",
+      "colNext": "Next date",
+      "noCases": "No cases.",
+      "logged": "Each opening of this page is recorded in the chamber's activity log and the admin audit log.",
+      "caseStatus": {
+        "active": "Active",
+        "disposed": "Disposed"
+      }
+    },
+    "team": {
+      "subtitle": "Platform staff. New admins are added on the server, not from this portal.",
+      "disabled": "Turned off"
+    },
+    "audit": {
+      "subtitle": "Every admin action, newest first.",
+      "when": "When",
+      "who": "Who",
+      "what": "What",
+      "actions": {
+        "admin_sign_in": "Signed in",
+        "admin_sign_out": "Signed out",
+        "chamber_plan_change": "Changed plan or status",
+        "payment_record": "Recorded a payment",
+        "support_request": "Asked for support access",
+        "support_view_cases": "Opened the support view",
+        "admin_create": "Admin account created"
+      }
+    }
   },
   "errors": {
     "phoneInvalid": "Enter a Bangladeshi mobile number, like 01712345678.",
@@ -137,7 +270,14 @@
     "caseNotFound": "This case is not open to you.",
     "clientNameInvalid": "Write the client's name.",
     "contactInvalid": "Check the email and the NID number (10, 13 or 17 digits).",
-    "clientConsentRequired": "Tick the box confirming the client agreed, then save the contact details."
+    "clientConsentRequired": "Tick the box confirming the client agreed, then save the contact details.",
+    "memberInvalid": "Could not save. Refresh the page and try again.",
+    "confirmRemove": "Tick the box to confirm.",
+    "taskInvalid": "Write the task (at least 2 letters) and choose who it is for.",
+    "adminCredentialsInvalid": "Phone, password or code did not match. Check them and try again.",
+    "planInvalid": "Choose a plan and status; the trial end must be a date.",
+    "paymentInvalid": "Enter the amount in taka (like 1500), a method and the date.",
+    "reasonInvalid": "Write the reason in 10 to 1000 characters."
   },
   "twoStep": {
     "title": "Turn on two-step verification",
@@ -203,7 +343,6 @@
     "withdraw": "Withdraw",
     "invitedNotice": "Invite sent by SMS.",
     "you": "You",
-    "matrixLater": "The role permission table and per-person settings arrive in milestone M3.",
     "inviteTitle": "Add member",
     "name": "Name",
     "namePlaceholder": "e.g. Nusrat Jahan",
@@ -217,7 +356,49 @@
     "scopeAll": "All cases",
     "scopeAssigned": "Assigned only",
     "inviteNote": "The invite goes by SMS. The role turns on after their first sign-in; you can change or turn it off any time.",
-    "send": "Send invite"
+    "send": "Send invite",
+    "savedNotice": "Changes saved.",
+    "removedNotice": "Member removed. Their cases stay in the chamber.",
+    "feesOn": "Can see fees",
+    "edit": "Change role and permissions",
+    "editTitle": "Member settings",
+    "feesLabel": "Can see fees, dues and income",
+    "feesHint": "Off by default. Only for this associate.",
+    "contactLocked": "Client phone, email, NID and address stay with the owner only. This cannot be changed.",
+    "save": "Save changes",
+    "removeTitle": "Remove from chamber",
+    "removeBody": "{name} will no longer be able to open this chamber. Their cases and tasks stay for you to reassign.",
+    "removeConfirm": "Yes, remove this member",
+    "remove": "Remove member",
+    "adminNote": "Even the platform's super admin cannot see your clients' details. Support needs your approval, closes itself after 24 hours, and every action stays in the activity log.",
+    "activityLink": "See activity log",
+    "matrix": {
+      "title": "Permissions by role",
+      "lockNote": "A lock means it cannot be changed",
+      "permission": "Permission",
+      "yes": "Yes",
+      "no": "No",
+      "locked": "Locked, cannot be changed",
+      "all": "All",
+      "assigned": "Assigned",
+      "today": "Today's",
+      "ordersOnly": "Orders only",
+      "own": "Own",
+      "adjustable": "You can change two things per associate: which cases they see (all or assigned) and whether they see fees.",
+      "rows": {
+        "clientContact": "Client phone, email, NID, address",
+        "clientName": "Client name",
+        "cases": "Cases and dates",
+        "addHearing": "Add next date and order",
+        "documents": "Documents",
+        "confidential": "Private documents",
+        "messageClient": "Message clients from the app",
+        "ai": "AI drafts",
+        "fees": "Fees, dues and income",
+        "tasks": "Tasks",
+        "team": "Change team and permissions"
+      }
+    }
   },
   "districts": {
     "Bagerhat": "Bagerhat",
@@ -325,7 +506,6 @@
     "staffLock": "Client names, contact, fees and documents are not shown on this account.",
     "staffCourts": "Which court today",
     "staffTasks": "Assigned tasks",
-    "tasksLater": "Tasks arrive in milestone M3.",
     "none": "No hearings today.",
     "addCase": "Add a new case",
     "you": "You"
@@ -465,5 +645,74 @@
     "save": "Save",
     "editTitle": "Edit contact",
     "phonePlaceholder": "01XXXXXXXXX"
+  },
+  "activity": {
+    "title": "Activity log",
+    "subtitle": "Who did what in this chamber, newest first. Changed details are not shown here.",
+    "empty": "Nothing recorded yet.",
+    "platformSupport": "Platform support",
+    "unknown": "Former member",
+    "actions": {
+      "chamber_create": "created the chamber",
+      "invitation_create": "sent an invite",
+      "invitation_accept": "joined the chamber",
+      "invitation_revoke": "withdrew an invite",
+      "membership_create": "added a member",
+      "membership_role_change": "changed a member's role",
+      "membership_revoke": "removed a member",
+      "membership_permission_change": "changed a member's permissions",
+      "client_contact_view": "viewed a client's contact",
+      "client_contact_update": "changed a client's contact",
+      "case_delete": "deleted a case",
+      "support_approve": "approved support access",
+      "support_reject": "rejected support access",
+      "support_revoke": "ended support access",
+      "support_view_cases": "viewed case numbers and dates (support)",
+      "support_request": "asked for support access"
+    }
+  },
+  "tasks": {
+    "openAll": "Open tasks",
+    "openMine": "My tasks",
+    "doneRecent": "Done in the last 7 days",
+    "none": "No tasks.",
+    "to": "For {name}",
+    "from": "From {name}",
+    "due": "By {date}",
+    "doneAt": "Done · {time}",
+    "markDone": "Mark done: {title}",
+    "reopen": "Mark not done: {title}",
+    "newTitle": "Give a task",
+    "title": "Task",
+    "titlePlaceholder": "e.g. Take the file to Joint District Judge Court 2",
+    "assignee": "Who",
+    "dueLabel": "By (optional)",
+    "add": "Add task",
+    "added": "Task added."
+  },
+  "support": {
+    "title": "Support access",
+    "none": "No support requests.",
+    "heading": "Platform support is asking for access to your chamber",
+    "byline": "{name}, support team · {time}",
+    "reason": "Reason",
+    "canSee": "Can see",
+    "seeSettings": "Chamber account and plan",
+    "seeCases": "Case numbers and dates",
+    "neverSee": "Will never see",
+    "neverContact": "Client contact",
+    "neverDocs": "Private documents",
+    "neverFees": "Fee and income details",
+    "expiryNote": "If you approve, it closes by itself after 24 hours. You can end it earlier at any time, and every action stays in the activity log.",
+    "reject": "Reject",
+    "approve": "Approve for 24 hours",
+    "activeTitle": "{name} has support access now",
+    "activeUntil": "Closes by itself at {time}.",
+    "revoke": "End access now",
+    "past": "Earlier requests",
+    "wasApproved": "Approved",
+    "wasRejected": "Rejected or ended",
+    "bannerPending": "Platform support is asking for access",
+    "bannerActive": "{name} has support access now"
   }
 }

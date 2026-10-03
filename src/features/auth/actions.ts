@@ -16,7 +16,7 @@ import { requestIpHash, requestUserAgent } from '@/server/request';
 import { getPreferences } from '@/features/preferences/server';
 import { afterSignInPath } from './after-sign-in';
 
-export type FormState = { error?: string; values?: Record<string, string> } | undefined;
+export type FormState = { error?: string; values?: Record<string, string>; ok?: boolean; at?: number } | undefined;
 
 async function signIn(userId: string, totpEnabled: boolean) {
   await createSession(userId, { mfaVerified: !totpEnabled, userAgent: await requestUserAgent() });

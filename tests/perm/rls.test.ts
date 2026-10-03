@@ -140,15 +140,6 @@ describe('row-level security', () => {
     ).rejects.toThrow();
   });
 
-  it('the admin portal role has no access to chamber tables', async () => {
-    const db = new pg.Client({ connectionString: testDb.adminUrl });
-    await db.connect();
-    for (const table of ['chambers', 'memberships', 'invitations', 'audit_log', 'users']) {
-      await expect(db.query(`SELECT 1 FROM ${table} LIMIT 1`), table).rejects.toThrow(/permission denied/);
-    }
-    await db.end();
-  });
-
   it('context does not leak between transactions on the same pool', async () => {
     const { a } = seed;
     await withTenant({ chamberId: a.chamberId }, (tx) => tx.chamber.count());

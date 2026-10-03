@@ -1,9 +1,10 @@
+import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
-import { AdminShell } from '@/features/admin-portal/admin-shell';
-import { adminPreviewEnabled } from '@/features/admin-portal/nav';
+import { adminPortalAllowedOnHost, clientIp, ipAllowed } from '@/server/admin/access';
 
-export default function AdminLayout({ children }: LayoutProps<'/admin'>) {
-  // No admin sign-in exists until M3, so the portal is development-only for now.
-  if (!adminPreviewEnabled) notFound();
-  return <AdminShell>{children}</AdminShell>;
+/** Second check after src/proxy.ts: the portal answers only on ADMIN_URL and from allowed IPs. */
+export default async function AdminRootLayout({ children }: LayoutProps<'/admin'>) {
+  const h = await headers();
+  if (!adminPortalAllowedOnHost(h.get('host')) || !ipAllowed(clientIp(h))) notFound();
+  return children;
 }

@@ -122,7 +122,7 @@ Lawyers in Bangladesh keep cases, hearing dates, fees and client details in pape
 - [ ] **F16** ক্লাউড ব্যাকআপ — automated encrypted backups of DB and files, with a tested restore procedure.
 
 **Team**
-- [ ] **F17** জুনিয়র ও মুহুরি মোড — memberships, roles, case assignment, task assignment, access control.
+- [x] **F17** জুনিয়র ও মুহুরি মোড — memberships, roles, case assignment, task assignment, access control.
 - [ ] **F18** মুহুরি কোর্ট থেকে পরের তারিখ তুলে দেবেন — owner and assignee see it immediately (in-app + push).
 
 **App and security**
@@ -352,8 +352,8 @@ Every tenant table has `chamber_id` (RLS), `created_at`, `updated_at`, and soft-
 - **Done when:** P1–P4 tests pass (associate JSON never contains contact fields; staff never receives client names); the next-date sheet works on a 390 px screen.
 
 ### M3 — Team, tasks, platform admin (F17, P9–P14, section 3.2)
-- [ ] Team and permissions page (fixed vs adjustable rules), case scope, per-associate fee toggle, staff tasks.
-- [ ] Admin portal: chambers list, plans (manual assignment and payment record), support request → owner approval → 24-hour grant, admin audit log.
+- [x] Team and permissions page (fixed vs adjustable rules), case scope, per-associate fee toggle, staff tasks.
+- [x] Admin portal: chambers list, plans (manual assignment and payment record), support request → owner approval → 24-hour grant, admin audit log.
 - **Done when:** a grant expires automatically after 24 hours; the admin DB role cannot read client tables; every support action is logged.
 
 ### M4 — Documents, accounts, receipts, reports (F9–F12, F14–F15, F23)
