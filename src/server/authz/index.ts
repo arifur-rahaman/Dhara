@@ -46,6 +46,19 @@ export const can = {
   addHearing: (c: Ctx, k: CaseRef) => c.role !== 'staff' && can.viewCase(c, k),
   /** P7 */
   messageClient: (c: Ctx, k: CaseRef) => isOwner(c) || (c.role === 'associate' && can.viewCase(c, k)),
+  /** P5 — the database applies the same rule per document (and P6 for private ones). */
+  viewDocuments: (c: Ctx, k: CaseRef) => c.role !== 'staff' && can.viewCase(c, k),
+  /** Munshi add orders only (order photos, P4/P5); owner and associates any kind on cases they can see. */
+  uploadDocument: (c: Ctx, k: CaseRef, kind: 'order' | 'pleading' | 'other') =>
+    can.viewDocuments(c, k) && (c.role !== 'munshi' || kind === 'order'),
+  /** Only the owner or the uploader removes a document. */
+  removeDocument: (c: Ctx, d: { uploadedBy: string }) => isOwner(c) || d.uploadedBy === c.userId,
+  /** F9–F12: fees and payments are written by the owner; P9 decides who reads them. */
+  recordMoney: (c: Ctx) => isOwner(c),
+  /** F12: the reminder opens the owner's own SMS app with the client's number, so owner only (P1). */
+  remindClient: (c: Ctx) => isOwner(c),
+  /** F23 */
+  viewReports: (c: Ctx) => isOwner(c),
   /** P8 */
   useAi: (c: Ctx) => isOwner(c) || c.role === 'associate',
   /** P9 — the owner may enable fees per associate. */

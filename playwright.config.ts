@@ -13,6 +13,8 @@ export default defineConfig({
   testDir: 'tests/e2e',
   globalSetup: './tests/e2e/global-setup.ts',
   timeout: 60_000,
+  // The suite runs against `next dev`, which compiles a route on its first request; allow for that.
+  expect: { timeout: 10_000 },
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,

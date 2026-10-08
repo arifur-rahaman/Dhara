@@ -25,7 +25,11 @@ export type AuditAction =
   | 'support.revoke'
   | 'client_contact.view'
   | 'client_contact.update'
-  | 'case.delete';
+  | 'case.delete'
+  | 'document.delete'
+  | 'fee.delete'
+  | 'payment.record'
+  | 'export.report_pdf';
 
 export async function audit(
   tx: Tx,

@@ -50,3 +50,4 @@ next-env.d.ts
 
 # generated Prisma client (pnpm prisma generate)
 /src/generated
+/.storage/

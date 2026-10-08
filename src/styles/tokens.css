@@ -17,6 +17,8 @@
   --nav-text: #f6f4ef;
   --nav-muted: #b9bdc4;
   --nav-active: #2c3038;
+  /* Earlier months in the Reports bar chart (current month uses --accent). */
+  --chart-past: #7f95d0;
   color-scheme: light;
 }
 
@@ -38,6 +40,7 @@
   --nav-text: #e8e6e1;
   --nav-muted: #9ba1ab;
   --nav-active: #1c2027;
+  --chart-past: #5c6fa8;
   color-scheme: dark;
 }
 
@@ -61,6 +64,7 @@
     --nav-text: #e8e6e1;
     --nav-muted: #9ba1ab;
     --nav-active: #1c2027;
+    --chart-past: #5c6fa8;
     color-scheme: dark;
   }
 }
@@ -79,4 +83,23 @@
     --on-accent: #ffffff;
     color-scheme: light;
   }
+}
+
+/* Receipts look like white paper in every theme, so print and PDF match the screen (ReceiptView design). */
+.paper {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #efece5;
+  --text: #1b1d22;
+  --muted: #575c66;
+  --border: #e2ded5;
+  --paper-rule: #d8d2c4;
+  --accent: #2f4fa3;
+  --accent-soft: #e6ecfa;
+  --lock-bg: #fbf0dc;
+  --lock-text: #8a520a;
+  --chart-past: #7f95d0;
+  color-scheme: light;
+  background: var(--surface);
+  color: var(--text);
 }
