@@ -221,3 +221,48 @@ describe('fees and payments (P9)', () => {
     await admin.end();
   });
 });
+
+describe('receipt numbers (F10)', () => {
+  it('stay unique and gap-free per chamber under concurrent payments, and start at 1 in each chamber', async () => {
+    const { withTenant } = await import('@/server/db/tenant');
+    const { insertPaymentWithReceipt } = await import('@/features/money/receipts');
+    const { prisma } = await import('@/server/db/client');
+    const pay = (chamber: typeof seed.a, caseId: string, fail = false) =>
+      withTenant({ chamberId: chamber.chamberId, userId: chamber.members.owner.userId, role: 'owner' }, async (tx) => {
+        const r = await insertPaymentWithReceipt(tx, {
+          chamberId: chamber.chamberId,
+          caseId,
+          clientId: null,
+          amountPoisha: 10000,
+          method: 'cash',
+          reference: null,
+          description: 'Fee',
+          paidOn: new Date('2026-10-01'),
+          receivedBy: chamber.members.owner.userId,
+        });
+        if (fail) throw new Error('rolled back');
+        return r.receiptNo;
+      });
+    // Chamber A already has receipt 1 and 51 inserted by hand above; reset its counter to match.
+    await root.query(`UPDATE chambers SET receipt_seq = 51 WHERE id = $1`, [seed.a.chamberId]);
+    const results = await Promise.allSettled([
+      ...Array.from({ length: 12 }, () => pay(seed.a, assignedCase)),
+      pay(seed.a, assignedCase, true),
+    ]);
+    const numbers = results.flatMap((r) => (r.status === 'fulfilled' ? [r.value] : [])).sort((x, y) => x - y);
+    expect(numbers).toEqual(Array.from({ length: 12 }, (_, i) => 52 + i));
+    const seq = (await root.query(`SELECT receipt_seq FROM chambers WHERE id = $1`, [seed.a.chamberId])).rows[0];
+    expect(seq.receipt_seq).toBe(63);
+
+    // Chamber B counts on its own.
+    const bCase = randomUUID();
+    const court = (await root.query(`SELECT id FROM courts LIMIT 1`)).rows[0].id;
+    await root.query(
+      `INSERT INTO cases (id, chamber_id, type, number, year, court_id, our_side, created_by, updated_at)
+       VALUES ($1, $2, 'civil', '9', '2026', $3, 'plaintiff', $4, now())`,
+      [bCase, seed.b.chamberId, court, seed.b.members.owner.userId],
+    );
+    expect(await pay(seed.b, bCase)).toBe(1);
+    await prisma.$disconnect();
+  });
+});

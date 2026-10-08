@@ -98,7 +98,12 @@
     "savePassword": "Save password",
     "passwordSaved": "Password saved.",
     "signOut": "Log out",
-    "chamber": "Chamber"
+    "chamber": "Chamber",
+    "chamberName": "Chamber name",
+    "chamberAddress": "Address",
+    "chamberAddressHint": "Printed on receipts.",
+    "chamberSave": "Save chamber details",
+    "chamberSaved": "Chamber details saved."
   },
   "more": {
     "title": "More"
@@ -260,7 +265,7 @@
     "tooManyAttempts": "Too many wrong tries. Wait 15 minutes, then try again.",
     "credentialsInvalid": "Mobile number or password is not right.",
     "consentRequired": "Tick the box to agree before you continue.",
-    "chamberInvalid": "Fill in the chamber name, your name and the district.",
+    "chamberInvalid": "Write the chamber name (at least 2 letters). The address can be up to 200 letters.",
     "inviteInvalid": "Write the name and choose a role.",
     "alreadyMember": "This number is already a member of your chamber.",
     "passwordShort": "Use at least 8 characters.",
@@ -276,13 +281,18 @@
     "taskInvalid": "Write the task (at least 2 letters) and choose who it is for.",
     "adminCredentialsInvalid": "Phone, password or code did not match. Check them and try again.",
     "planInvalid": "Choose a plan and status; the trial end must be a date.",
-    "paymentInvalid": "Enter the amount in taka (like 1500), a method and the date.",
+    "paymentInvalid": "Choose the case and a date that is not in the future.",
     "reasonInvalid": "Write the reason in 10 to 1000 characters.",
     "fileTooBig": "The file is larger than 20 MB. Choose a smaller file or take a photo instead.",
     "fileType": "Only PDF, JPG and PNG files can be added.",
     "photoFormat": "This photo format cannot be opened here. Take the photo with the Scan button or use a JPG.",
     "documentInvalid": "Could not add the document. Refresh the page and try again.",
-    "uploadFailed": "The upload did not finish. Check the connection and try again."
+    "uploadFailed": "The upload did not finish. Check the connection and try again.",
+    "feeInvalid": "Write what the fee is for and the amount in taka, like 5000.",
+    "referenceNeeded": "Write the bKash or Nagad transaction ID.",
+    "noDue": "Nothing is due on this case.",
+    "noPhone": "This client has no phone number saved. Add it on the client's page.",
+    "amountInvalid": "Write the amount in taka, like 5000."
   },
   "twoStep": {
     "title": "Turn on two-step verification",
@@ -580,7 +590,6 @@
       "notes": "Notes",
       "fees": "Fees"
     },
-    "feesLater": "Fees arrive in milestone M4.",
     "noNotes": "No notes yet.",
     "addedBy": "Added by {name}",
     "addedByYou": "Added by you",
@@ -673,7 +682,9 @@
       "support_revoke": "ended support access",
       "support_view_cases": "viewed case numbers and dates (support)",
       "support_request": "asked for support access",
-      "document_delete": "removed a document"
+      "document_delete": "removed a document",
+      "fee_delete": "removed a fee",
+      "payment_record": "recorded a payment"
     }
   },
   "tasks": {
@@ -747,5 +758,66 @@
     "upload": "Upload",
     "uploading": "Uploading…",
     "recentHint": "Recent documents from the cases you can open. Add new ones from a case."
+  },
+  "money": {
+    "payment": "Payment",
+    "monthCollection": "{month} collection",
+    "totalDue": "Total due",
+    "dues": "Dues",
+    "noDues": "No dues.",
+    "recent": "Recent payments",
+    "noPayments": "No payments yet.",
+    "remindLabel": "Send a reminder to {name}",
+    "receiptLabel": "See {name}'s receipt",
+    "remindSms": "Remind by SMS",
+    "remindWhatsApp": "Remind on WhatsApp",
+    "methods": {
+      "cash": "Cash",
+      "bkash": "bKash",
+      "nagad": "Nagad",
+      "bank": "Bank",
+      "gateway": "Online"
+    },
+    "referenceShort": "Ref. {ref}",
+    "recordTitle": "Record payment",
+    "case": "Case",
+    "amount": "Amount (taka)",
+    "method": "Paid by",
+    "reference": "Transaction ID",
+    "referenceOptional": "Reference (optional)",
+    "for": "For",
+    "defaultFor": "Fee",
+    "paidOn": "Date received",
+    "saveAndReceipt": "Save and make receipt",
+    "noCases": "Add a case first.",
+    "dueShort": "due {amount}",
+    "feesTab": "Fees",
+    "charged": "Charged",
+    "received": "Received",
+    "due": "Due",
+    "feesTitle": "Fees charged",
+    "noFees": "No fees charged yet.",
+    "removeFee": "Remove fee {name}",
+    "addFee": "Add fee",
+    "feeFor": "For",
+    "feePlaceholder": "e.g. Hearing fee",
+    "feeAdded": "Fee added.",
+    "receiptsTitle": "Payments and receipts",
+    "receiptShort": "Receipt {no}"
+  },
+  "receipt": {
+    "title": "Receipt",
+    "client": "Client",
+    "case": "Case",
+    "for": "For",
+    "method": "Paid by",
+    "receivedBy": "Received by",
+    "amount": "Amount",
+    "number": "Receipt no. {no}",
+    "footer": "Receipt made with Dhara",
+    "lightNote": "The receipt stays like white paper even in dark mode, so print and PDF look the same.",
+    "pdf": "Download PDF",
+    "whatsapp": "Send to client on WhatsApp",
+    "saved": "Payment saved. Receipt ready."
   }
 }

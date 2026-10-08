@@ -56,3 +56,8 @@ export function monthGrid(year: number, month: number): (Ymd | null)[][] {
   while (cells.length % 7) cells.push(null);
   return Array.from({ length: cells.length / 7 }, (_, i) => cells.slice(i * 7, i * 7 + 7));
 }
+
+/** First day of the month containing ymd ('2026-09-14' → '2026-09-01'). */
+export function monthStart(ymd: Ymd): Ymd {
+  return `${ymd.slice(0, 7)}-01`;
+}

@@ -12,6 +12,7 @@ import { getCase } from '@/features/cases/queries';
 import { DocumentList, KindFilter } from '@/features/documents/document-list';
 import { documentKinds, listDocuments } from '@/features/documents/queries';
 import { DocumentUpload } from '@/features/documents/upload';
+import { CaseFees } from '@/features/money/case-fees';
 import { SubpageHeader } from '@/features/shell/subpage-header';
 
 export async function generateMetadata({ params }: PageProps<'/cases/[id]'>): Promise<Metadata> {
@@ -187,7 +188,7 @@ export default async function CasePage({ params, searchParams }: PageProps<'/cas
           )}
         </section>
       )}
-      {tab === 'fees' && <p className="text-[15px] text-muted">{t('caseDetail.feesLater')}</p>}
+      {tab === 'fees' && <CaseFees ctx={ctx} caseId={c.id} />}
 
       {c.officialUrl && (
         <div className="flex flex-col gap-1 rounded-card border border-border bg-surface p-4">
@@ -204,7 +205,7 @@ export default async function CasePage({ params, searchParams }: PageProps<'/cas
         </div>
       )}
 
-      {c.canAddHearing && tab !== 'documents' && (
+      {c.canAddHearing && tab === 'timeline' && (
         <div className="fixed inset-x-0 bottom-[var(--spacing-tabbar)] z-10 border-t border-border bg-surface px-5 pt-3 pb-3 md:static md:mt-2 md:border-0 md:bg-transparent md:p-0">
           <Link
             href={`/cases/${c.id}/next-date`}

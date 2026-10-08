@@ -13,4 +13,8 @@ export const e2eEnv = {
   // Every test signs in from the same address; the per-phone limit (3 per 15 minutes) still applies.
   OTP_LIMIT_PER_IP: '100000',
   SMS_OUTBOX_FILE: resolve('test-results/sms-outbox.jsonl'),
+  STORAGE_PROVIDER: 'local',
+  STORAGE_DIR: resolve('test-results/storage'),
+  // Receipt PDFs use the same Chromium as the tests when a path is given (otherwise Playwright's own).
+  PDF_CHROMIUM_PATH: process.env.PLAYWRIGHT_CHROMIUM_PATH ?? '',
 };

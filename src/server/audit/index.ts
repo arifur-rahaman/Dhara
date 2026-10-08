@@ -26,7 +26,9 @@ export type AuditAction =
   | 'client_contact.view'
   | 'client_contact.update'
   | 'case.delete'
-  | 'document.delete';
+  | 'document.delete'
+  | 'fee.delete'
+  | 'payment.record';
 
 export async function audit(
   tx: Tx,

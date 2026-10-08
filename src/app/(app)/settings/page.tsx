@@ -2,7 +2,10 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { getSession } from '@/server/auth/session';
+import { can } from '@/server/authz';
 import { requireCtx } from '@/server/context';
+import { scopeOf, withTenant } from '@/server/db/tenant';
+import { ChamberForm } from '@/features/chamber/chamber-form';
 import { signOut } from '@/features/auth/actions';
 import { PasswordForm } from '@/features/account/password-form';
 import { getPreferences } from '@/features/preferences/server';
@@ -22,8 +25,13 @@ export default async function SettingsPage() {
   const { locale, numerals } = await getPreferences();
   const t = await getTranslations('settings');
   // Pages render alongside the layout, so each page checks the session itself.
-  await requireCtx();
+  const ctx = await requireCtx();
   const user = (await getSession())!.user;
+  const chamber = can.editChamberSettings(ctx)
+    ? await withTenant(scopeOf(ctx), (tx) =>
+        tx.chamber.findUniqueOrThrow({ where: { id: ctx.chamberId }, select: { name: true, address: true } }),
+      )
+    : null;
 
   return (
     <div className="flex max-w-[560px] flex-col gap-3.5">
@@ -38,6 +46,17 @@ export default async function SettingsPage() {
           {locale === 'bn' && <NumeralsSetting current={numerals} />}
         </div>
       </section>
+
+      {chamber && (
+        <section aria-labelledby="settings-chamber" className="flex flex-col gap-1.5">
+          <h2 id="settings-chamber" className="px-1 text-[13px] font-semibold text-muted">
+            {t('chamber')}
+          </h2>
+          <div className="rounded-card border border-border bg-surface px-4">
+            <ChamberForm name={chamber.name} address={chamber.address ?? ''} />
+          </div>
+        </section>
+      )}
 
       <section aria-labelledby="settings-security" className="flex flex-col gap-1.5">
         <h2 id="settings-security" className="px-1 text-[13px] font-semibold text-muted">

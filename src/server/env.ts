@@ -57,6 +57,8 @@ export const envSchema = z.object({
 
   /** Chromium used to render receipt PDFs (TECH_GUIDE section 14). */
   PDF_CHROMIUM_PATH: optional,
+  /** Where Chromium reaches the app's print pages; defaults to the request's own origin. */
+  PDF_RENDER_ORIGIN: optional,
 });
 
 export type Env = z.infer<typeof envSchema>;
