@@ -45,6 +45,18 @@ jobs:
       - run: pnpm i18n:check
       - run: pnpm test
       - run: pnpm test:perm
+      - name: Backup and restore round trip
+        run: |
+          command -v age || (sudo apt-get update -q && sudo apt-get install -y -q age)
+          bash scripts/check-backup-restore.sh
+        env:
+          SOURCE_URL: postgresql://dhara:dhara@localhost:5432/dhara_test
+          RESTORE_ADMIN_URL: postgresql://dhara:dhara@localhost:5432/postgres
+          # pg_dump must be at least the server's version (18); use the server's own image.
+          PG_DUMP: docker run --rm --network host -v ${{ runner.temp }}:${{ runner.temp }} postgres:18 pg_dump
+          PG_RESTORE: docker run --rm --network host -v ${{ runner.temp }}:${{ runner.temp }} postgres:18 pg_restore
+          CHECK_WORK_DIR: ${{ runner.temp }}
+          TMPDIR: ${{ runner.temp }}
       - name: Migrations as a non-superuser owner
         run: |
           command -v psql || (sudo apt-get update -q && sudo apt-get install -y -q postgresql-client)
