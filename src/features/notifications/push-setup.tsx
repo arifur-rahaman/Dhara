@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { clearOfflineData } from '@/features/offline/idb';
+import { flushOutbox } from '@/features/offline/sync';
 import { removePushSubscription, savePushSubscription } from './actions';
 
 type State = 'loading' | 'unsupported' | 'ios' | 'denied' | 'off' | 'on' | 'busy';
@@ -87,7 +89,10 @@ export function PushSetup({ publicKey }: { publicKey: string | null }) {
   );
 }
 
-/** Sign-out that first forgets this device's push subscription, so a shared phone stops getting reminders. */
+/**
+ * Sign-out that first forgets this device's push subscription and its offline copy (snapshot, outbox,
+ * cached pages), so a shared phone keeps nothing of the previous person.
+ */
 export function SignOutButton({
   action,
   label,
@@ -107,8 +112,11 @@ export function SignOutButton({
             await removePushSubscription(sub.endpoint);
             await sub.unsubscribe();
           }
+          if (navigator.onLine) await flushOutbox().catch(() => undefined);
+          reg?.active?.postMessage({ type: 'clear' });
+          await clearOfflineData();
         } catch {
-          // Signing out must never fail because of push.
+          // Signing out must never fail because of push or offline storage.
         }
         await action();
       }}

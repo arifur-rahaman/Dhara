@@ -69,6 +69,9 @@ jobs:
           S3_SECRET_KEY: test
           S3_REGION: us-east-1
       - run: pnpm build
+      # Journeys that need the production build: the service worker's saved offline page and outbox (F21).
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e:prod
 
   e2e:
     name: End-to-end (390px and 1280px, light and dark)

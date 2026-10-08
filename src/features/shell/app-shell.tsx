@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import type { ReactNode } from 'react';
 import { BrandMark } from '@/components/brand-mark';
+import { OfflineAgent } from '@/features/offline/agent';
 import { BottomTabs } from './bottom-tabs';
 import { navByRole, type Role } from './nav';
 import { Avatar, Sidebar } from './sidebar';
@@ -48,6 +49,8 @@ export function AppShell({ role, children }: { role: Role; children: ReactNode }
           }
         />
       )}
+
+      <OfflineAgent besideSidebar={hasSidebar} />
 
       <main
         id="main"
