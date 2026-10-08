@@ -57,6 +57,9 @@ export const envSchema = z.object({
 
   ADMIN_IP_ALLOWLIST: optional,
 
+  /** 1 = this process also runs the background worker (reminders). */
+  RUN_JOBS: z.enum(['0', '1']).default('0'),
+
   /** Chromium used to render receipt PDFs (TECH_GUIDE section 14). */
   PDF_CHROMIUM_PATH: optional,
   /** Where Chromium reaches the app's print pages; defaults to the request's own origin. */

@@ -5,6 +5,7 @@ import { Icon } from '@/components/icons';
 import { navByRole } from '@/features/shell/nav';
 import { requireCtx } from '@/server/context';
 import { signOut } from '@/features/auth/actions';
+import { SignOutButton } from '@/features/notifications/push-setup';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('more');
@@ -29,11 +30,11 @@ export default async function MorePage() {
           </li>
         ))}
       </ul>
-      <form action={signOut}>
-        <button className="flex min-h-14 w-full items-center rounded-card border border-border bg-surface px-4 text-[16px] font-semibold text-lock-text">
-          {t('settings.signOut')}
-        </button>
-      </form>
+      <SignOutButton
+        action={signOut}
+        label={t('settings.signOut')}
+        className="flex min-h-14 w-full items-center rounded-card border border-border bg-surface px-4 text-[16px] font-semibold text-lock-text"
+      />
     </div>
   );
 }

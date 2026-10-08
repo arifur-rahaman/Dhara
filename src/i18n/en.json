@@ -292,7 +292,8 @@
     "referenceNeeded": "Write the bKash or Nagad transaction ID.",
     "noDue": "Nothing is due on this case.",
     "noPhone": "This client has no phone number saved. Add it on the client's page.",
-    "amountInvalid": "Write the amount in taka, like 5000."
+    "amountInvalid": "Write the amount in taka, like 5000.",
+    "reminderTimeInvalid": "Choose a time for each reminder."
   },
   "twoStep": {
     "title": "Turn on two-step verification",
@@ -840,5 +841,42 @@
     "collected": "Collected",
     "byCourt": "Cases by court",
     "noCases": "No active cases."
+  },
+  "push": {
+    "title": "Dhara",
+    "night": "{hearings, plural, one {# hearing} other {# hearings}} tomorrow",
+    "morning": "Today: {hearings, plural, one {# hearing} other {# hearings}}",
+    "morningWithTasks": "Today: {hearings, plural, one {# hearing} other {# hearings}}, {tasks, plural, one {# task} other {# tasks}}"
+  },
+  "notifications": {
+    "markAll": "Mark all read",
+    "none": "No notifications yet.",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "earlier": "Earlier",
+    "unread": "Unread",
+    "supportRequest": "Platform support is asking for access to your chamber",
+    "hearingAdded": "{name} added the next date for {case}",
+    "taskAssigned": "{name} gave you a task",
+    "night": "{hearings, plural, one {# hearing} other {# hearings}} tomorrow. See the list",
+    "morning": "{hearings, plural, one {# hearing} other {# hearings}} today. See the list",
+    "morningWithTasks": "Today: {hearings, plural, one {# hearing} other {# hearings}} and {tasks, plural, one {# task} other {# tasks}}. See the list"
+  },
+  "reminders": {
+    "title": "Reminders",
+    "night": "The night before",
+    "morning": "In the morning",
+    "at": "Time",
+    "save": "Save reminders",
+    "saved": "Reminders saved.",
+    "device": "On this phone",
+    "enable": "Turn on notifications on this phone",
+    "enabled": "Notifications are on for this phone.",
+    "disable": "Turn off on this phone",
+    "denied": "Notifications are blocked for Dhara in this browser. Allow them in the browser settings, then try again.",
+    "unsupported": "This browser cannot show notifications.",
+    "iosTip": "On iPhone, add Dhara to the Home Screen first (Share, then Add to Home Screen). Notifications work from there.",
+    "notConfigured": "Notifications are not set up on this server yet.",
+    "privacy": "Reminders say only how many hearings and tasks there are, never names or case details, because they show on the lock screen."
   }
 }

@@ -9,6 +9,7 @@ import { assertCan, can } from '@/server/authz';
 import { requireCtx } from '@/server/context';
 import { scopeOf, withTenant } from '@/server/db/tenant';
 import type { FormState } from '@/features/auth/actions';
+import { applyNextDate } from './next-date';
 import { visibleCasesWhere } from './queries';
 
 const digits = (s: string) => s.replace(/[০-৯]/g, (d) => String('০১২৩৪৫৬৭৮৯'.indexOf(d)));
@@ -132,41 +133,7 @@ export async function addNextDate(_: FormState, form: FormData): Promise<FormSta
   const today = todayInDhaka();
   if (date < today) return { error: 'dateInvalid', values };
 
-  const outcome = await withTenant(scopeOf(ctx), async (tx) => {
-    const c = await tx.case.findFirst({
-      where: { AND: [visibleCasesWhere(ctx), { id: caseId }] },
-      select: { id: true, assigneeMembershipId: true },
-    });
-    if (!c) return 'notFound' as const;
-    assertCan('addHearing', ctx, { assigneeMembershipId: c.assigneeMembershipId });
-
-    if (note) {
-      // The most recent hearing up to today gets today's note; if there is none, today's entry is created.
-      const last = await tx.hearing.findFirst({
-        where: { caseId, date: { lte: dbDate(today) }, outcomeNote: null },
-        orderBy: { date: 'desc' },
-      });
-      if (last) await tx.hearing.update({ where: { id: last.id }, data: { outcomeNote: note, outcomeBy: ctx.userId } });
-      else
-        await tx.hearing.create({
-          data: {
-            chamberId: ctx.chamberId,
-            caseId,
-            date: dbDate(today),
-            outcomeNote: note,
-            outcomeBy: ctx.userId,
-            addedBy: ctx.userId,
-          },
-        });
-    }
-    const same = await tx.hearing.findFirst({ where: { caseId, date: dbDate(date) }, select: { id: true } });
-    if (!same) {
-      await tx.hearing.create({
-        data: { chamberId: ctx.chamberId, caseId, date: dbDate(date), serialOrItem: serial, addedBy: ctx.userId },
-      });
-    }
-    return 'ok' as const;
-  });
+  const outcome = await withTenant(scopeOf(ctx), (tx) => applyNextDate(tx, ctx, { caseId, date, note, serial }, today));
   if (outcome === 'notFound') return { error: 'caseNotFound', values };
   redirect(`/cases/${caseId}?saved=${date}`);
 }
