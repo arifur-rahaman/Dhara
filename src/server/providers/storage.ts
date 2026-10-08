@@ -91,8 +91,9 @@ export function verifyLocalGrant(g: LocalGrant, sig: string, now = Date.now()) {
 }
 
 export function localPath(key: string) {
-  const root = resolve(env().STORAGE_DIR ?? '.storage');
-  const path = resolve(root, key);
+  // Runtime data, not part of the build: keep the bundler from tracing the whole project.
+  const root = resolve(/* turbopackIgnore: true */ env().STORAGE_DIR ?? '.storage');
+  const path = resolve(/* turbopackIgnore: true */ root, key);
   if (!path.startsWith(root + sep)) throw new Error('Invalid storage key');
   return path;
 }

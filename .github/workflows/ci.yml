@@ -44,6 +44,21 @@ jobs:
       - run: pnpm i18n:check
       - run: pnpm test
       - run: pnpm test:perm
+      # Storage contract against an S3-compatible server (moto). It checks the upload/check/download/delete
+      # flow and URL shapes; signature correctness is covered by the AWS test vector in tests/unit/sigv4.test.ts.
+      - name: Storage contract (S3-compatible)
+        run: |
+          python3 -m pip install --quiet "moto[server]==5.2.3"
+          (moto_server -H 127.0.0.1 -p 9000 > moto.log 2>&1 &)
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:9000/ > /dev/null && break; sleep 1; done
+          pnpm exec vitest run --project perm tests/perm/storage.test.ts
+        env:
+          STORAGE_PROVIDER: s3
+          S3_ENDPOINT: http://127.0.0.1:9000
+          S3_BUCKET: dhara-ci
+          S3_ACCESS_KEY: test
+          S3_SECRET_KEY: test
+          S3_REGION: us-east-1
       - run: pnpm build
 
   e2e:

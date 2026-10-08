@@ -1,4 +1,5 @@
-import { afterAll, describe, expect, it } from 'vitest';
+import { AwsClient } from 'aws4fetch';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { rm } from 'node:fs/promises';
 import { localPath, storage, verifyLocalGrant } from '@/server/providers/storage';
 
@@ -7,6 +8,18 @@ import { localPath, storage, verifyLocalGrant } from '@/server/providers/storage
  * (MinIO in CI) when STORAGE_PROVIDER=s3 and the S3_* variables are set.
  */
 process.env.STORAGE_DIR ??= 'test-results/storage';
+beforeAll(async () => {
+  // Make sure the bucket exists on the S3-compatible test server (CI). 409 = already there.
+  if (process.env.STORAGE_PROVIDER !== 's3') return;
+  const aws = new AwsClient({
+    accessKeyId: process.env.S3_ACCESS_KEY!,
+    secretAccessKey: process.env.S3_SECRET_KEY!,
+    service: 's3',
+    region: process.env.S3_REGION ?? 'us-east-1',
+  });
+  const res = await aws.fetch(`${process.env.S3_ENDPOINT}/${process.env.S3_BUCKET}`, { method: 'PUT' });
+  expect([200, 409]).toContain(res.status);
+});
 afterAll(async () => {
   await rm('test-results/storage', { recursive: true, force: true });
 });

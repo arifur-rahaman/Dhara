@@ -110,15 +110,15 @@ Lawyers in Bangladesh keep cases, hearing dates, fees and client details in pape
 - [ ] **F8** Google Calendar সিঙ্ক — one-way push of hearings to the user's calendar. Needs Google OAuth; production scopes may need Google's app verification. Keep behind a flag until verified.
 
 **Fees and accounts**
-- [ ] **F9** মামলাভিত্তিক ফি, পেমেন্ট, বকেয়া.
-- [ ] **F10** রসিদ বা ইনভয়েস (PDF) — sequential receipt numbers per chamber; always light.
-- [ ] **F11** bKash/Nagad পেমেন্টের রেফারেন্স লিখে রাখা — payment method + reference text (manual in Stage 1).
-- [ ] **F12** বকেয়া মনে করিয়ে দেওয়া — in-app dues list and reminders to the owner. In Stage 1 the owner's "remind" action opens a prefilled SMS/WhatsApp on the owner's own phone (allowed, because the owner can see the number). Stage 2 sends through the gateway with a payment link (F31).
+- [x] **F9** মামলাভিত্তিক ফি, পেমেন্ট, বকেয়া.
+- [x] **F10** রসিদ বা ইনভয়েস (PDF) — sequential receipt numbers per chamber; always light.
+- [x] **F11** bKash/Nagad পেমেন্টের রেফারেন্স লিখে রাখা — payment method + reference text (manual in Stage 1).
+- [x] **F12** বকেয়া মনে করিয়ে দেওয়া — in-app dues list and reminders to the owner. In Stage 1 the owner's "remind" action opens a prefilled SMS/WhatsApp on the owner's own phone (allowed, because the owner can see the number). Stage 2 sends through the gateway with a payment link (F31).
 
 **Clients and documents**
 - [x] **F13** ক্লায়েন্টের তথ্য — name (P2) + contact: phone, email, NID, address (P1, owner-only, encrypted).
-- [ ] **F14** ডকুমেন্ট — scan, photo or file upload attached to a case; object storage with signed URLs.
-- [ ] **F15** গোপন ডকুমেন্ট — visible to the uploader and the owner only (P6).
+- [x] **F14** ডকুমেন্ট — scan, photo or file upload attached to a case; object storage with signed URLs.
+- [x] **F15** গোপন ডকুমেন্ট — visible to the uploader and the owner only (P6).
 - [ ] **F16** ক্লাউড ব্যাকআপ — automated encrypted backups of DB and files, with a tested restore procedure.
 
 **Team**
@@ -130,7 +130,7 @@ Lawyers in Bangladesh keep cases, hearing dates, fees and client details in pape
 - [ ] **F20** Excel বা ডায়েরির ডেটা ইমপোর্ট — XLSX/CSV wizard: column mapping, preview, duplicate check.
 - [ ] **F21** অফলাইন মোড — today's list and recent cases readable offline; writes (next date, order photo) go to an outbox and sync later.
 - [ ] **F22** দুই ধাপের লগইন ও রোল অনুযায়ী অ্যাক্সেস — OTP + password; TOTP 2FA for owners and platform admins; RBAC per section 3.
-- [ ] **F23** মাসিক রিপোর্ট — income, dues, case counts (owner, web Reports screen).
+- [x] **F23** মাসিক রিপোর্ট — income, dues, case counts (owner, web Reports screen).
 
 **Learning (with Hadia Academy)**
 - [ ] **F24** বেসিক কম্পিউটার কোর্স (ফ্রি) — six modules: Bangla/English typing (Avro/Bijoy), Word formatting for plaints and notices, PDF scan/merge/sign, email and Google Drive, cyber safety (passwords, 2FA, phishing), using this app.
@@ -357,8 +357,8 @@ Every tenant table has `chamber_id` (RLS), `created_at`, `updated_at`, and soft-
 - **Done when:** a grant expires automatically after 24 hours; the admin DB role cannot read client tables; every support action is logged.
 
 ### M4 — Documents, accounts, receipts, reports (F9–F12, F14–F15, F23)
-- [ ] Upload/scan/photo, confidential flag, signed URLs.
-- [ ] Fees, payments, dues, receipts (HTML → PDF, always light), owner's prefilled-SMS reminder, web Reports.
+- [x] Upload/scan/photo, confidential flag, signed URLs.
+- [x] Fees, payments, dues, receipts (HTML → PDF, always light), owner's prefilled-SMS reminder, web Reports.
 - **Done when:** confidential-document tests pass; a Bangla receipt PDF renders conjuncts correctly; receipt numbers are unique per chamber.
 
 ### M5 — Reminders, printing, calendar, offline (F5, F6, F8, F16, F21)
