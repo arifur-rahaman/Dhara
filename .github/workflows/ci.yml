@@ -30,6 +30,7 @@ jobs:
       TEST_DATABASE_MIGRATE_URL: postgresql://dhara:dhara@localhost:5432/dhara_test
       TEST_DATABASE_URL: postgresql://dhara_app:dhara_app@localhost:5432/dhara_test
       TEST_DATABASE_ADMIN_URL: postgresql://dhara_admin:dhara_admin@localhost:5432/dhara_test
+      TEST_DATABASE_JOBS_URL: postgresql://dhara_jobs:dhara_jobs@localhost:5432/dhara_test
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -44,6 +45,12 @@ jobs:
       - run: pnpm i18n:check
       - run: pnpm test
       - run: pnpm test:perm
+      - name: Migrations as a non-superuser owner
+        run: |
+          command -v psql || (sudo apt-get update -q && sudo apt-get install -y -q postgresql-client)
+          bash scripts/check-nonsuper-migrate.sh
+        env:
+          SUPERUSER_URL: postgresql://dhara:dhara@localhost:5432/dhara_test
       # Storage contract against an S3-compatible server (moto). It checks the upload/check/download/delete
       # flow and URL shapes; signature correctness is covered by the AWS test vector in tests/unit/sigv4.test.ts.
       - name: Storage contract (S3-compatible)

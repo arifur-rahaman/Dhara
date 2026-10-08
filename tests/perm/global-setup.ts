@@ -8,6 +8,7 @@ export default function setup() {
     DATABASE_MIGRATE_URL: testDb.migrateUrl,
     DATABASE_URL: testDb.appUrl,
     DATABASE_ADMIN_URL: testDb.adminUrl,
+    DATABASE_JOBS_URL: testDb.jobsUrl,
   };
   execFileSync('pnpm', ['exec', 'prisma', 'migrate', 'deploy'], { env, stdio: 'pipe' });
   execFileSync('node', ['scripts/db-roles.mjs'], { env, stdio: 'pipe' });

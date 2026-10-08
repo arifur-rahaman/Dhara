@@ -12,6 +12,7 @@ services:
       # Local stack only: run `pnpm db:migrate` against this database first (it creates the roles).
       DATABASE_URL: postgresql://dhara_app:dhara_app@postgres:5432/${POSTGRES_DB}
       DATABASE_ADMIN_URL: postgresql://dhara_admin:dhara_admin@postgres:5432/${POSTGRES_DB}
+      DATABASE_JOBS_URL: postgresql://dhara_jobs:dhara_jobs@postgres:5432/${POSTGRES_DB}
       S3_ENDPOINT: http://minio:9000
     ports:
       - '3000:3000'

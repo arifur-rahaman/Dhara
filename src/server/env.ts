@@ -18,6 +18,8 @@ export const envSchema = z.object({
   DATABASE_URL: optional,
   DATABASE_ADMIN_URL: optional,
   DATABASE_MIGRATE_URL: optional,
+  /** Reminder worker (M5): owns the pg-boss schema, may only call the counting functions. */
+  DATABASE_JOBS_URL: optional,
 
   FIELD_ENCRYPTION_KEYS: optional,
   FIELD_ENCRYPTION_ACTIVE: optional,
