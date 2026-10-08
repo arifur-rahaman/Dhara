@@ -878,5 +878,19 @@
     "iosTip": "On iPhone, add Dhara to the Home Screen first (Share, then Add to Home Screen). Notifications work from there.",
     "notConfigured": "Notifications are not set up on this server yet.",
     "privacy": "Reminders say only how many hearings and tasks there are, never names or case details, because they show on the lock screen."
+  },
+  "print": {
+    "dailyTitle": "Daily hearing list",
+    "serial": "Serial",
+    "case": "Case",
+    "party": "Party",
+    "whatHappened": "What happened",
+    "nextDate": "Next date",
+    "date": "Date",
+    "recordedBy": "Recorded by",
+    "historyTitle": "Hearing history",
+    "footer": "Made with Dhara. Check dates against the court's cause list.",
+    "historyPdf": "Hearing history (PDF)",
+    "dailyPdf": "Print list (PDF)"
   }
 }
