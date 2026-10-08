@@ -36,6 +36,9 @@ export const envSchema = z.object({
   PAYMENT_API_KEY: optional,
   PAYMENT_WEBHOOK_SECRET: optional,
 
+  /** s3 in staging and production; local writes to STORAGE_DIR and is refused in production. */
+  STORAGE_PROVIDER: z.enum(['s3', 'local']).default('local'),
+  STORAGE_DIR: optional,
   S3_ENDPOINT: optional,
   S3_REGION: optional,
   S3_BUCKET: optional,
@@ -51,6 +54,9 @@ export const envSchema = z.object({
   AI_MODEL_EXTRACT: optional,
 
   ADMIN_IP_ALLOWLIST: optional,
+
+  /** Chromium used to render receipt PDFs (TECH_GUIDE section 14). */
+  PDF_CHROMIUM_PATH: optional,
 });
 
 export type Env = z.infer<typeof envSchema>;

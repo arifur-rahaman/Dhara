@@ -277,7 +277,12 @@
     "adminCredentialsInvalid": "Phone, password or code did not match. Check them and try again.",
     "planInvalid": "Choose a plan and status; the trial end must be a date.",
     "paymentInvalid": "Enter the amount in taka (like 1500), a method and the date.",
-    "reasonInvalid": "Write the reason in 10 to 1000 characters."
+    "reasonInvalid": "Write the reason in 10 to 1000 characters.",
+    "fileTooBig": "The file is larger than 20 MB. Choose a smaller file or take a photo instead.",
+    "fileType": "Only PDF, JPG and PNG files can be added.",
+    "photoFormat": "This photo format cannot be opened here. Take the photo with the Scan button or use a JPG.",
+    "documentInvalid": "Could not add the document. Refresh the page and try again.",
+    "uploadFailed": "The upload did not finish. Check the connection and try again."
   },
   "twoStep": {
     "title": "Turn on two-step verification",
@@ -575,7 +580,6 @@
       "notes": "Notes",
       "fees": "Fees"
     },
-    "documentsLater": "Documents arrive in milestone M4.",
     "feesLater": "Fees arrive in milestone M4.",
     "noNotes": "No notes yet.",
     "addedBy": "Added by {name}",
@@ -668,7 +672,8 @@
       "support_reject": "rejected support access",
       "support_revoke": "ended support access",
       "support_view_cases": "viewed case numbers and dates (support)",
-      "support_request": "asked for support access"
+      "support_request": "asked for support access",
+      "document_delete": "removed a document"
     }
   },
   "tasks": {
@@ -714,5 +719,33 @@
     "wasRejected": "Rejected or ended",
     "bannerPending": "Platform support is asking for access",
     "bannerActive": "{name} has support access now"
+  },
+  "documents": {
+    "none": "No documents yet.",
+    "you": "You",
+    "private": "Private",
+    "openCase": "Open the case",
+    "more": "More for {title}",
+    "download": "Download",
+    "remove": "Remove",
+    "filter": "Document type",
+    "kinds": {
+      "all": "All",
+      "order": "Orders",
+      "pleading": "Plaints and replies",
+      "other": "Others"
+    },
+    "privateNote": "Private documents are seen only by the person who added them and the chamber owner.",
+    "addFile": "Add file",
+    "scan": "Scan",
+    "uploaded": "Document added.",
+    "selected": "{name} · {size} KB",
+    "title": "Name",
+    "kind": "Type",
+    "markPrivate": "Private",
+    "cancel": "Cancel",
+    "upload": "Upload",
+    "uploading": "Uploading…",
+    "recentHint": "Recent documents from the cases you can open. Add new ones from a case."
   }
 }

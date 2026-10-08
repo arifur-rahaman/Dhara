@@ -98,6 +98,10 @@ model Chamber {
   plan        String    @default("trial")
   status      String    @default("active")
   trialEndsAt DateTime? @map("trial_ends_at") @db.Timestamptz
+  /// Printed on receipts (ReceiptView design). Optional.
+  address     String?
+  /// Last receipt number issued; incremented inside the payment transaction (TECH_GUIDE section 14).
+  receiptSeq  Int       @default(0) @map("receipt_seq")
   createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
   updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz
 
@@ -239,6 +243,7 @@ model Client {
 
   contact          ClientContact?
   contactInChamber ClientContact[] @relation("ContactClientChamber")
+  payments         Payment[]       @relation("PaymentClientChamber")
   cases            Case[]
   casesInChamber   Case[]          @relation("CaseClientChamber")
 
@@ -287,12 +292,15 @@ model Case {
   createdAt            DateTime   @default(now()) @map("created_at") @db.Timestamptz
   updatedAt            DateTime   @updatedAt @map("updated_at") @db.Timestamptz
 
-  court             Court     @relation(fields: [courtId], references: [id])
-  client            Client?   @relation(fields: [clientId], references: [id])
+  court             Court      @relation(fields: [courtId], references: [id])
+  client            Client?    @relation(fields: [clientId], references: [id])
   // Client must belong to the same chamber as the case.
-  clientInChamber   Client?   @relation("CaseClientChamber", fields: [clientId, chamberId], references: [id, chamberId], map: "cases_client_chamber_fkey")
+  clientInChamber   Client?    @relation("CaseClientChamber", fields: [clientId, chamberId], references: [id, chamberId], map: "cases_client_chamber_fkey")
   hearings          Hearing[]
-  hearingsInChamber Hearing[] @relation("HearingCaseChamber")
+  hearingsInChamber Hearing[]  @relation("HearingCaseChamber")
+  documents         Document[] @relation("DocumentCaseChamber")
+  fees              Fee[]      @relation("FeeCaseChamber")
+  payments          Payment[]  @relation("PaymentCaseChamber")
 
   @@unique([id, chamberId], map: "cases_id_chamber_idx")
   @@index([chamberId])
@@ -428,4 +436,97 @@ model SubscriptionPayment {
 
   @@index([chamberId])
   @@map("subscription_payments")
+}
+
+enum DocumentKind {
+  order
+  pleading
+  other
+}
+
+enum DocumentStatus {
+  /// Upload URL issued; not visible until the file is checked.
+  pending
+  ready
+}
+
+/// Case documents (F14). Files live in object storage; P5/P6 are enforced by RLS from the caller's membership.
+model Document {
+  id           String         @id @default(uuid(7)) @db.Uuid
+  chamberId    String         @map("chamber_id") @db.Uuid
+  caseId       String         @map("case_id") @db.Uuid
+  kind         DocumentKind
+  title        String
+  /// Original file name, kept only in the database (never in the storage key).
+  fileName     String         @map("file_name")
+  contentType  String         @map("content_type")
+  sizeBytes    Int            @map("size_bytes")
+  storageKey   String         @unique @map("storage_key")
+  /// F15 / P6: visible to the uploader and the owner only.
+  confidential Boolean        @default(false)
+  status       DocumentStatus @default(pending)
+  uploadedBy   String         @map("uploaded_by") @db.Uuid
+  deletedAt    DateTime?      @map("deleted_at") @db.Timestamptz
+  createdAt    DateTime       @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime       @updatedAt @map("updated_at") @db.Timestamptz
+
+  caseInChamber Case @relation("DocumentCaseChamber", fields: [caseId, chamberId], references: [id, chamberId], onDelete: Restrict, map: "documents_case_chamber_fkey")
+
+  @@index([chamberId, caseId])
+  @@map("documents")
+}
+
+/// A fee charged on a case (F9), e.g. "Hearing fee". Dues = fees − payments.
+model Fee {
+  id           String    @id @default(uuid(7)) @db.Uuid
+  chamberId    String    @map("chamber_id") @db.Uuid
+  caseId       String    @map("case_id") @db.Uuid
+  description  String
+  /// Integer poisha (1 taka = 100 poisha).
+  amountPoisha Int       @map("amount_poisha")
+  chargedOn    DateTime  @map("charged_on") @db.Date
+  createdBy    String    @map("created_by") @db.Uuid
+  deletedAt    DateTime? @map("deleted_at") @db.Timestamptz
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  caseInChamber Case @relation("FeeCaseChamber", fields: [caseId, chamberId], references: [id, chamberId], onDelete: Restrict, map: "fees_case_chamber_fkey")
+
+  @@index([chamberId, caseId])
+  @@map("fees")
+}
+
+enum PaymentMethod {
+  cash
+  bkash
+  nagad
+  bank
+  /// Stage 2 payment links (F31); not offered in Stage 1.
+  gateway
+}
+
+/// Money received (F9, F11), with a receipt number unique per chamber (F10).
+model Payment {
+  id           String        @id @default(uuid(7)) @db.Uuid
+  chamberId    String        @map("chamber_id") @db.Uuid
+  caseId       String        @map("case_id") @db.Uuid
+  clientId     String?       @map("client_id") @db.Uuid
+  amountPoisha Int           @map("amount_poisha")
+  method       PaymentMethod
+  /// bKash/Nagad transaction ID or bank reference (F11).
+  reference    String?
+  /// "Hearing fee" and similar, printed on the receipt.
+  description  String
+  paidOn       DateTime      @map("paid_on") @db.Date
+  receiptNo    Int           @map("receipt_no")
+  receivedBy   String        @map("received_by") @db.Uuid
+  createdAt    DateTime      @default(now()) @map("created_at") @db.Timestamptz
+
+  caseInChamber   Case    @relation("PaymentCaseChamber", fields: [caseId, chamberId], references: [id, chamberId], onDelete: Restrict, map: "payments_case_chamber_fkey")
+  clientInChamber Client? @relation("PaymentClientChamber", fields: [clientId, chamberId], references: [id, chamberId], onDelete: Restrict, map: "payments_client_chamber_fkey")
+
+  @@unique([chamberId, receiptNo])
+  @@index([chamberId, paidOn])
+  @@index([chamberId, caseId])
+  @@map("payments")
 }

@@ -9,6 +9,9 @@ import { can } from '@/server/authz';
 import { requireCtx } from '@/server/context';
 import { caseDisplay } from '@/features/cases/display';
 import { getCase } from '@/features/cases/queries';
+import { DocumentList, KindFilter } from '@/features/documents/document-list';
+import { documentKinds, listDocuments } from '@/features/documents/queries';
+import { DocumentUpload } from '@/features/documents/upload';
 import { SubpageHeader } from '@/features/shell/subpage-header';
 
 export async function generateMetadata({ params }: PageProps<'/cases/[id]'>): Promise<Metadata> {
@@ -32,6 +35,7 @@ export default async function CasePage({ params, searchParams }: PageProps<'/cas
   const sp = await searchParams;
   const visibleTabs = tabs.filter((tab) => tab !== 'fees' || can.viewFees(ctx));
   const tab: Tab = visibleTabs.includes(sp.tab as Tab) ? (sp.tab as Tab) : 'timeline';
+  const kind = documentKinds.find((k) => k === sp.kind);
   const saved = typeof sp.saved === 'string' && isYmd(sp.saved) ? sp.saved : null;
   const t = await getTranslations();
   const d = await caseDisplay();
@@ -164,7 +168,25 @@ export default async function CasePage({ params, searchParams }: PageProps<'/cas
           )}
         </dl>
       )}
-      {tab === 'documents' && <p className="text-[15px] text-muted">{t('caseDetail.documentsLater')}</p>}
+      {tab === 'documents' && (
+        <section aria-label={t('caseDetail.tab.documents')} className="flex flex-col gap-3">
+          <KindFilter base={`/cases/${c.id}?tab=documents`} current={kind} />
+          <DocumentList items={await listDocuments(ctx, { caseId: c.id, kind })} />
+          <p className="text-[13px] leading-relaxed text-muted">{t('documents.privateNote')}</p>
+          {can.uploadDocument(
+            ctx,
+            { assigneeMembershipId: c.assignee?.membershipId ?? null },
+            ctx.role === 'munshi' ? 'order' : 'other',
+          ) && (
+            <DocumentUpload
+              caseId={c.id}
+              defaultKind={kind ?? 'other'}
+              ordersOnly={ctx.role === 'munshi'}
+              canMarkPrivate={ctx.role === 'owner' || ctx.role === 'associate'}
+            />
+          )}
+        </section>
+      )}
       {tab === 'fees' && <p className="text-[15px] text-muted">{t('caseDetail.feesLater')}</p>}
 
       {c.officialUrl && (
@@ -182,7 +204,7 @@ export default async function CasePage({ params, searchParams }: PageProps<'/cas
         </div>
       )}
 
-      {c.canAddHearing && (
+      {c.canAddHearing && tab !== 'documents' && (
         <div className="fixed inset-x-0 bottom-[var(--spacing-tabbar)] z-10 border-t border-border bg-surface px-5 pt-3 pb-3 md:static md:mt-2 md:border-0 md:bg-transparent md:p-0">
           <Link
             href={`/cases/${c.id}/next-date`}

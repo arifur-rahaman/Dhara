@@ -25,7 +25,8 @@ export type AuditAction =
   | 'support.revoke'
   | 'client_contact.view'
   | 'client_contact.update'
-  | 'case.delete';
+  | 'case.delete'
+  | 'document.delete';
 
 export async function audit(
   tx: Tx,
