@@ -684,7 +684,8 @@
       "support_request": "সাপোর্ট অ্যাক্সেস চেয়েছেন",
       "document_delete": "ডকুমেন্ট সরিয়েছেন",
       "fee_delete": "ফি সরিয়েছেন",
-      "payment_record": "পেমেন্ট রেকর্ড করেছেন"
+      "payment_record": "পেমেন্ট রেকর্ড করেছেন",
+      "export_report_pdf": "রিপোর্টের PDF ডাউনলোড করেছেন"
     }
   },
   "tasks": {
@@ -819,5 +820,25 @@
     "pdf": "PDF ডাউনলোড করুন",
     "whatsapp": "ক্লায়েন্টকে WhatsApp-এ পাঠান",
     "saved": "পেমেন্ট সেভ হয়েছে। রসিদ তৈরি।"
+  },
+  "reports": {
+    "title": "রিপোর্ট",
+    "range": "সময়",
+    "ranges": {
+      "month": "এই মাস",
+      "half": "৬ মাস",
+      "year": "১ বছর"
+    },
+    "span": "{from} থেকে {to}",
+    "collection": "{month}ের কালেকশন",
+    "totalDue": "মোট বকেয়া",
+    "activeCases": "অ্যাক্টিভ কেস",
+    "hearings": "{month}ে হিয়ারিং",
+    "monthly": "মাসিক কালেকশন",
+    "asTable": "টেবিল আকারে দেখুন",
+    "month": "মাস",
+    "collected": "কালেকশন",
+    "byCourt": "কোর্ট অনুযায়ী কেস",
+    "noCases": "কোনো অ্যাক্টিভ কেস নেই।"
   }
 }

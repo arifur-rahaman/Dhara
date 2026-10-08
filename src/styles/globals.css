@@ -13,6 +13,7 @@
   --color-accent: var(--accent);
   --color-on-accent: var(--on-accent);
   --color-accent-soft: var(--accent-soft);
+  --color-chart-past: var(--chart-past);
   --color-lock-bg: var(--lock-bg);
   --color-lock-text: var(--lock-text);
   --color-ok-bg: var(--ok-bg);

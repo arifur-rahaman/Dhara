@@ -684,7 +684,8 @@
       "support_request": "asked for support access",
       "document_delete": "removed a document",
       "fee_delete": "removed a fee",
-      "payment_record": "recorded a payment"
+      "payment_record": "recorded a payment",
+      "export_report_pdf": "downloaded the reports PDF"
     }
   },
   "tasks": {
@@ -819,5 +820,25 @@
     "pdf": "Download PDF",
     "whatsapp": "Send to client on WhatsApp",
     "saved": "Payment saved. Receipt ready."
+  },
+  "reports": {
+    "title": "Reports",
+    "range": "Time range",
+    "ranges": {
+      "month": "This month",
+      "half": "6 months",
+      "year": "1 year"
+    },
+    "span": "{from} to {to}",
+    "collection": "{month} collection",
+    "totalDue": "Total due",
+    "activeCases": "Active cases",
+    "hearings": "Hearings in {month}",
+    "monthly": "Monthly collection",
+    "asTable": "Show as a table",
+    "month": "Month",
+    "collected": "Collected",
+    "byCourt": "Cases by court",
+    "noCases": "No active cases."
   }
 }

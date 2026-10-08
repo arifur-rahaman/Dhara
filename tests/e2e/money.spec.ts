@@ -98,7 +98,22 @@ test('money: fees, payments with sequential receipts, dues, PDF, and who sees mo
   });
   for (const [joined, apart] of widths) expect(joined).toBeLessThan(apart);
 
-  // Associate: no money until the owner allows it; then read-only.
+  // Reports (F23): this month's collection and dues; the PDF is an audited export.
+  await page.goto('/reports?range=month');
+  const stats = page.getByRole('main').locator('dl').first();
+  await expect(stats).toContainText('৳7,000');
+  await expect(stats).toContainText('৳8,000');
+  await expect(page.getByRole('heading', { name: 'Cases by court' })).toBeVisible();
+  await page.getByText('Show as a table').click();
+  await expect(page.getByRole('cell', { name: '৳7,000' })).toBeVisible();
+  const reportPdf = await page.request.get('/reports/pdf?range=half');
+  expect(reportPdf.status()).toBe(200);
+  expect((await reportPdf.body()).subarray(0, 5).toString()).toBe('%PDF-');
+  await page.goto('/team/activity');
+  await expect(page.getByText('downloaded the reports PDF')).toBeVisible();
+
+  // Associate: no money until the owner allows it; then read-only. Reports stay owner-only.
+  expect((await associate.page.goto('/reports'))?.status()).toBe(404);
   expect((await associate.page.goto('/accounts'))?.status()).toBe(404);
   expect((await associate.page.goto(receiptPath))?.status()).toBe(404);
   await associate.page.goto(casePath);

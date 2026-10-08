@@ -28,7 +28,8 @@ export type AuditAction =
   | 'case.delete'
   | 'document.delete'
   | 'fee.delete'
-  | 'payment.record';
+  | 'payment.record'
+  | 'export.report_pdf';
 
 export async function audit(
   tx: Tx,
