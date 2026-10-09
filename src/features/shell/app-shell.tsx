@@ -12,7 +12,15 @@ import { Avatar, Sidebar } from './sidebar';
  * Chamber app shell. Below 768px every role gets its bottom tab bar.
  * From 768px the owner gets the web sidebar (TeamRoles, Reports designs).
  */
-export function AppShell({ role, children }: { role: Role; children: ReactNode }) {
+export function AppShell({
+  role,
+  textSize,
+  children,
+}: {
+  role: Role;
+  textSize?: 'sm' | 'md' | 'lg';
+  children: ReactNode;
+}) {
   const t = useTranslations();
   const nav = navByRole[role];
   const hasSidebar = nav.sidebar !== null;
@@ -58,7 +66,7 @@ export function AppShell({ role, children }: { role: Role; children: ReactNode }
           hasSidebar ? 'md:ml-sidebar md:w-auto md:max-w-none md:px-10 md:pt-8 md:pb-8' : 'max-w-[640px]'
         }`}
       >
-        {children}
+        <div data-text-size={textSize && textSize !== 'md' ? textSize : undefined}>{children}</div>
       </main>
 
       <BottomTabs items={nav.tabs} className={hasSidebar ? 'md:hidden' : ''} />

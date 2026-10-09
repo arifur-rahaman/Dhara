@@ -48,6 +48,8 @@ model User {
   locale                String?
   theme                 String?
   numerals              String?
+  /// Settings: sm | md | lg. Null means md.
+  textSize              String?   @map("text_size")
   /// F5: night and morning reminders, Asia/Dhaka wall-clock times as HH:MM.
   reminderNightOn       Boolean   @default(true) @map("reminder_night_on")
   reminderNightAt       String    @default("20:00") @map("reminder_night_at")
@@ -60,6 +62,7 @@ model User {
   sessions          Session[]
   pushSubscriptions PushSubscription[]
   notifications     Notification[]
+  courseProgress    CourseProgress[]
 
   @@map("users")
 }
@@ -76,7 +79,8 @@ model Session {
   expiresAt       DateTime  @map("expires_at") @db.Timestamptz
   revokedAt       DateTime? @map("revoked_at") @db.Timestamptz
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pushSubscriptions PushSubscription[]
 
   @@index([userId])
   @@map("sessions")
@@ -546,12 +550,16 @@ model PushSubscription {
   p256dh        String
   auth          String
   userAgent     String?   @map("user_agent")
+  /// The sign-in that turned push on, so signing that device out remotely also stops its push.
+  sessionId     String?   @map("session_id") @db.Uuid
   lastSuccessAt DateTime? @map("last_success_at") @db.Timestamptz
   createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  session Session? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
 
   @@index([userId])
+  @@index([sessionId])
   @@map("push_subscriptions")
 }
 
@@ -616,4 +624,57 @@ model CalendarEvent {
 
   @@id([userId, hearingId])
   @@map("calendar_events")
+}
+
+/// F24, F25: learning content. Shared by every chamber; the app role can only read it.
+/// Content is loaded from content/courses.json by scripts/load-courses.mjs.
+model Course {
+  id        String   @id // slug, e.g. "basic-computer"
+  titleEn   String   @map("title_en")
+  titleBn   String   @map("title_bn")
+  summaryEn String   @map("summary_en")
+  summaryBn String   @map("summary_bn")
+  free      Boolean  @default(true)
+  position  Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  modules CourseModule[]
+
+  @@map("courses")
+}
+
+model CourseModule {
+  id        String   @id // slug, e.g. "basic-computer-1"
+  courseId  String   @map("course_id")
+  position  Int
+  titleEn   String   @map("title_en")
+  titleBn   String   @map("title_bn")
+  bodyEn    String   @map("body_en")
+  bodyBn    String   @map("body_bn")
+  /// Hosted video (https). Null until the video is ready.
+  videoUrl  String?  @map("video_url")
+  minutes   Int?
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  course   Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  progress CourseProgress[]
+
+  @@unique([courseId, position])
+  @@map("course_modules")
+}
+
+/// Each person's own progress. Personal, not chamber data: RLS limits it to the person.
+model CourseProgress {
+  userId      String   @map("user_id") @db.Uuid
+  moduleId    String   @map("module_id")
+  completedAt DateTime @default(now()) @map("completed_at") @db.Timestamptz
+
+  user   User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  module CourseModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, moduleId])
+  @@map("course_progress")
 }

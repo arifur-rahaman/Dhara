@@ -19,7 +19,8 @@ CREATE DATABASE $DB OWNER dhara_owner;
 SQL
 OWNER_URL="${HOST_URL/\/\/*@/\/\/dhara_owner:dhara_owner@}/$DB"
 DATABASE_MIGRATE_URL="$OWNER_URL" pnpm exec prisma migrate deploy > /dev/null
-echo "migrations applied as a non-superuser owner"
+DATABASE_MIGRATE_URL="$OWNER_URL" node scripts/load-courses.mjs > /dev/null
+echo "migrations applied and courses loaded as a non-superuser owner"
 
 psql "$OWNER_URL" -v ON_ERROR_STOP=1 -q <<'SQL'
 INSERT INTO users (id, phone, name, updated_at) VALUES ('00000000-0000-7000-8000-000000000001', '+8801700000099', 'Owner', now());
@@ -34,6 +35,16 @@ INSERT INTO hearings (id, chamber_id, case_id, date, added_by, updated_at)
           '00000000-0000-7000-8000-000000000001', now());
 INSERT INTO platform_admins (id, phone, name, role, password_hash, totp_secret_enc, updated_at)
   VALUES ('00000000-0000-7000-8000-0000000000d1', '+8801900000099', 'Admin', 'support', 'x', 'x', now());
+INSERT INTO sessions (id, token_hash, user_id, expires_at)
+  VALUES ('00000000-0000-7000-8000-0000000000f1', 'check', '00000000-0000-7000-8000-000000000001', now() + interval '1 day');
+SET ROLE dhara_app;
+BEGIN;
+SELECT set_config('app.user_id', '00000000-0000-7000-8000-000000000001', true);
+SELECT app_claim_push_endpoint('https://push.example/check', 'p256dh-key-0000', 'auth-key-000', 'ua',
+                               '00000000-0000-7000-8000-0000000000f1');
+INSERT INTO course_progress (user_id, module_id) VALUES ('00000000-0000-7000-8000-000000000001', 'basic-computer-1');
+COMMIT;
+RESET ROLE;
 SET ROLE dhara_jobs;
 DO $$ BEGIN
   IF (SELECT count(*) FROM jobs_claim_reminders('night', '20:00', DATE '2026-01-01')) <> 1 THEN RAISE EXCEPTION 'reminder not claimed'; END IF;

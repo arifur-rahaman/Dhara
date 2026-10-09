@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
+import { EmptyState, PeopleArt } from '@/components/empty-state';
 import { Icon } from '@/components/icons';
 import { can } from '@/server/authz';
 import { requireCtx } from '@/server/context';
@@ -22,6 +23,21 @@ export default async function ClientsPage({ searchParams }: PageProps<'/clients'
   const t = await getTranslations();
   const clients = await listClients(ctx, q);
   const assigned = ctx.role === 'associate' && ctx.caseScope === 'assigned';
+
+  if (clients.length === 0 && !q) {
+    return (
+      <div className="flex min-h-[70dvh] flex-col">
+        <h1 className="page-title">{t('clients.title')}</h1>
+        <EmptyState
+          art={<PeopleArt />}
+          title={t('clients.emptyTitle')}
+          body={can.createClient(ctx) ? t('clients.emptyBody') : t('clients.emptyNoAdd')}
+          primary={can.createClient(ctx) ? { href: '/clients/new', label: t('clients.emptyCta') } : undefined}
+          secondary={can.importCases(ctx) ? { href: '/cases/import', label: t('cases.emptyImport') } : undefined}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-3">

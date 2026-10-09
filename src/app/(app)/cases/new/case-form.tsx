@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useActionState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ActionForm, Field, FormError, PrimaryButton, inputClass } from '@/components/form';
@@ -199,6 +200,14 @@ export function CaseForm({
           </Field>
         </div>
       </details>
+      {!edit && (
+        <Link
+          href="/cases/import"
+          className="flex min-h-11 items-center text-[14px] text-muted underline-offset-2 hover:underline"
+        >
+          {t('import.addCaseLink')}
+        </Link>
+      )}
       <FormError error={state?.error} />
       <div className="sticky bottom-[calc(var(--spacing-tabbar)+8px)] mt-2 md:static">
         <PrimaryButton type="submit" pending={pending} className="h-[50px] w-full text-[16px]">

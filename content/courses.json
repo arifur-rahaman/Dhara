@@ -1,0 +1,57 @@
+{
+  "courses": [
+    {
+      "id": "basic-computer",
+      "titleEn": "Basic computer skills",
+      "titleBn": "বেসিক কম্পিউটার",
+      "summaryEn": "Six modules, each a short video in Bangla",
+      "summaryBn": "৬টি মডিউল, প্রতিটি ছোট বাংলা ভিডিও",
+      "free": true,
+      "position": 1,
+      "modules": [
+        {
+          "id": "basic-computer-1",
+          "titleEn": "Typing in Bangla and English",
+          "titleBn": "বাংলা ও ইংরেজি টাইপিং",
+          "bodyEn": "Set up Avro or Bijoy, switch between Bangla and English, and practise typing a short petition heading.",
+          "bodyBn": "Avro বা Bijoy সেট করা, বাংলা আর ইংরেজির মধ্যে সুইচ করা, আর একটা ছোট আরজির শিরোনাম টাইপ করে প্র্যাকটিস।"
+        },
+        {
+          "id": "basic-computer-2",
+          "titleEn": "Formatting plaints and notices in Word",
+          "titleBn": "Word-এ আরজি ও নোটিশের ফরম্যাট",
+          "bodyEn": "Page size and margins, line spacing, numbered paragraphs, headers and page numbers for a plaint or legal notice.",
+          "bodyBn": "আরজি বা লিগ্যাল নোটিশের জন্য পেজ সাইজ, মার্জিন, লাইন স্পেসিং, নম্বর দেওয়া প্যারা, হেডার আর পেজ নম্বর।"
+        },
+        {
+          "id": "basic-computer-3",
+          "titleEn": "PDF: scan, merge, sign",
+          "titleBn": "PDF স্ক্যান, মার্জ, সাইন",
+          "bodyEn": "Scan papers with a phone, join several PDFs into one, and add a signature.",
+          "bodyBn": "ফোন দিয়ে কাগজ স্ক্যান করা, কয়েকটা PDF এক করা, আর সাইন যোগ করা।"
+        },
+        {
+          "id": "basic-computer-4",
+          "titleEn": "Email and Google Drive",
+          "titleBn": "ইমেইল আর Google Drive",
+          "bodyEn": "Send an email with an attachment, keep files in folders on Google Drive, and share a file with one person.",
+          "bodyBn": "অ্যাটাচমেন্টসহ ইমেইল পাঠানো, Google Drive-এ ফোল্ডারে ফাইল রাখা, আর একজনের সাথে একটা ফাইল শেয়ার করা।"
+        },
+        {
+          "id": "basic-computer-5",
+          "titleEn": "Cyber safety",
+          "titleBn": "সাইবার সিকিউরিটি",
+          "bodyEn": "Strong passwords, turning on two-step login, and spotting phishing messages that ask for codes or passwords.",
+          "bodyBn": "শক্ত পাসওয়ার্ড, টু-স্টেপ লগইন চালু করা, আর কোড বা পাসওয়ার্ড চাওয়া ফিশিং মেসেজ চেনা।"
+        },
+        {
+          "id": "basic-computer-6",
+          "titleEn": "Using Dhara",
+          "titleBn": "ধারা অ্যাপ ব্যবহার",
+          "bodyEn": "Add a case, record a next date, assign a task, and see what each person in the chamber can see.",
+          "bodyBn": "কেস অ্যাড করা, পরের তারিখ লেখা, কাজ দেওয়া, আর চেম্বারের কে কী দেখতে পান তা বোঝা।"
+        }
+      ]
+    }
+  ]
+}

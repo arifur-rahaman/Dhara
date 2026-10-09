@@ -127,9 +127,9 @@ Lawyers in Bangladesh keep cases, hearing dates, fees and client details in pape
 
 **App and security**
 - [x] **F19** English ও বাংলা, মোবাইল ও ওয়েব — English is the default; one-tap switch to Bangla on the login screen and in Settings (saved per user); responsive web + installable PWA.
-- [ ] **F20** Excel বা ডায়েরির ডেটা ইমপোর্ট — XLSX/CSV wizard: column mapping, preview, duplicate check.
+- [x] **F20** Excel বা ডায়েরির ডেটা ইমপোর্ট — XLSX/CSV wizard: column mapping, preview, duplicate check.
 - [x] **F21** অফলাইন মোড — today's list and recent cases readable offline; writes (next date, order photo) go to an outbox and sync later.
-- [ ] **F22** দুই ধাপের লগইন ও রোল অনুযায়ী অ্যাক্সেস — OTP + password; TOTP 2FA for owners and platform admins; RBAC per section 3.
+- [x] **F22** দুই ধাপের লগইন ও রোল অনুযায়ী অ্যাক্সেস — OTP + password; TOTP 2FA for owners and platform admins; RBAC per section 3.
 - [x] **F23** মাসিক রিপোর্ট — income, dues, case counts (owner, web Reports screen).
 
 **Learning (with Hadia Academy)**
@@ -320,7 +320,7 @@ Every tenant table has `chamber_id` (RLS), `created_at`, `updated_at`, and soft-
 - [ ] Client contact encrypted; key rotation documented.
 - [x] OTP: 6 digits, 5-minute expiry, attempt limit, rate limit per phone and IP.
 - [ ] TOTP 2FA mandatory for owners (after onboarding) and all platform admins; admin portal on a separate subdomain.
-- [ ] Session security: httpOnly, Secure, SameSite cookies; device list and remote logout (Settings).
+- [x] Session security: httpOnly, Secure, SameSite cookies; device list and remote logout (Settings).
 - [ ] No PII in logs or error reports.
 - [ ] Consent screen and privacy notice at onboarding (PDPO); record `consent_at`.
 - [ ] Backups encrypted; restore tested.
@@ -368,9 +368,9 @@ Every tenant table has `chamber_id` (RLS), `created_at`, `updated_at`, and soft-
 - **Done when:** jobs fire at the right Asia/Dhaka time; a next date saved offline syncs after reconnecting; a restore from backup works in staging.
 
 ### M6 — Import, empty states, settings, learning (F20, F24, F25)
-- [ ] Excel/CSV import wizard with mapping, preview and duplicate check.
-- [ ] Empty states, settings (text size, numerals, reminder times, devices).
-- [ ] Course player with progress for the basic computer course.
+- [x] Excel/CSV import wizard with mapping, preview and duplicate check.
+- [x] Empty states, settings (text size, numerals, reminder times, devices).
+- [x] Course player with progress for the basic computer course. Videos and practice documents still to be made (F24, F25 stay open until then).
 - **Done when:** a sample diary spreadsheet imports cleanly with duplicates flagged; empty states match `EmptyState.dc.html`.
 
 ### M7 — Stage 2a: client messaging, portal, payments (F26–F31)

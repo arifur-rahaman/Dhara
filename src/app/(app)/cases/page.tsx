@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { BookArt, EmptyState } from '@/components/empty-state';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { Icon } from '@/components/icons';
@@ -33,36 +34,14 @@ export default async function CasesPage({ searchParams }: PageProps<'/cases'>) {
     return (
       <div className="flex min-h-[70dvh] flex-col">
         <h1 className="page-title">{t('cases.title')}</h1>
-        <div className="flex flex-1 flex-col items-center justify-center gap-4 px-2 text-center">
-          <svg
-            width="120"
-            height="120"
-            viewBox="0 0 120 120"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-            className="text-muted"
-          >
-            <path d="M22 28c12-5 25-5 38 3v66c-13-8-26-8-38-3z" />
-            <path d="M98 28c-12-5-25-5-38 3v66c13-8 26-8 38-3z" />
-            <path d="M32 44h16M32 56h16M32 68h12M72 44h16M72 56h16" />
-          </svg>
-          <h2 className="text-[20px] font-bold">{t('cases.emptyTitle')}</h2>
-          <p className="max-w-[340px] text-[15px] text-muted">
-            {canAdd ? t('cases.emptyBody') : t('cases.emptyNoAdd')}
-          </p>
-          {canAdd && (
-            <Link
-              href="/cases/new"
-              className="mt-2 flex h-[52px] w-full max-w-[360px] items-center justify-center rounded-control bg-accent text-[16px] font-semibold text-on-accent"
-            >
-              {t('cases.emptyCta')}
-            </Link>
-          )}
-        </div>
+        <EmptyState
+          art={<BookArt />}
+          title={t('cases.emptyTitle')}
+          body={canAdd ? t('cases.emptyBody') : t('cases.emptyNoAdd')}
+          primary={canAdd ? { href: '/cases/new', label: t('cases.emptyCta') } : undefined}
+          secondary={can.importCases(ctx) ? { href: '/cases/import', label: t('cases.emptyImport') } : undefined}
+          link={{ href: '/courses/basic-computer-6', label: t('cases.emptyHowTo') }}
+        />
       </div>
     );
   }
