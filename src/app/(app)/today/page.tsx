@@ -4,7 +4,9 @@ import { getTranslations } from 'next-intl/server';
 import { Icon } from '@/components/icons';
 import { addDays, todayInDhaka } from '@/lib/dates';
 import { can } from '@/server/authz';
+import { after } from 'next/server';
 import { requireCtx } from '@/server/context';
+import { syncMyCalendar } from '@/features/calendar-sync/sync';
 import { caseDisplay } from '@/features/cases/display';
 import { supportBanner } from '@/features/support/queries';
 import { listTasks } from '@/features/tasks/queries';
@@ -19,6 +21,8 @@ export async function generateMetadata(): Promise<Metadata> {
 /** Today (F3, F4): OwnerToday, MunshiToday and StaffToday designs; associates get the munshi layout for their cases. */
 export default async function TodayPage() {
   const ctx = await requireCtx();
+  // F8: keeps this person's Google Calendar current (at most every 30 minutes; nothing when the flag is off).
+  after(() => syncMyCalendar(ctx));
   if (ctx.role === 'staff') return <StaffToday />;
   if (ctx.role === 'owner') return <OwnerToday />;
   return <MemberToday lockNote={ctx.role === 'munshi'} role={ctx.role} />;
@@ -75,9 +79,17 @@ async function OwnerToday() {
           <h2 id="today-hearings" className="text-[16px] font-semibold">
             {t('today.hearingsTitle')}
           </h2>
-          <Link href="/cases?filter=today" className="text-[14px] font-semibold text-accent">
-            {t('today.seeAll')}
-          </Link>
+          <div className="flex items-baseline gap-4">
+            {hearings.length > 0 && (
+              // eslint-disable-next-line @next/next/no-html-link-for-pages -- a PDF download route, not a page
+              <a href="/today/pdf" className="text-[14px] font-semibold text-accent">
+                {t('print.dailyPdf')}
+              </a>
+            )}
+            <Link href="/cases?filter=today" className="text-[14px] font-semibold text-accent">
+              {t('today.seeAll')}
+            </Link>
+          </div>
         </div>
         {hearings.length === 0 ? (
           <p className="rounded-card border border-border bg-surface p-4 text-[15px] text-muted">{t('today.none')}</p>
@@ -130,6 +142,12 @@ async function MemberToday({ lockNote, role }: { lockNote: boolean; role: 'assoc
         </div>
         <h1 className="page-title">{t('today.hearingsTitle')}</h1>
         <p className="text-[14px] text-muted">{t('today.summary', { hearings: hearings.length, courts })}</p>
+        {hearings.length > 0 && (
+          // eslint-disable-next-line @next/next/no-html-link-for-pages -- a PDF download route, not a page
+          <a href="/today/pdf" className="flex h-11 items-center self-start text-[14px] font-semibold text-accent">
+            {t('print.dailyPdf')}
+          </a>
+        )}
       </header>
 
       {hearings.length === 0 ? (

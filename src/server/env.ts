@@ -18,6 +18,8 @@ export const envSchema = z.object({
   DATABASE_URL: optional,
   DATABASE_ADMIN_URL: optional,
   DATABASE_MIGRATE_URL: optional,
+  /** Reminder worker (M5): owns the pg-boss schema, may only call the counting functions. */
+  DATABASE_JOBS_URL: optional,
 
   FIELD_ENCRYPTION_KEYS: optional,
   FIELD_ENCRYPTION_ACTIVE: optional,
@@ -54,6 +56,14 @@ export const envSchema = z.object({
   AI_MODEL_EXTRACT: optional,
 
   ADMIN_IP_ALLOWLIST: optional,
+
+  /** F8 Google Calendar one-way sync: off until Google's app verification is done (plan.md F8). */
+  FEATURE_GOOGLE_CALENDAR: z.enum(['0', '1']).default('0'),
+  GOOGLE_CLIENT_ID: optional,
+  GOOGLE_CLIENT_SECRET: optional,
+
+  /** 1 = this process also runs the background worker (reminders). */
+  RUN_JOBS: z.enum(['0', '1']).default('0'),
 
   /** Chromium used to render receipt PDFs (TECH_GUIDE section 14). */
   PDF_CHROMIUM_PATH: optional,

@@ -5,7 +5,11 @@ import { getSession } from '@/server/auth/session';
 import { can } from '@/server/authz';
 import { requireCtx } from '@/server/context';
 import { scopeOf, withTenant } from '@/server/db/tenant';
+import { CalendarSettings } from '@/features/calendar-sync/calendar-settings';
 import { ChamberForm } from '@/features/chamber/chamber-form';
+import { PushSetup, SignOutButton } from '@/features/notifications/push-setup';
+import { ReminderForm } from '@/features/notifications/reminder-form';
+import { env } from '@/server/env';
 import { signOut } from '@/features/auth/actions';
 import { PasswordForm } from '@/features/account/password-form';
 import { getPreferences } from '@/features/preferences/server';
@@ -19,11 +23,12 @@ export async function generateMetadata(): Promise<Metadata> {
 
 /**
  * Settings (docs/design/Settings.dc.html): Display (M0) and Security & account (M1).
- * Font size (M6), reminders (M5), devices (M6) and subscription (M3) follow.
+ * Reminders (M5), chamber details (M4). Font size and devices follow in M6.
  */
-export default async function SettingsPage() {
+export default async function SettingsPage({ searchParams }: PageProps<'/settings'>) {
   const { locale, numerals } = await getPreferences();
   const t = await getTranslations('settings');
+  const tr = await getTranslations('reminders');
   // Pages render alongside the layout, so each page checks the session itself.
   const ctx = await requireCtx();
   const user = (await getSession())!.user;
@@ -46,6 +51,32 @@ export default async function SettingsPage() {
           {locale === 'bn' && <NumeralsSetting current={numerals} />}
         </div>
       </section>
+
+      <section aria-labelledby="settings-reminders" className="flex flex-col gap-1.5">
+        <h2 id="settings-reminders" className="px-1 text-[13px] font-semibold text-muted">
+          {tr('title')}
+        </h2>
+        <div className="rounded-card border border-border bg-surface px-4">
+          <ReminderForm
+            initial={{
+              nightOn: user.reminderNightOn,
+              nightAt: user.reminderNightAt,
+              morningOn: user.reminderMorningOn,
+              morningAt: user.reminderMorningAt,
+            }}
+          />
+          <div className="border-t border-border">
+            <p className="pt-3 text-[13px] font-semibold text-muted">{tr('device')}</p>
+            <PushSetup publicKey={env().VAPID_PUBLIC_KEY || null} />
+          </div>
+          <p className="border-t border-border py-3 text-[13px] leading-relaxed text-muted">{tr('privacy')}</p>
+        </div>
+      </section>
+
+      <CalendarSettings
+        ctx={ctx}
+        status={typeof (await searchParams).calendar === 'string' ? String((await searchParams).calendar) : undefined}
+      />
 
       {chamber && (
         <section aria-labelledby="settings-chamber" className="flex flex-col gap-1.5">
@@ -80,11 +111,13 @@ export default async function SettingsPage() {
           <div className="border-t border-border">
             <PasswordForm />
           </div>
-          <form action={signOut} className="border-t border-border">
-            <button className="flex min-h-[52px] w-full items-center text-[15px] font-semibold text-lock-text">
-              {t('signOut')}
-            </button>
-          </form>
+          <div className="border-t border-border">
+            <SignOutButton
+              action={signOut}
+              label={t('signOut')}
+              className="flex min-h-[52px] w-full items-center text-[15px] font-semibold text-lock-text"
+            />
+          </div>
         </div>
       </section>
     </div>

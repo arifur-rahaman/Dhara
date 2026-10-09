@@ -15,7 +15,7 @@ const MAX_SIDE = 2400;
  * Photos are made smaller on the phone before upload (TECH_GUIDE section 13): longest side 2400px, JPEG.
  * Formats the browser cannot open (for example HEIC outside Safari) are refused with a clear message.
  */
-async function compressPhoto(file: File): Promise<File | null> {
+export async function compressPhoto(file: File): Promise<File | null> {
   try {
     const bitmap = await createImageBitmap(file);
     const scale = Math.min(1, MAX_SIDE / Math.max(bitmap.width, bitmap.height));

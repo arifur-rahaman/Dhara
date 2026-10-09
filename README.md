@@ -27,6 +27,12 @@ Sign in with a mobile number. In development the SMS code prints in the `pnpm de
 The platform admin portal is at `/admin` in development. Create an admin with
 `node --env-file=.env scripts/admin-create.mjs --phone 01900000001 --name "Your Name" --role super_admin`; it prints a password and an authenticator QR code once. Each admin sign-in needs phone, password and a fresh authenticator code. In production the portal answers only on `ADMIN_URL` (its own host) and from `ADMIN_IP_ALLOWLIST`.
 
+## Background jobs, offline and backups
+
+- **Reminders (F5):** run one instance with `RUN_JOBS=1` (it needs `DATABASE_JOBS_URL` and the VAPID keys). It sends the night and morning reminders at each person's chosen Asia/Dhaka time.
+- **Offline (F21):** the service worker serves a saved day view when there is no internet; changes made offline sync once when the connection returns. The journey is tested on a production build: `pnpm build && pnpm test:e2e:prod`.
+- **Backups (F16):** schedule `scripts/backup.sh` nightly (encrypted with `age` to a public key; keep the private key off the server and sync `BACKUP_DIR` off-site). With S3 storage, also turn on bucket versioning and replication. To restore, create nothing by hand: `RESTORE_ADMIN_URL=... BACKUP_AGE_IDENTITY=backup.key scripts/restore.sh <file> <new_db>`, then `scripts/db-roles.mjs` against the new database. `scripts/check-backup-restore.sh` runs the whole round trip and compares every table; CI runs it on each change, and plan.md asks for a monthly drill in staging.
+
 ## Commands
 
 | Command | What it does |

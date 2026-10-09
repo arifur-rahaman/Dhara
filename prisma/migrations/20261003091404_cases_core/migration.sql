@@ -189,6 +189,9 @@ ALTER TABLE client_contacts ADD CONSTRAINT client_contacts_client_chamber_fkey
 ALTER TABLE cases ADD CONSTRAINT cases_client_chamber_fkey
   FOREIGN KEY (client_id, chamber_id) REFERENCES clients (id, chamber_id) ON DELETE RESTRICT ON UPDATE CASCADE;
 
+-- The directory seed runs as the table owner, which FORCE ROW LEVEL SECURITY would otherwise block
+-- when that owner is not a superuser (as on managed databases).
+ALTER TABLE courts NO FORCE ROW LEVEL SECURITY;
 -- ---------------------------------------------------------------------------
 -- Court directory (F2). Generic court types per district; numbered courts (e.g. "-2") are entered on the case.
 -- Names follow common usage and must be checked against official records (plan.md section 12).
@@ -221,3 +224,4 @@ CROSS JOIN (VALUES
   (8, 'অর্থঋণ আদালত', 'Artha Rin Adalat (Money Loan Court)', 'district'),
   (9, 'নারী ও শিশু নির্যাতন দমন ট্রাইব্যুনাল', 'Nari o Shishu Nirjatan Daman Tribunal', 'tribunal')
 ) AS t(sort, name_bn, name_en, level);
+ALTER TABLE courts FORCE ROW LEVEL SECURITY;

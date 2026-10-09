@@ -119,6 +119,15 @@ export default async function CasePage({ params, searchParams }: PageProps<'/cas
         </ul>
       </nav>
 
+      {tab === 'timeline' && (
+        <a
+          href={`/cases/${c.id}/pdf`}
+          className="flex h-11 items-center gap-2 self-start text-[14px] font-semibold text-accent"
+        >
+          <Icon name="documents" size={18} />
+          {t('print.historyPdf')}
+        </a>
+      )}
       {tab === 'timeline' &&
         (c.timeline.length === 0 ? (
           <p className="text-[15px] text-muted">{t('caseDetail.emptyTimeline')}</p>

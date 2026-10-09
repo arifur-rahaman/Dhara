@@ -7,6 +7,7 @@ import { assertCan, can } from '@/server/authz';
 import { requireCtx } from '@/server/context';
 import { scopeOf, withTenant } from '@/server/db/tenant';
 import type { FormState } from '@/features/auth/actions';
+import { notifyMembers } from '@/features/notifications/notify';
 
 const taskInput = z.object({
   title: z.string().trim().min(2).max(300),
@@ -29,7 +30,7 @@ export async function createTask(_: FormState, form: FormData): Promise<FormStat
   const ok = await withTenant(scopeOf(ctx), async (tx) => {
     const member = await tx.membership.findFirst({
       where: { id: parsed.data.assignee, chamberId: ctx.chamberId, status: 'active' },
-      select: { id: true },
+      select: { id: true, userId: true },
     });
     if (!member) return false;
     await tx.task.create({
@@ -41,6 +42,7 @@ export async function createTask(_: FormState, form: FormData): Promise<FormStat
         createdBy: ctx.userId,
       },
     });
+    await notifyMembers(tx, ctx, [member.userId], 'task.assigned', { by: ctx.userId });
     return true;
   });
   if (!ok) return { error: 'taskInvalid', values };

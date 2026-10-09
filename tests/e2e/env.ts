@@ -5,6 +5,7 @@ export const e2eEnv = {
   DATABASE_URL: process.env.E2E_DATABASE_URL ?? 'postgresql://dhara_app:dhara_app@localhost:5432/dhara_e2e',
   DATABASE_ADMIN_URL:
     process.env.E2E_DATABASE_ADMIN_URL ?? 'postgresql://dhara_admin:dhara_admin@localhost:5432/dhara_e2e',
+  DATABASE_JOBS_URL: process.env.E2E_DATABASE_JOBS_URL ?? 'postgresql://dhara_jobs:dhara_jobs@localhost:5432/dhara_e2e',
   DATABASE_MIGRATE_URL: process.env.E2E_DATABASE_MIGRATE_URL ?? 'postgresql://dhara:dhara@localhost:5432/dhara_e2e',
   SESSION_SECRET: 'e2e-session-secret-e2e-session-secret-0000',
   FIELD_ENCRYPTION_KEYS: JSON.stringify({ v1: Buffer.alloc(32, 5).toString('base64') }),

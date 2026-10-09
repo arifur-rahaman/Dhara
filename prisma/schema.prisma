@@ -48,11 +48,18 @@ model User {
   locale                String?
   theme                 String?
   numerals              String?
+  /// F5: night and morning reminders, Asia/Dhaka wall-clock times as HH:MM.
+  reminderNightOn       Boolean   @default(true) @map("reminder_night_on")
+  reminderNightAt       String    @default("20:00") @map("reminder_night_at")
+  reminderMorningOn     Boolean   @default(true) @map("reminder_morning_on")
+  reminderMorningAt     String    @default("07:00") @map("reminder_morning_at")
   createdAt             DateTime  @default(now()) @map("created_at") @db.Timestamptz
   updatedAt             DateTime  @updatedAt @map("updated_at") @db.Timestamptz
 
-  memberships Membership[]
-  sessions    Session[]
+  memberships       Membership[]
+  sessions          Session[]
+  pushSubscriptions PushSubscription[]
+  notifications     Notification[]
 
   @@map("users")
 }
@@ -529,4 +536,84 @@ model Payment {
   @@index([chamberId, paidOn])
   @@index([chamberId, caseId])
   @@map("payments")
+}
+
+/// Web Push endpoints of one person's devices (F5). Readable by the person and by the jobs role only.
+model PushSubscription {
+  id            String    @id @default(uuid(7)) @db.Uuid
+  userId        String    @map("user_id") @db.Uuid
+  endpoint      String    @unique
+  p256dh        String
+  auth          String
+  userAgent     String?   @map("user_agent")
+  lastSuccessAt DateTime? @map("last_success_at") @db.Timestamptz
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("push_subscriptions")
+}
+
+/// In-app notification centre (Notifications design). payload holds ids and numbers, never client contact.
+model Notification {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  chamberId String?   @map("chamber_id") @db.Uuid
+  kind      String
+  payload   Json      @default("{}")
+  readAt    DateTime? @map("read_at") @db.Timestamptz
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("notifications")
+}
+
+/// One reminder per person, kind and Dhaka date, so a repeated job tick never sends twice.
+model ReminderLog {
+  userId    String   @map("user_id") @db.Uuid
+  kind      String
+  localDate DateTime @map("local_date") @db.Date
+  sentAt    DateTime @default(now()) @map("sent_at") @db.Timestamptz
+
+  @@id([userId, kind, localDate])
+  @@map("reminder_log")
+}
+
+/// Offline outbox (F21): each queued write has a client-made key; a repeat of the same key is ignored.
+model SyncReceipt {
+  key       String   @id @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  chamberId String   @map("chamber_id") @db.Uuid
+  kind      String
+  result    Json     @default("{}")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([userId])
+  @@map("sync_receipts")
+}
+
+/// F8 Google Calendar one-way sync (behind FEATURE_GOOGLE_CALENDAR). One link per person; refresh token encrypted.
+model CalendarLink {
+  userId          String    @id @map("user_id") @db.Uuid
+  refreshTokenEnc String    @map("refresh_token_enc")
+  calendarId      String    @default("primary") @map("calendar_id")
+  lastSyncedAt    DateTime? @map("last_synced_at") @db.Timestamptz
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@map("calendar_links")
+}
+
+/// Which Google event mirrors which hearing for which person, so a changed hearing updates its event.
+model CalendarEvent {
+  userId    String   @map("user_id") @db.Uuid
+  hearingId String   @map("hearing_id") @db.Uuid
+  eventId   String   @map("event_id")
+  syncedAt  DateTime @default(now()) @map("synced_at") @db.Timestamptz
+
+  @@id([userId, hearingId])
+  @@map("calendar_events")
 }

@@ -104,10 +104,10 @@ Lawyers in Bangladesh keep cases, hearing dates, fees and client details in pape
 - [x] **F2** সব আদালতের মামলা এক জায়গায় — Appellate Division, High Court Division, district and subordinate courts, tribunals. Seed a court directory per district.
 - [ ] **F3** দৈনিক ডায়েরি ও ক্যালেন্ডার — today and tomorrow lists per role, month calendar.
 - [ ] **F4** সকালের ব্রিফিং — summary block on the owner's Today screen (hearings, tasks, dues).
-- [ ] **F5** আগের রাতে ও সকালে পুশ রিমাইন্ডার — Web Push; defaults 20:00 and 07:00 Asia/Dhaka; configurable in Settings.
-- [ ] **F6** প্রিন্টযোগ্য দৈনিক তালিকা ও শুনানির ইতিহাস — PDF, always light theme.
+- [x] **F5** আগের রাতে ও সকালে পুশ রিমাইন্ডার — Web Push; defaults 20:00 and 07:00 Asia/Dhaka; configurable in Settings.
+- [x] **F6** প্রিন্টযোগ্য দৈনিক তালিকা ও শুনানির ইতিহাস — PDF, always light theme.
 - [x] **F7** সরকারি কোর্ট পেজের লিংক — each case links to the official page. The app does **not** fetch anything (see F43).
-- [ ] **F8** Google Calendar সিঙ্ক — one-way push of hearings to the user's calendar. Needs Google OAuth; production scopes may need Google's app verification. Keep behind a flag until verified.
+- [x] **F8** Google Calendar সিঙ্ক — one-way push of hearings to the user's calendar. Needs Google OAuth; production scopes may need Google's app verification. Keep behind a flag until verified.
 
 **Fees and accounts**
 - [x] **F9** মামলাভিত্তিক ফি, পেমেন্ট, বকেয়া.
@@ -119,7 +119,7 @@ Lawyers in Bangladesh keep cases, hearing dates, fees and client details in pape
 - [x] **F13** ক্লায়েন্টের তথ্য — name (P2) + contact: phone, email, NID, address (P1, owner-only, encrypted).
 - [x] **F14** ডকুমেন্ট — scan, photo or file upload attached to a case; object storage with signed URLs.
 - [x] **F15** গোপন ডকুমেন্ট — visible to the uploader and the owner only (P6).
-- [ ] **F16** ক্লাউড ব্যাকআপ — automated encrypted backups of DB and files, with a tested restore procedure.
+- [x] **F16** ক্লাউড ব্যাকআপ — automated encrypted backups of DB and files, with a tested restore procedure.
 
 **Team**
 - [x] **F17** জুনিয়র ও মুহুরি মোড — memberships, roles, case assignment, task assignment, access control.
@@ -128,7 +128,7 @@ Lawyers in Bangladesh keep cases, hearing dates, fees and client details in pape
 **App and security**
 - [x] **F19** English ও বাংলা, মোবাইল ও ওয়েব — English is the default; one-tap switch to Bangla on the login screen and in Settings (saved per user); responsive web + installable PWA.
 - [ ] **F20** Excel বা ডায়েরির ডেটা ইমপোর্ট — XLSX/CSV wizard: column mapping, preview, duplicate check.
-- [ ] **F21** অফলাইন মোড — today's list and recent cases readable offline; writes (next date, order photo) go to an outbox and sync later.
+- [x] **F21** অফলাইন মোড — today's list and recent cases readable offline; writes (next date, order photo) go to an outbox and sync later.
 - [ ] **F22** দুই ধাপের লগইন ও রোল অনুযায়ী অ্যাক্সেস — OTP + password; TOTP 2FA for owners and platform admins; RBAC per section 3.
 - [x] **F23** মাসিক রিপোর্ট — income, dues, case counts (owner, web Reports screen).
 
@@ -362,9 +362,9 @@ Every tenant table has `chamber_id` (RLS), `created_at`, `updated_at`, and soft-
 - **Done when:** confidential-document tests pass; a Bangla receipt PDF renders conjuncts correctly; receipt numbers are unique per chamber.
 
 ### M5 — Reminders, printing, calendar, offline (F5, F6, F8, F16, F21)
-- [ ] Web Push; 20:00 and 07:00 jobs; notification centre; printable daily list and hearing history.
-- [ ] Google Calendar one-way sync (behind a flag until Google verification).
-- [ ] Offline cache + outbox; automated backups.
+- [x] Web Push; 20:00 and 07:00 jobs; notification centre; printable daily list and hearing history.
+- [x] Google Calendar one-way sync (behind a flag until Google verification).
+- [x] Offline cache + outbox; automated backups.
 - **Done when:** jobs fire at the right Asia/Dhaka time; a next date saved offline syncs after reconnecting; a restore from backup works in staging.
 
 ### M6 — Import, empty states, settings, learning (F20, F24, F25)
