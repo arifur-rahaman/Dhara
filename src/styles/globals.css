@@ -50,6 +50,18 @@
     line-height: 1.7;
   }
 
+  /*
+   * Font size in Settings. Sizes in the designs are in px, so the screen content is zoomed as a whole;
+   * the tab bar and sidebar keep their size. Print pages are outside the app shell and never zoom.
+   */
+  [data-text-size='sm'] {
+    zoom: 0.9;
+  }
+
+  [data-text-size='lg'] {
+    zoom: 1.15;
+  }
+
   :focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;

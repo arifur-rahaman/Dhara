@@ -13,7 +13,13 @@ import { env } from '@/server/env';
 import { signOut } from '@/features/auth/actions';
 import { PasswordForm } from '@/features/account/password-form';
 import { getPreferences } from '@/features/preferences/server';
-import { LanguageSetting, NumeralsSetting, ThemeSetting } from '@/features/preferences/settings-controls';
+import {
+  LanguageSetting,
+  NumeralsSetting,
+  TextSizeSetting,
+  ThemeSetting,
+} from '@/features/preferences/settings-controls';
+import { activeSessions } from '@/server/auth/session';
 import { SubpageHeader } from '@/features/shell/subpage-header';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -23,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 /**
  * Settings (docs/design/Settings.dc.html): Display (M0) and Security & account (M1).
- * Reminders (M5), chamber details (M4). Font size and devices follow in M6.
+ * Reminders (M5), chamber details (M4), font size and login devices (M6).
  */
 export default async function SettingsPage({ searchParams }: PageProps<'/settings'>) {
   const { locale, numerals } = await getPreferences();
@@ -32,6 +38,7 @@ export default async function SettingsPage({ searchParams }: PageProps<'/setting
   // Pages render alongside the layout, so each page checks the session itself.
   const ctx = await requireCtx();
   const user = (await getSession())!.user;
+  const deviceCount = (await activeSessions(user.id)).length;
   const chamber = can.editChamberSettings(ctx)
     ? await withTenant(scopeOf(ctx), (tx) =>
         tx.chamber.findUniqueOrThrow({ where: { id: ctx.chamberId }, select: { name: true, address: true } }),
@@ -48,6 +55,7 @@ export default async function SettingsPage({ searchParams }: PageProps<'/setting
         <div className="flex flex-col rounded-card border border-border bg-surface px-4 py-1">
           <LanguageSetting current={locale} />
           <ThemeSetting />
+          <TextSizeSetting current={user.textSize === 'sm' || user.textSize === 'lg' ? user.textSize : 'md'} />
           {locale === 'bn' && <NumeralsSetting current={numerals} />}
         </div>
       </section>
@@ -104,6 +112,13 @@ export default async function SettingsPage({ searchParams }: PageProps<'/setting
               </Link>
             )}
           </div>
+          <Link
+            href="/settings/devices"
+            className="flex min-h-[52px] items-center justify-between gap-3 border-t border-border"
+          >
+            <span className="text-[15px]">{t('devices')}</span>
+            <span className="text-[14px] text-muted">{t('deviceCount', { count: deviceCount })}</span>
+          </Link>
           <div className="flex min-h-[52px] items-center justify-between gap-3 border-t border-border">
             <span className="text-[15px]">{t('password')}</span>
             <span className="text-[14px] text-muted">{user.passwordHash ? t('passwordSet') : t('passwordNotSet')}</span>

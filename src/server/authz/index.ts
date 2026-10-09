@@ -33,6 +33,8 @@ export const can = {
   listCases: (c: Ctx) => c.role !== 'staff',
   /** AddCase design: owner and associate add cases. */
   createCase: (c: Ctx) => isOwner(c) || c.role === 'associate',
+  /** F20: whoever may add cases may import them from a spreadsheet. */
+  importCases: (c: Ctx) => isOwner(c) || c.role === 'associate',
   /** Deleting is owner-only and audited. */
   deleteCase: (c: Ctx) => isOwner(c),
   /** Only the owner reassigns cases (assignment is a permission decision). */

@@ -10,6 +10,8 @@ import type { Tx } from '@/server/db/client';
 export type AuditAction =
   | 'auth.sign_in'
   | 'auth.sign_out'
+  | 'auth.sign_out_device'
+  | 'import.cases'
   | 'auth.totp_enabled'
   | 'auth.password_set'
   | 'chamber.create'

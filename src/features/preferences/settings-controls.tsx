@@ -5,6 +5,7 @@ import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
 import { useId, useOptimistic, useSyncExternalStore, useTransition } from 'react';
 import type { Locale, Numerals } from '@/i18n/config';
+import { setTextSize, type TextSize } from '@/features/account/actions';
 import { setLocale, setNumerals } from './actions';
 
 type Option<T extends string> = { value: T; label: string; lang?: string };
@@ -129,6 +130,29 @@ export function NumeralsSetting({ current }: { current: Numerals }) {
         startTransition(async () => {
           setValue(next);
           await setNumerals(next);
+          router.refresh();
+        })
+      }
+    />
+  );
+}
+
+export function TextSizeSetting({ current }: { current: TextSize }) {
+  const t = useTranslations();
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
+  const [value, setValue] = useOptimistic(current);
+  return (
+    <SettingRow<TextSize>
+      divider
+      label={t('settings.textSize')}
+      options={(['sm', 'md', 'lg'] as const).map((size) => ({ value: size, label: t(`settings.textSizes.${size}`) }))}
+      value={value}
+      disabled={pending}
+      onChange={(next) =>
+        startTransition(async () => {
+          setValue(next);
+          await setTextSize(next);
           router.refresh();
         })
       }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
+import { EmptyState, FolderArt } from '@/components/empty-state';
 import { requireCtx } from '@/server/context';
 import { DocumentList, KindFilter } from '@/features/documents/document-list';
 import { documentKinds, listDocuments } from '@/features/documents/queries';
@@ -19,6 +20,19 @@ export default async function DocumentsPage({ searchParams }: PageProps<'/docume
   const sp = await searchParams;
   const kind = documentKinds.find((k) => k === sp.kind);
   const items = await listDocuments(ctx, { kind, take: 100 });
+  if (items.length === 0 && !kind) {
+    return (
+      <div className="flex min-h-[70dvh] max-w-[640px] flex-col">
+        <SubpageHeader title={t('nav.documents')} />
+        <EmptyState
+          art={<FolderArt />}
+          title={t('documents.emptyTitle')}
+          body={t('documents.emptyBody')}
+          secondary={{ href: '/cases', label: t('documents.emptyCta') }}
+        />
+      </div>
+    );
+  }
   return (
     <div className="flex max-w-[640px] flex-col gap-3.5">
       <SubpageHeader title={t('nav.documents')} />

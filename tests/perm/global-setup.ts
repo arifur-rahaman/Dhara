@@ -12,4 +12,5 @@ export default function setup() {
   };
   execFileSync('pnpm', ['exec', 'prisma', 'migrate', 'deploy'], { env, stdio: 'pipe' });
   execFileSync('node', ['scripts/db-roles.mjs'], { env, stdio: 'pipe' });
+  execFileSync('node', ['scripts/load-courses.mjs'], { env, stdio: 'pipe' });
 }

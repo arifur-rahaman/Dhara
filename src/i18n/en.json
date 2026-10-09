@@ -103,7 +103,15 @@
     "chamberAddress": "Address",
     "chamberAddressHint": "Printed on receipts.",
     "chamberSave": "Save chamber details",
-    "chamberSaved": "Chamber details saved."
+    "chamberSaved": "Chamber details saved.",
+    "textSize": "Font size",
+    "textSizes": {
+      "sm": "Small",
+      "md": "Normal",
+      "lg": "Large"
+    },
+    "devices": "Login devices",
+    "deviceCount": "{count, plural, one {# device} other {# devices}}"
   },
   "more": {
     "title": "More"
@@ -543,9 +551,11 @@
     "noDate": "No date",
     "noResults": "No cases match. Try another number or name.",
     "emptyTitle": "No cases yet",
-    "emptyBody": "Add your first case. Importing from an old diary or Excel is coming soon.",
+    "emptyBody": "Add your first case, or bring all of them at once from an old diary or Excel.",
     "emptyNoAdd": "Cases the chamber adds will show here.",
-    "emptyCta": "Add first case"
+    "emptyCta": "Add first case",
+    "emptyImport": "Import from Excel",
+    "emptyHowTo": "How to use Dhara"
   },
   "caseForm": {
     "title": "New case",
@@ -628,7 +638,11 @@
     "caseCount": "{count, plural, =0 {No active cases} one {# active case} other {# active cases}}",
     "assignedCount": "{count, plural, one {# case assigned to you} other {# cases assigned to you}}",
     "empty": "No clients yet. Add one here, or when you add a case.",
-    "noResults": "No client matches this name."
+    "noResults": "No client matches this name.",
+    "emptyTitle": "No clients yet",
+    "emptyBody": "Add a client here, or when you add a case. Importing cases from Excel also adds their clients.",
+    "emptyNoAdd": "Clients of the cases you work on will show here.",
+    "emptyCta": "Add first client"
   },
   "client": {
     "title": "Client",
@@ -759,7 +773,10 @@
     "cancel": "Cancel",
     "upload": "Upload",
     "uploading": "Uploading…",
-    "recentHint": "Recent documents from the cases you can open. Add new ones from a case."
+    "recentHint": "Recent documents from the cases you can open. Add new ones from a case.",
+    "emptyTitle": "No documents yet",
+    "emptyBody": "Documents are added on each case: a photo of an order, a scan or a PDF. Open a case to add one.",
+    "emptyCta": "Open cases"
   },
   "money": {
     "payment": "Payment",
@@ -938,5 +955,120 @@
     "notYet": "Not synced yet.",
     "syncNow": "Sync now",
     "disconnect": "Disconnect"
+  },
+  "devices": {
+    "title": "Login devices",
+    "intro": "Where you are signed in now. Log out a phone or computer you no longer use; it also stops getting reminders.",
+    "thisDevice": "This device",
+    "lastActive": "Last active {when}",
+    "unknown": "Unknown device",
+    "signOut": "Log out",
+    "signOutOthers": "Log out all other devices"
+  },
+  "import": {
+    "title": "Import cases",
+    "intro": "Bring cases from an old diary kept in Excel or a CSV file. You choose which column is which, check the result, then import.",
+    "steps": {
+      "file": "1. Choose the file",
+      "columns": "2. Which column is which",
+      "preview": "3. Check before importing"
+    },
+    "fileHelp": "Excel (.xlsx) or CSV, up to 5 MB and 1,000 rows. The first row must be the column names. Only the first sheet is read.",
+    "chooseFile": "File",
+    "fileRead": "{name}: {rows, number} rows",
+    "column": "Column {n, number}",
+    "columnsHelp": "We guessed from the column names. Fix anything that is wrong. Case number is required; the year can be its own column or written like 245/2026.",
+    "notInFile": "Not in the file",
+    "fields": {
+      "number": "Case number",
+      "year": "Year",
+      "court": "Court",
+      "type": "Case type",
+      "ourSide": "Our side",
+      "courtNo": "Court no.",
+      "clientName": "Client name",
+      "partiesText": "Parties",
+      "opposingCounsel": "Opposing counsel",
+      "nextDate": "Next date",
+      "note": "Note"
+    },
+    "noContact": "Client phone numbers and other contact details are not imported. Only the owner can add them, on the client's page, with the client's consent.",
+    "fallbacks": "When a row does not say",
+    "fallbackCourt": "Court",
+    "noFallbackCourt": "Mark the row as a problem",
+    "fallbackType": "Case type",
+    "fallbackSide": "Our side",
+    "assignee": "Assign the cases to",
+    "previewButton": "Check the rows",
+    "counts": {
+      "ok": "{count, plural, one {# ready} other {# ready}}",
+      "duplicate": "{count, plural, one {# already here} other {# already here}}",
+      "error": "{count, plural, one {# with a problem} other {# with problems}}"
+    },
+    "table": {
+      "line": "Row",
+      "case": "Case",
+      "court": "Court",
+      "date": "Next date",
+      "result": "Result"
+    },
+    "status": {
+      "ok": "Ready",
+      "duplicate": "Already here, skipped"
+    },
+    "rowErrors": {
+      "number": "no case number",
+      "year": "no year",
+      "court": "court not found",
+      "date": "date not readable",
+      "tooLong": "text too long"
+    },
+    "importButton": "{count, plural, one {Import # case} other {Import # cases}}",
+    "done": {
+      "title": "Import finished",
+      "summary": "{cases, plural, one {# case} other {# cases}} added, with {hearings, plural, one {# date} other {# dates}} and {clients, plural, one {# new client} other {# new clients}}.",
+      "skipped": "{count, plural, one {# row was skipped} other {# rows were skipped}}: already here or with a problem.",
+      "open": "Open cases"
+    },
+    "errors": {
+      "needNumber": "Choose the column that has the case number.",
+      "tooBig": "This file has too much text to send at once. Split it into two files and import them one after the other.",
+      "read": {
+        "type": "Choose an Excel (.xlsx) or CSV file. For an old .xls file, save it as .xlsx first.",
+        "size": "The file is larger than 5 MB.",
+        "empty": "The file has no rows under the column names.",
+        "rows": "The file has more than 1,000 rows. Split it and import the parts one after the other.",
+        "columns": "The file has more than 30 columns. Remove the ones you do not need.",
+        "unreadable": "The file could not be read. Open it in Excel, save it again as .xlsx, and try once more."
+      },
+      "server": {
+        "invalid": "Something in the file could not be checked. Try again, or remove unusual rows.",
+        "assignee": "That person can no longer get cases. Choose someone else.",
+        "nothing": "No row is ready to import."
+      }
+    },
+    "addCaseLink": "Import many cases at once from an old diary or Excel"
+  },
+  "courses": {
+    "title": "Courses",
+    "none": "No courses yet.",
+    "free": "Free",
+    "progress": "Modules done",
+    "fraction": "{done, number}/{total, number}",
+    "start": "Start",
+    "continue": "Continue",
+    "again": "Watch again",
+    "modulesOf": "Modules of {course}",
+    "number": "{n, number}",
+    "doneLabel": "(done)",
+    "moduleOf": "Module {n, number} of {total, number}",
+    "videoSoon": "The video for this module is being made. What it covers is below.",
+    "covers": "What this module covers",
+    "minutes": "About {n, number} minutes",
+    "markDone": "Mark as done",
+    "markedDone": "Done (tap to undo)",
+    "modulesNav": "Other modules",
+    "prev": "Previous module",
+    "next": "Next module"
   }
 }

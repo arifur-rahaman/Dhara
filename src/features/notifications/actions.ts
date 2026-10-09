@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
+import { getSession } from '@/server/auth/session';
 import { requireCtx } from '@/server/context';
 import { prisma } from '@/server/db/client';
 import { withTenant } from '@/server/db/tenant';
@@ -18,10 +19,12 @@ export async function savePushSubscription(input: unknown, userAgent: string): P
   const parsed = subscription.safeParse(input);
   if (!parsed.success) return { ok: false };
   const s = parsed.data;
+  // Tied to this sign-in, so signing this device out from another one also stops its reminders.
+  const sessionId = (await getSession())!.id;
   await withTenant(
     { userId: ctx.userId },
     (tx) =>
-      tx.$executeRaw`SELECT app_claim_push_endpoint(${s.endpoint}, ${s.keys.p256dh}, ${s.keys.auth}, ${userAgent.slice(0, 200)})`,
+      tx.$executeRaw`SELECT app_claim_push_endpoint(${s.endpoint}, ${s.keys.p256dh}, ${s.keys.auth}, ${userAgent.slice(0, 200)}, ${sessionId}::uuid)`,
   );
   return { ok: true };
 }
