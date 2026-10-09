@@ -33,7 +33,11 @@ export async function GET() {
   let tomorrowList: OfflineHearing[] = [];
   let cases: OfflineSnapshot['cases'] = [];
   if (can.listCases(ctx)) {
-    const [a, b, recent] = await Promise.all([hearingsOn(ctx, d.today), hearingsOn(ctx, tomorrow), listCases(ctx)]);
+    // One after another: this runs in the background, and parallel transactions would each hold a pooled
+    // connection (under load one can wait past Prisma's transaction timeout).
+    const a = await hearingsOn(ctx, d.today);
+    const b = await hearingsOn(ctx, tomorrow);
+    const recent = await listCases(ctx);
     todayList = a.map(fromHearing);
     tomorrowList = b.map(fromHearing);
     cases = recent.slice(0, 60).map((c) => ({
