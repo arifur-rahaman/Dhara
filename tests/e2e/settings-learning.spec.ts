@@ -62,6 +62,8 @@ test('courses (F24, F25): the basic course lists six modules; marking one done m
   await expect(page.getByText('The video for this module is being made.')).toBeVisible();
   await page.getByRole('button', { name: 'Mark as done' }).click();
   await expect(page.getByRole('button', { name: 'Done (tap to undo)' })).toBeVisible();
+  // The title is streamed with the page after the action re-renders it; check once it is there.
+  await expect(page).toHaveTitle(/Typing in Bangla and English/);
   await expectNoSeriousA11yIssues(page);
 
   await page.goto('/courses');

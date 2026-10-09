@@ -104,6 +104,8 @@ export async function inviteAndJoin(
 }
 
 export async function expectNoSeriousA11yIssues(page: Page) {
+  // Page titles are streamed after client-side navigation and server actions; check once one is set.
+  await expect.poll(() => page.title()).not.toBe('');
   const results = await new AxeBuilder({ page }).analyze();
   const serious = results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
   expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`)).toEqual([]);
