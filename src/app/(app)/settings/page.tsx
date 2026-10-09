@@ -5,6 +5,7 @@ import { getSession } from '@/server/auth/session';
 import { can } from '@/server/authz';
 import { requireCtx } from '@/server/context';
 import { scopeOf, withTenant } from '@/server/db/tenant';
+import { CalendarSettings } from '@/features/calendar-sync/calendar-settings';
 import { ChamberForm } from '@/features/chamber/chamber-form';
 import { PushSetup, SignOutButton } from '@/features/notifications/push-setup';
 import { ReminderForm } from '@/features/notifications/reminder-form';
@@ -24,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
  * Settings (docs/design/Settings.dc.html): Display (M0) and Security & account (M1).
  * Reminders (M5), chamber details (M4). Font size and devices follow in M6.
  */
-export default async function SettingsPage() {
+export default async function SettingsPage({ searchParams }: PageProps<'/settings'>) {
   const { locale, numerals } = await getPreferences();
   const t = await getTranslations('settings');
   const tr = await getTranslations('reminders');
@@ -71,6 +72,11 @@ export default async function SettingsPage() {
           <p className="border-t border-border py-3 text-[13px] leading-relaxed text-muted">{tr('privacy')}</p>
         </div>
       </section>
+
+      <CalendarSettings
+        ctx={ctx}
+        status={typeof (await searchParams).calendar === 'string' ? String((await searchParams).calendar) : undefined}
+      />
 
       {chamber && (
         <section aria-labelledby="settings-chamber" className="flex flex-col gap-1.5">

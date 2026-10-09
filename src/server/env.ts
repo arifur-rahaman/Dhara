@@ -57,6 +57,11 @@ export const envSchema = z.object({
 
   ADMIN_IP_ALLOWLIST: optional,
 
+  /** F8 Google Calendar one-way sync: off until Google's app verification is done (plan.md F8). */
+  FEATURE_GOOGLE_CALENDAR: z.enum(['0', '1']).default('0'),
+  GOOGLE_CLIENT_ID: optional,
+  GOOGLE_CLIENT_SECRET: optional,
+
   /** 1 = this process also runs the background worker (reminders). */
   RUN_JOBS: z.enum(['0', '1']).default('0'),
 

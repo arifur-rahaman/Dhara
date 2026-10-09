@@ -594,3 +594,26 @@ model SyncReceipt {
   @@index([userId])
   @@map("sync_receipts")
 }
+
+/// F8 Google Calendar one-way sync (behind FEATURE_GOOGLE_CALENDAR). One link per person; refresh token encrypted.
+model CalendarLink {
+  userId          String    @id @map("user_id") @db.Uuid
+  refreshTokenEnc String    @map("refresh_token_enc")
+  calendarId      String    @default("primary") @map("calendar_id")
+  lastSyncedAt    DateTime? @map("last_synced_at") @db.Timestamptz
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@map("calendar_links")
+}
+
+/// Which Google event mirrors which hearing for which person, so a changed hearing updates its event.
+model CalendarEvent {
+  userId    String   @map("user_id") @db.Uuid
+  hearingId String   @map("hearing_id") @db.Uuid
+  eventId   String   @map("event_id")
+  syncedAt  DateTime @default(now()) @map("synced_at") @db.Timestamptz
+
+  @@id([userId, hearingId])
+  @@map("calendar_events")
+}

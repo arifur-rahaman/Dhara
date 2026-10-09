@@ -4,7 +4,9 @@ import { getTranslations } from 'next-intl/server';
 import { Icon } from '@/components/icons';
 import { addDays, todayInDhaka } from '@/lib/dates';
 import { can } from '@/server/authz';
+import { after } from 'next/server';
 import { requireCtx } from '@/server/context';
+import { syncMyCalendar } from '@/features/calendar-sync/sync';
 import { caseDisplay } from '@/features/cases/display';
 import { supportBanner } from '@/features/support/queries';
 import { listTasks } from '@/features/tasks/queries';
@@ -19,6 +21,8 @@ export async function generateMetadata(): Promise<Metadata> {
 /** Today (F3, F4): OwnerToday, MunshiToday and StaffToday designs; associates get the munshi layout for their cases. */
 export default async function TodayPage() {
   const ctx = await requireCtx();
+  // F8: keeps this person's Google Calendar current (at most every 30 minutes; nothing when the flag is off).
+  after(() => syncMyCalendar(ctx));
   if (ctx.role === 'staff') return <StaffToday />;
   if (ctx.role === 'owner') return <OwnerToday />;
   return <MemberToday lockNote={ctx.role === 'munshi'} role={ctx.role} />;

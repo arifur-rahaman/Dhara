@@ -1,6 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
+import { after } from 'next/server';
 import { z } from 'zod';
 import { dbDate, isYmd, todayInDhaka } from '@/lib/dates';
 import { uuidv7 } from '@/lib/uuid';
@@ -9,6 +10,7 @@ import { assertCan, can } from '@/server/authz';
 import { requireCtx } from '@/server/context';
 import { scopeOf, withTenant } from '@/server/db/tenant';
 import type { FormState } from '@/features/auth/actions';
+import { syncMyCalendar } from '@/features/calendar-sync/sync';
 import { applyNextDate } from './next-date';
 import { visibleCasesWhere } from './queries';
 
@@ -135,6 +137,7 @@ export async function addNextDate(_: FormState, form: FormData): Promise<FormSta
 
   const outcome = await withTenant(scopeOf(ctx), (tx) => applyNextDate(tx, ctx, { caseId, date, note, serial }, today));
   if (outcome === 'notFound') return { error: 'caseNotFound', values };
+  after(() => syncMyCalendar(ctx, { force: true }));
   redirect(`/cases/${caseId}?saved=${date}`);
 }
 

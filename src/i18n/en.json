@@ -927,5 +927,16 @@
     "conflict": "{item}: that date was already on the case, so nothing was added twice.",
     "refused": "{count, plural, one {# change could not be applied.} other {# changes could not be applied.}}",
     "dismiss": "Close"
+  },
+  "calendarSync": {
+    "title": "Google Calendar",
+    "what": "Your upcoming hearings appear in your own Google Calendar: case number, court and date only, never client names or contact. Changes here update them; nothing comes back from Google.",
+    "connect": "Connect Google Calendar",
+    "connected": "Google Calendar is connected. Your hearings are being added.",
+    "failed": "Google Calendar could not be connected. Try again, and allow calendar access when Google asks.",
+    "lastSync": "Last updated: {time}",
+    "notYet": "Not synced yet.",
+    "syncNow": "Sync now",
+    "disconnect": "Disconnect"
   }
 }
