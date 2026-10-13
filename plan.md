@@ -102,8 +102,8 @@ Lawyers in Bangladesh keep cases, hearing dates, fees and client details in pape
 **Cases and dates**
 - [x] **F1** মামলার ফাইল ও টাইমলাইন — case record (type, number, year, court, our side, parties, opposing counsel, assignee) and a timeline of every hearing and event.
 - [x] **F2** সব আদালতের মামলা এক জায়গায় — Appellate Division, High Court Division, district and subordinate courts, tribunals. Seed a court directory per district.
-- [ ] **F3** দৈনিক ডায়েরি ও ক্যালেন্ডার — today and tomorrow lists per role, month calendar.
-- [ ] **F4** সকালের ব্রিফিং — summary block on the owner's Today screen (hearings, tasks, dues).
+- [x] **F3** দৈনিক ডায়েরি ও ক্যালেন্ডার — today and tomorrow lists per role, month calendar.
+- [x] **F4** সকালের ব্রিফিং — summary block on the owner's Today screen (hearings, tasks, dues).
 - [x] **F5** আগের রাতে ও সকালে পুশ রিমাইন্ডার — Web Push; defaults 20:00 and 07:00 Asia/Dhaka; configurable in Settings.
 - [x] **F6** প্রিন্টযোগ্য দৈনিক তালিকা ও শুনানির ইতিহাস — PDF, always light theme.
 - [x] **F7** সরকারি কোর্ট পেজের লিংক — each case links to the official page. The app does **not** fetch anything (see F43).
@@ -123,7 +123,7 @@ Lawyers in Bangladesh keep cases, hearing dates, fees and client details in pape
 
 **Team**
 - [x] **F17** জুনিয়র ও মুহুরি মোড — memberships, roles, case assignment, task assignment, access control.
-- [ ] **F18** মুহুরি কোর্ট থেকে পরের তারিখ তুলে দেবেন — owner and assignee see it immediately (in-app + push).
+- [x] **F18** মুহুরি কোর্ট থেকে পরের তারিখ তুলে দেবেন — owner and assignee see it immediately (in-app + push).
 
 **App and security**
 - [x] **F19** English ও বাংলা, মোবাইল ও ওয়েব — English is the default; one-tap switch to Bangla on the login screen and in Settings (saved per user); responsive web + installable PWA.
@@ -374,6 +374,7 @@ Every tenant table has `chamber_id` (RLS), `created_at`, `updated_at`, and soft-
 - **Done when:** a sample diary spreadsheet imports cleanly with duplicates flagged; empty states match `EmptyState.dc.html`.
 
 ### M7 — Stage 2a: client messaging, portal, payments (F26–F31)
+- **Built on request.** Starts when a chamber asks for it and the project owner has chosen the SMS gateway, completed WhatsApp Business verification and chosen the bKash/Nagad route (section 12, items 3 and 4). Until then the owner's prefilled SMS/WhatsApp (F12) and manual payment references (F11) cover these needs.
 - [ ] SMS and WhatsApp adapters, send-without-revealing, opt-out, delivery log.
 - [ ] Client portal, intake form, appointment booking.
 - [ ] Payment links + webhooks for bKash/Nagad.

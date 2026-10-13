@@ -58,6 +58,41 @@ export async function runReminderTick(now = new Date()) {
   return sent;
 }
 
+type ClaimedNotices = {
+  user_id: string;
+  dates: number;
+  tasks: number;
+  other: number;
+  locale: string | null;
+  numerals: string | null;
+};
+
+/** F18 push for new notices: counts only, e.g. "A next date was added to 1 case · 1 new task for you". */
+export function noticeMessage(c: Omit<ClaimedNotices, 'user_id'>): PushMessage {
+  const locale: Locale = isLocale(c.locale) ? c.locale : 'bn';
+  const numerals = isNumerals(c.numerals) ? c.numerals : 'bn';
+  const t = createTranslator({
+    locale: intlLocale(locale, numerals),
+    messages: locale === 'bn' ? bn : en,
+    namespace: 'push',
+  });
+  const parts = [
+    c.dates > 0 ? t('noticeDates', { count: c.dates }) : null,
+    c.tasks > 0 ? t('noticeTasks', { count: c.tasks }) : null,
+    c.other > 0 ? t('noticeOther', { count: c.other }) : null,
+  ].filter(Boolean);
+  return { title: t('title'), body: parts.join(' · '), url: '/notifications', tag: 'notices' };
+}
+
+/** Pushes the notices added since the last tick (a next date, a task, a support request). */
+export async function runNoticeTick() {
+  const db = jobsPool();
+  const { rows } = await db.query<ClaimedNotices>('SELECT * FROM jobs_claim_push_notices()');
+  let sent = 0;
+  for (const row of rows) sent += await deliver(db, row.user_id, noticeMessage(row));
+  return sent;
+}
+
 async function deliver(db: pg.Pool, userId: string, message: PushMessage) {
   const { rows } = await db.query<{ id: string; endpoint: string; p256dh: string; auth: string }>(
     'SELECT id, endpoint, p256dh, auth FROM push_subscriptions WHERE user_id = $1',

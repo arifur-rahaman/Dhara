@@ -1,12 +1,12 @@
 import 'server-only';
 import { PgBoss } from 'pg-boss';
 import { env } from '@/server/env';
-import { runReminderTick } from './reminders';
+import { runNoticeTick, runReminderTick } from './reminders';
 
 /**
  * Background jobs (TECH_GUIDE section 12) on pg-boss, in Postgres (schema pgboss, owned by dhara_jobs).
  * Started from instrumentation.ts when RUN_JOBS=1, so the same image runs as the app or as the worker.
- * The tick runs every minute; reminder_log makes a repeated or late tick safe.
+ * The tick runs every minute; reminder_log and notifications.pushed_at make a repeated or late tick safe.
  */
 export async function startWorker() {
   const url = env().DATABASE_JOBS_URL;
@@ -20,6 +20,9 @@ export async function startWorker() {
   await boss.work('reminders.tick', async () => {
     const sent = await runReminderTick();
     if (sent) console.info(`[jobs] reminders sent: ${sent}`);
+    // F18: owner and assignee hear about a new next date (and a new task) within about a minute.
+    const notices = await runNoticeTick();
+    if (notices) console.info(`[jobs] notice pushes sent: ${notices}`);
   });
   console.info('[jobs] worker started');
   return boss;

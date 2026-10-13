@@ -51,6 +51,14 @@ DO $$ BEGIN
   IF (SELECT count(*) FROM jobs_claim_reminders('night', '20:00', DATE '2026-01-01')) <> 0 THEN RAISE EXCEPTION 'reminder claimed twice'; END IF;
 END $$;
 RESET ROLE;
+INSERT INTO notifications (id, user_id, chamber_id, kind, payload)
+  VALUES (gen_random_uuid(), '00000000-0000-7000-8000-000000000001', '00000000-0000-7000-8000-0000000000c1', 'hearing.added', '{}');
+SET ROLE dhara_jobs;
+DO $$ BEGIN
+  IF (SELECT count(*) FROM jobs_claim_push_notices()) <> 1 THEN RAISE EXCEPTION 'notice push not claimed'; END IF;
+  IF (SELECT count(*) FROM jobs_claim_push_notices()) <> 0 THEN RAISE EXCEPTION 'notice push claimed twice'; END IF;
+END $$;
+RESET ROLE;
 SET ROLE dhara_admin;
 BEGIN;
 SELECT set_config('app.admin_id', '00000000-0000-7000-8000-0000000000d1', true);
