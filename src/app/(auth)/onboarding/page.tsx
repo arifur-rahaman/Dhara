@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import { Icon } from '@/components/icons';
 import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { getSession } from '@/server/auth/session';
 import { getCtx } from '@/server/context';
 import { withTenant } from '@/server/db/tenant';
+import { afterSignInPath } from '@/features/auth/after-sign-in';
 import { acceptInvitation } from '@/features/team/actions';
 import { AuthShell } from '../auth-shell';
 import { ChamberForm, ConsentForm } from './forms';
@@ -46,17 +49,30 @@ export default async function OnboardingPage() {
 
   if (await getCtx()) redirect('/today');
 
-  const invitations = await withTenant({ userId: session.userId, userPhone: session.user.phone }, (tx) =>
-    tx.invitation.findMany({
-      where: { phone: session.user.phone, acceptedAt: null, revokedAt: null, expiresAt: { gt: new Date() } },
-      include: { chamber: { select: { name: true } } },
-      orderBy: { createdAt: 'desc' },
-    }),
-  );
+  // Invitations are found by phone only when an SMS code proved it; otherwise the invitation link is needed.
+  const invitations = session.user.phoneVerifiedAt
+    ? await withTenant({ userId: session.userId, userPhone: session.user.phone }, (tx) =>
+        tx.invitation.findMany({
+          where: { phone: session.user.phone, acceptedAt: null, revokedAt: null, expiresAt: { gt: new Date() } },
+          include: { chamber: { select: { name: true } } },
+          orderBy: { createdAt: 'desc' },
+        }),
+      )
+    : [];
+  const pendingInvite = await afterSignInPath();
 
   return (
     <AuthShell brand={false}>
       <Steps current={1} />
+      {pendingInvite !== '/today' && (
+        <Link
+          href={pendingInvite}
+          className="flex min-h-14 items-center justify-between gap-3 rounded-card border border-accent bg-accent-soft px-4 py-3 text-[15px] font-semibold"
+        >
+          {t('onboarding.continueInvite')}
+          <Icon name="chevron" size={18} />
+        </Link>
+      )}
       {invitations.length > 0 && (
         <section className="flex flex-col gap-3 rounded-card border border-accent bg-accent-soft p-4">
           <h2 className="text-[15px] font-semibold">{t('onboarding.invitedTitle')}</h2>

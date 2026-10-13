@@ -26,6 +26,22 @@ export function PhoneForm() {
           className={inputClass}
         />
       </Field>
+      {state?.step === 'email' && (
+        <Field id="login-email" label={t('email')} hint={<p className="text-[13px] text-muted">{t('emailHint')}</p>}>
+          <input
+            id="login-email"
+            name="email"
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            required
+            autoFocus
+            defaultValue={state.values?.email}
+            aria-invalid={!!state.error}
+            className={inputClass}
+          />
+        </Field>
+      )}
       <FormError id="login-error" error={state?.error} />
       <PrimaryButton type="submit" pending={pending} className="mt-1">
         {t('sendOtp')}

@@ -6,15 +6,18 @@ import { z } from 'zod';
 import { normalizeBdPhone } from '@/lib/phone';
 import { audit } from '@/server/audit';
 import { assertCan } from '@/server/authz';
-import { getSession, setActiveChamber } from '@/server/auth/session';
+import { hashPassword, PASSWORD_MIN_LENGTH } from '@/server/auth/password';
+import { createSession, getSession, setActiveChamber } from '@/server/auth/session';
 import { requireCtx } from '@/server/context';
 import { randomToken, sha256 } from '@/server/crypto';
+import { prisma } from '@/server/db/client';
 import { withTenant } from '@/server/db/tenant';
 import { env } from '@/server/env';
-import { smsProvider, type E164 } from '@/server/providers/sms';
+import { smsEnabled, smsProvider, type E164 } from '@/server/providers/sms';
 import type { FormState } from '@/features/auth/actions';
 import { INVITE_COOKIE } from '@/features/auth/after-sign-in';
 import { getPreferences } from '@/features/preferences/server';
+import { requestUserAgent } from '@/server/request';
 
 const INVITE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
@@ -24,7 +27,10 @@ const inviteInput = z.object({
   caseScope: z.enum(['all', 'assigned']),
 });
 
-/** Owner invites a member by SMS (InviteMember design). The role comes from here, never from the invitee. */
+/**
+ * Owner invites a member (InviteMember design): by SMS, or with a link the owner shares when there is
+ * no SMS gateway. The role comes from here, never from the invitee.
+ */
 export async function inviteMember(_: FormState, form: FormData): Promise<FormState> {
   const ctx = await requireCtx();
   assertCan('inviteMember', ctx);
@@ -83,6 +89,9 @@ export async function inviteMember(_: FormState, form: FormData): Promise<FormSt
     locale === 'bn'
       ? `${outcome.chamberName} আপনাকে ধারা অ্যাপে ইনভাইট করেছে। ৭ দিনের মধ্যে খুলুন: ${link}`
       : `${outcome.chamberName} invited you to Dhara. Open within 7 days: ${link}`;
+  // No SMS gateway yet: the owner sends the link from their own phone (WhatsApp, SMS or copy).
+  // The link is shown once, to the owner only; the database keeps only its hash.
+  if (!smsEnabled()) return { ok: true, link, values: { name: parsed.data.name, phone, text } };
   await smsProvider().send(phone as E164, text, `invite-${outcome.invitationId}`);
   redirect('/team?invited=1');
 }
@@ -140,12 +149,15 @@ export async function acceptInvitation(form: FormData) {
 
   const token = form.get('token');
   const invitationId = form.get('invitationId');
-  const scope = typeof token === 'string' && token ? { inviteTokenHash: sha256(token) } : { userPhone: user.phone };
+  const byToken = typeof token === 'string' && token;
+  // Without the link, an invitation is found by phone only when an SMS code proved that phone.
+  if (!byToken && !user.phoneVerifiedAt) redirect('/onboarding');
+  const scope = byToken ? { inviteTokenHash: sha256(token) } : { userPhone: user.phone };
 
   const invitation = await withTenant({ ...scope, userId: user.id }, (tx) =>
     tx.invitation.findFirst({
       where: {
-        ...(typeof token === 'string' && token ? { tokenHash: sha256(token) } : { id: z.uuid().parse(invitationId) }),
+        ...(byToken ? { tokenHash: sha256(token) } : { id: z.uuid().parse(invitationId) }),
         acceptedAt: null,
         revokedAt: null,
         expiresAt: { gt: new Date() },
@@ -179,4 +191,50 @@ export async function acceptInvitation(form: FormData) {
   (await cookies()).delete(INVITE_COOKIE);
   await setActiveChamber(session.id, invitation.chamberId);
   redirect('/today');
+}
+
+/**
+ * Invitees without email (OTP_CHANNEL=email): the invitation link proves who they are, so they may create
+ * their account with a password instead of a sign-in code. Only for a number that has no account yet.
+ */
+export async function joinInviteWithPassword(_: FormState, form: FormData): Promise<FormState> {
+  const token = z
+    .string()
+    .regex(/^[\w-]{20,100}$/)
+    .safeParse(form.get('token'));
+  const password = String(form.get('password') ?? '');
+  if (!token.success) return { error: 'inviteInvalid' };
+  if (password.length < PASSWORD_MIN_LENGTH || password.length > 200) return { error: 'passwordShort' };
+
+  const invitation = await withTenant({ inviteTokenHash: sha256(token.data) }, (tx) =>
+    tx.invitation.findFirst({
+      where: { tokenHash: sha256(token.data), acceptedAt: null, revokedAt: null, expiresAt: { gt: new Date() } },
+      select: { phone: true, name: true },
+    }),
+  );
+  if (!invitation) return { error: 'inviteInvalid' };
+  if (await prisma.user.findUnique({ where: { phone: invitation.phone }, select: { id: true } })) {
+    return { error: 'accountExists' };
+  }
+  const user = await prisma.user.create({
+    data: { phone: invitation.phone, name: invitation.name, passwordHash: await hashPassword(password) },
+  });
+  await createSession(user.id, { mfaVerified: true, userAgent: await requestUserAgent() });
+  await withTenant({}, (tx) =>
+    audit(tx, {
+      chamberId: null,
+      actorUserId: user.id,
+      action: 'auth.password_set',
+      entity: 'user',
+      entityId: user.id,
+    }),
+  );
+  (await cookies()).set(INVITE_COOKIE, token.data, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 60 * 60 * 24,
+  });
+  redirect(`/invite/${token.data}`);
 }

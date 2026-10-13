@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
+import { normalizeEmail } from '@/lib/email';
 import { normalizeBdPhone } from '@/lib/phone';
 import { audit } from '@/server/audit';
 import { clearFailures, recordFailure, tooManyFailures } from '@/server/auth/attempts';
@@ -10,13 +11,25 @@ import { verifyPasswordOrDummy } from '@/server/auth/password';
 import { createSession, endSession, getSession, markMfaVerified } from '@/server/auth/session';
 import { checkTotp, matchRecoveryCode } from '@/server/auth/totp';
 import { prisma } from '@/server/db/client';
+import { env } from '@/server/env';
 import { withTenant } from '@/server/db/tenant';
 import type { E164 } from '@/server/providers/sms';
 import { requestIpHash, requestUserAgent } from '@/server/request';
 import { getPreferences } from '@/features/preferences/server';
 import { afterSignInPath } from './after-sign-in';
 
-export type FormState = { error?: string; values?: Record<string, string>; ok?: boolean; at?: number } | undefined;
+export type FormState =
+  | {
+      error?: string;
+      values?: Record<string, string>;
+      ok?: boolean;
+      at?: number;
+      /** Email login: a new number is asked for an email address before the code is sent. */
+      step?: 'email';
+      /** Invitations without SMS: the link the owner shares from their own phone. */
+      link?: string;
+    }
+  | undefined;
 
 async function signIn(userId: string, totpEnabled: boolean) {
   await createSession(userId, { mfaVerified: !totpEnabled, userAgent: await requestUserAgent() });
@@ -26,14 +39,40 @@ async function signIn(userId: string, totpEnabled: boolean) {
   redirect(totpEnabled ? '/login/two-step' : await afterSignInPath());
 }
 
-/** Step 1 of phone sign-in: send a 6-digit code by SMS. */
+/**
+ * Step 1 of phone sign-in: send a 6-digit code by SMS, or by email when OTP_CHANNEL=email.
+ * With email, a known number gets the code at its saved address. A new number is asked for an address
+ * first. A known number without one must use its password, so nobody can attach their own address to
+ * someone else's account.
+ */
 export async function sendOtp(_: FormState, form: FormData): Promise<FormState> {
   const raw = String(form.get('phone') ?? '');
   const phone = normalizeBdPhone(raw);
   if (!phone) return { error: 'phoneInvalid', values: { phone: raw } };
   const { locale } = await getPreferences();
-  const result = await requestOtp(phone as E164, { ipHash: await requestIpHash(), locale });
-  if (!result.ok) return { error: 'rateLimited', values: { phone: raw } };
+  const ipHash = await requestIpHash();
+
+  let email: string | undefined;
+  if (env().OTP_CHANNEL === 'email') {
+    const user = await prisma.user.findUnique({ where: { phone }, select: { email: true } });
+    if (user?.email) {
+      email = user.email;
+    } else if (user) {
+      return { error: 'noEmailUsePassword', values: { phone: raw } };
+    } else {
+      const rawEmail = form.get('email');
+      if (typeof rawEmail !== 'string') return { step: 'email', values: { phone: raw } };
+      const normalized = normalizeEmail(rawEmail);
+      if (!normalized) return { step: 'email', error: 'emailInvalid', values: { phone: raw, email: rawEmail } };
+      if (await prisma.user.findUnique({ where: { email: normalized }, select: { id: true } })) {
+        return { step: 'email', error: 'emailTaken', values: { phone: raw, email: rawEmail } };
+      }
+      email = normalized;
+    }
+  }
+
+  const result = await requestOtp(phone as E164, { ipHash, locale, email });
+  if (!result.ok) return { error: 'rateLimited', step: email ? 'email' : undefined, values: { phone: raw } };
   redirect(`/login/verify?c=${result.challengeId}`);
 }
 
@@ -51,9 +90,22 @@ export async function verifyCode(_: FormState, form: FormData): Promise<FormStat
         result.reason === 'invalid' ? 'codeInvalid' : result.reason === 'expired' ? 'codeExpired' : 'tooManyAttempts',
     };
 
-  const user =
-    (await prisma.user.findUnique({ where: { phone: result.phone } })) ??
-    (await prisma.user.create({ data: { phone: result.phone } }));
+  // An SMS code proves the phone; an email code proves the address (and creates the person with it).
+  const proof = result.email ? { email: result.email, emailVerifiedAt: new Date() } : { phoneVerifiedAt: new Date() };
+  let user = await prisma.user.findUnique({ where: { phone: result.phone } });
+  if (user) {
+    // The code went to the address this account already has; anything else is refused.
+    if (result.email && user.email !== result.email) return { error: 'codeExpired' };
+    if (result.email ? !user.emailVerifiedAt : !user.phoneVerifiedAt) {
+      user = await prisma.user.update({ where: { id: user.id }, data: proof });
+    }
+  } else {
+    try {
+      user = await prisma.user.create({ data: { phone: result.phone, ...proof } });
+    } catch {
+      return { error: 'codeExpired' }; // the address was taken in the meantime
+    }
+  }
   await signIn(user.id, !!user.totpEnabledAt);
 }
 

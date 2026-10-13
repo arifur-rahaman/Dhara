@@ -18,9 +18,40 @@ DROP DATABASE IF EXISTS $DB;
 CREATE DATABASE $DB OWNER dhara_owner;
 SQL
 OWNER_URL="${HOST_URL/\/\/*@/\/\/dhara_owner:dhara_owner@}/$DB"
+
+# Supabase's API roles and their default grants, as a Supabase project has them before our migrations.
+psql "$SUPERUSER_URL" -v ON_ERROR_STOP=1 -q <<SQL
+DO \$\$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon') THEN CREATE ROLE anon NOLOGIN; END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'authenticated') THEN CREATE ROLE authenticated NOLOGIN; END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'service_role') THEN CREATE ROLE service_role NOLOGIN BYPASSRLS; END IF;
+END \$\$;
+SQL
+psql "${HOST_URL}/$DB" -v ON_ERROR_STOP=1 -q <<'SQL'
+ALTER DEFAULT PRIVILEGES FOR ROLE dhara_owner IN SCHEMA public GRANT ALL ON TABLES TO anon, authenticated, service_role;
+ALTER DEFAULT PRIVILEGES FOR ROLE dhara_owner IN SCHEMA public GRANT ALL ON SEQUENCES TO anon, authenticated, service_role;
+ALTER DEFAULT PRIVILEGES FOR ROLE dhara_owner IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO anon, authenticated, service_role;
+SQL
 DATABASE_MIGRATE_URL="$OWNER_URL" pnpm exec prisma migrate deploy > /dev/null
 DATABASE_MIGRATE_URL="$OWNER_URL" node scripts/load-courses.mjs > /dev/null
 echo "migrations applied and courses loaded as a non-superuser owner"
+
+# Supabase's API roles end up with nothing: no table, sequence or function.
+psql "$OWNER_URL" -v ON_ERROR_STOP=1 -q <<'SQL'
+DO $$
+DECLARE n int;
+BEGIN
+  SELECT count(*) INTO n FROM information_schema.role_table_grants
+   WHERE table_schema = 'public' AND grantee IN ('anon', 'authenticated', 'service_role');
+  IF n > 0 THEN RAISE EXCEPTION 'Supabase API roles still have % table grants', n; END IF;
+  SELECT count(*) INTO n FROM pg_proc p JOIN pg_namespace s ON s.oid = p.pronamespace, unnest(ARRAY['anon', 'authenticated', 'service_role']) r
+   WHERE s.nspname = 'public' AND p.prosecdef AND has_function_privilege(r, p.oid, 'EXECUTE');
+  -- Definer functions run with the owner's rights; the plain app_* helpers run as the caller and read
+  -- tables these roles cannot see, so they stay callable (the RLS policies need them).
+  IF n > 0 THEN RAISE EXCEPTION 'Supabase API roles can still call % definer functions', n; END IF;
+END $$;
+SQL
+echo "Supabase API roles have no access"
 
 psql "$OWNER_URL" -v ON_ERROR_STOP=1 -q <<'SQL'
 INSERT INTO users (id, phone, name, updated_at) VALUES ('00000000-0000-7000-8000-000000000001', '+8801700000099', 'Owner', now());

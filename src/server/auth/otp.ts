@@ -3,6 +3,7 @@ import { randomInt } from 'node:crypto';
 import { keyedHash, safeEqual } from '@/server/crypto';
 import { prisma } from '@/server/db/client';
 import { env } from '@/server/env';
+import { emailProvider } from '@/server/providers/email';
 import { smsProvider, type E164 } from '@/server/providers/sms';
 
 /** plan.md section 8: 6 digits, 5-minute expiry, attempt limit, rate limit per phone and IP. */
@@ -15,31 +16,49 @@ const codeHash = (phone: string, code: string) => keyedHash(`otp:${phone}:${code
 
 export type RequestOtpResult = { ok: true; challengeId: string } | { ok: false; reason: 'rate_limited' };
 
+/**
+ * Sends a sign-in code for this phone number: by SMS, or to `email` when login codes go by email
+ * (OTP_CHANNEL=email). Limits apply per phone, per email and per IP address.
+ */
 export async function requestOtp(
   phone: E164,
-  opts: { ipHash: string | null; locale: 'en' | 'bn' },
+  opts: { ipHash: string | null; locale: 'en' | 'bn'; email?: string },
 ): Promise<RequestOtpResult> {
   const since = new Date(Date.now() - WINDOW_MS);
-  const [byPhone, byIp] = await Promise.all([
+  const [byPhone, byEmail, byIp] = await Promise.all([
     prisma.otpChallenge.count({ where: { phone, createdAt: { gte: since } } }),
+    opts.email ? prisma.otpChallenge.count({ where: { email: opts.email, createdAt: { gte: since } } }) : 0,
     opts.ipHash ? prisma.otpChallenge.count({ where: { ipHash: opts.ipHash, createdAt: { gte: since } } }) : 0,
   ]);
-  if (byPhone >= MAX_PER_PHONE || byIp >= env().OTP_LIMIT_PER_IP) return { ok: false, reason: 'rate_limited' };
+  if (byPhone >= MAX_PER_PHONE || byEmail >= MAX_PER_PHONE || byIp >= env().OTP_LIMIT_PER_IP) {
+    return { ok: false, reason: 'rate_limited' };
+  }
 
   const code = String(randomInt(0, 1_000_000)).padStart(6, '0');
   const challenge = await prisma.otpChallenge.create({
-    data: { phone, codeHash: codeHash(phone, code), ipHash: opts.ipHash, expiresAt: new Date(Date.now() + OTP_TTL_MS) },
+    data: {
+      phone,
+      email: opts.email ?? null,
+      codeHash: codeHash(phone, code),
+      ipHash: opts.ipHash,
+      expiresAt: new Date(Date.now() + OTP_TTL_MS),
+    },
   });
   const text =
     opts.locale === 'bn'
       ? `ধারা লগইন কোড: ${code}। ৫ মিনিট কাজ করবে। কাউকে বলবেন না।`
       : `Dhara sign-in code: ${code}. Valid for 5 minutes. Do not share it.`;
-  await smsProvider().send(phone, text, `otp-${challenge.id}`);
+  if (opts.email) {
+    const subject = opts.locale === 'bn' ? `ধারা লগইন কোড ${code}` : `Dhara sign-in code ${code}`;
+    await emailProvider().send({ to: opts.email, subject, text }, `otp-${challenge.id}`);
+  } else {
+    await smsProvider().send(phone, text, `otp-${challenge.id}`);
+  }
   return { ok: true, challengeId: challenge.id };
 }
 
 export type VerifyOtpResult =
-  { ok: true; phone: E164 } | { ok: false; reason: 'invalid' | 'expired' | 'too_many_attempts' };
+  { ok: true; phone: E164; email: string | null } | { ok: false; reason: 'invalid' | 'expired' | 'too_many_attempts' };
 
 export async function verifyOtp(challengeId: string, code: string): Promise<VerifyOtpResult> {
   const challenge = await prisma.otpChallenge.findUnique({ where: { id: challengeId } });
@@ -59,5 +78,5 @@ export async function verifyOtp(challengeId: string, code: string): Promise<Veri
     data: { consumedAt: new Date() },
   });
   if (consumed.count === 0) return { ok: false, reason: 'expired' };
-  return { ok: true, phone: challenge.phone as E164 };
+  return { ok: true, phone: challenge.phone as E164, email: challenge.email };
 }

@@ -18,17 +18,34 @@ export const envSchema = z.object({
   DATABASE_URL: optional,
   DATABASE_ADMIN_URL: optional,
   DATABASE_MIGRATE_URL: optional,
+  /** Connections per server instance; 2 or 3 on serverless hosts such as Vercel. */
+  DATABASE_POOL_MAX: z.coerce.number().int().min(1).max(50).default(10),
   /** Reminder worker (M5): owns the pg-boss schema, may only call the counting functions. */
   DATABASE_JOBS_URL: optional,
 
   FIELD_ENCRYPTION_KEYS: optional,
   FIELD_ENCRYPTION_ACTIVE: optional,
 
-  SMS_PROVIDER: z.enum(['console', 'file']).default('console'),
+  /**
+   * none = no SMS gateway yet: login codes go by email (OTP_CHANNEL=email) and the owner shares
+   * invitation links from their own phone.
+   */
+  SMS_PROVIDER: z.enum(['console', 'file', 'none']).default('console'),
   SMS_API_KEY: optional,
   SMS_SENDER_ID: optional,
   SMS_OUTBOX_FILE: optional,
   OTP_LIMIT_PER_IP: z.coerce.number().int().positive().default(10),
+
+  /** Where login codes go: sms (plan.md) or email (until an SMS gateway is chosen). */
+  OTP_CHANNEL: z.enum(['sms', 'email']).default('sms'),
+  /** console and file are for development and tests; resend sends through the Resend HTTP API. */
+  EMAIL_PROVIDER: z.enum(['console', 'file', 'resend']).default('console'),
+  EMAIL_FROM: optional,
+  RESEND_API_KEY: optional,
+  EMAIL_OUTBOX_FILE: optional,
+
+  /** Vercel Cron or another scheduler calls /api/jobs/tick with this as a bearer token. */
+  CRON_SECRET: optional,
 
   WHATSAPP_PHONE_NUMBER_ID: optional,
   WHATSAPP_ACCESS_TOKEN: optional,
@@ -65,6 +82,8 @@ export const envSchema = z.object({
   /** 1 = this process also runs the background worker (reminders). */
   RUN_JOBS: z.enum(['0', '1']).default('0'),
 
+  /** chromium = render PDFs on the server; print = open the print page and use the browser's "Save as PDF". */
+  PDF_MODE: z.enum(['chromium', 'print']).default('chromium'),
   /** Chromium used to render receipt PDFs (TECH_GUIDE section 14). */
   PDF_CHROMIUM_PATH: optional,
   /** Where Chromium reaches the app's print pages; defaults to the request's own origin. */

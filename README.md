@@ -7,6 +7,7 @@ Chamber management web app (installable PWA) for lawyers in Bangladesh. English 
 - **What to build:** [`plan.md`](plan.md)
 - **Rules:** [`CLAUDE.md`](CLAUDE.md)
 - **How it's built:** [`TECH_GUIDE.md`](TECH_GUIDE.md)
+- **Deploying (Vercel + Supabase):** [`docs/DEPLOY.md`](docs/DEPLOY.md)
 
 ## Run it
 

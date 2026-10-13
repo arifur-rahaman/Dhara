@@ -8,10 +8,17 @@ import { renderPdf } from '@/server/pdf';
 /**
  * Renders one of the app's /print pages as the signed-in person and returns it as a PDF download.
  * Callers check permission first; the print page checks again when Chromium loads it.
+ * With PDF_MODE=print it sends the browser to the print page instead (see AutoPrint).
  */
 export async function pdfResponse(request: Request, printPath: string, fileName: string) {
   const session = (await cookies()).get(SESSION_COOKIE);
   if (!session) return new NextResponse('Not found', { status: 404 });
+  if (env().PDF_MODE === 'print') {
+    // No Chromium on this host: open the print page and let the browser save it as PDF.
+    const target = new URL(printPath, request.url);
+    target.searchParams.set('autoprint', '1');
+    return NextResponse.redirect(target, 303);
+  }
   const origin = env().PDF_RENDER_ORIGIN || new URL(request.url).origin;
   const pdf = await renderPdf(`${origin}${printPath}`, { name: SESSION_COOKIE, value: session.value });
   return new NextResponse(new Uint8Array(pdf), {
