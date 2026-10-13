@@ -68,6 +68,8 @@ export const envSchema = z.object({
   VAPID_PRIVATE_KEY: optional,
   VAPID_SUBJECT: optional,
 
+  /** anthropic in staging and production; fake returns a fixed answer (tests, development without a key). */
+  AI_PROVIDER: z.enum(['anthropic', 'fake']).default('fake'),
   ANTHROPIC_API_KEY: optional,
   AI_MODEL_DRAFT: optional,
   AI_MODEL_EXTRACT: optional,

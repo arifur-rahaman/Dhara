@@ -91,6 +91,7 @@ When an SMS gateway is chosen, switch to `OTP_CHANNEL=sms` and the gateway's `SM
    | `PDF_MODE` | `print` (Vercel has no Chromium; PDF links open the print page and the browser saves the PDF) |
    | `RUN_JOBS` | `0` (no always-on worker on Vercel; see step 5) |
    | `CRON_SECRET` | `openssl rand -base64 48` |
+   | `AI_PROVIDER`, `ANTHROPIC_API_KEY`, `AI_MODEL_EXTRACT` | `anthropic`, your Anthropic API key, `claude-opus-5-5`. Only needed for reading order photos (F37), which each owner must also turn on in Settings. Leave `AI_PROVIDER` unset otherwise; in production the test provider answers "unavailable" |
 
 4. **Domains:**
    - In Vercel, add `dhara.techhunt.org` and `admin-dhara.techhunt.org` to the project.

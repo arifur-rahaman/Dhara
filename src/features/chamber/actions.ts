@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
+import { audit } from '@/server/audit';
 import { assertCan } from '@/server/authz';
 import { requireCtx } from '@/server/context';
 import { scopeOf, withTenant } from '@/server/db/tenant';
@@ -27,4 +28,26 @@ export async function saveChamberDetails(_: FormState, form: FormData): Promise<
   );
   revalidatePath('/settings');
   return { ok: true, at: Date.now() };
+}
+
+/**
+ * F37: lets the chamber's order photos be read by the AI provider (AI_PROVIDER). Off by default: a photo
+ * shows party names and cannot be redacted before it is sent (plan.md 7.5), so the owner decides. Audited.
+ */
+export async function setAiPhotoReading(form: FormData) {
+  const ctx = await requireCtx();
+  assertCan('editChamberSettings', ctx);
+  const on = form.get('on') === '1';
+  await withTenant(scopeOf(ctx), async (tx) => {
+    await tx.chamber.updateMany({ where: { id: ctx.chamberId }, data: { aiPhotoReading: on } });
+    await audit(tx, {
+      chamberId: ctx.chamberId,
+      actorUserId: ctx.userId,
+      action: 'chamber.ai_photo_reading',
+      entity: 'chamber',
+      entityId: ctx.chamberId,
+      fields: { on },
+    });
+  });
+  revalidatePath('/settings');
 }

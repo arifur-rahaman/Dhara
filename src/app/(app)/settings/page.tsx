@@ -6,6 +6,7 @@ import { can } from '@/server/authz';
 import { requireCtx } from '@/server/context';
 import { scopeOf, withTenant } from '@/server/db/tenant';
 import { CalendarSettings } from '@/features/calendar-sync/calendar-settings';
+import { setAiPhotoReading } from '@/features/chamber/actions';
 import { ChamberForm } from '@/features/chamber/chamber-form';
 import { PushSetup, SignOutButton } from '@/features/notifications/push-setup';
 import { ReminderForm } from '@/features/notifications/reminder-form';
@@ -41,7 +42,10 @@ export default async function SettingsPage({ searchParams }: PageProps<'/setting
   const deviceCount = (await activeSessions(user.id)).length;
   const chamber = can.editChamberSettings(ctx)
     ? await withTenant(scopeOf(ctx), (tx) =>
-        tx.chamber.findUniqueOrThrow({ where: { id: ctx.chamberId }, select: { name: true, address: true } }),
+        tx.chamber.findUniqueOrThrow({
+          where: { id: ctx.chamberId },
+          select: { name: true, address: true, aiPhotoReading: true },
+        }),
       )
     : null;
 
@@ -94,6 +98,35 @@ export default async function SettingsPage({ searchParams }: PageProps<'/setting
           <div className="rounded-card border border-border bg-surface px-4">
             <ChamberForm name={chamber.name} address={chamber.address ?? ''} />
           </div>
+        </section>
+      )}
+
+      {chamber && (
+        <section id="settings-ai" aria-labelledby="settings-ai-title" className="flex scroll-mt-4 flex-col gap-1.5">
+          <h2 id="settings-ai-title" className="px-1 text-[13px] font-semibold text-muted">
+            {t('aiTitle')}
+          </h2>
+          <form
+            action={setAiPhotoReading}
+            className="flex flex-col gap-3 rounded-card border border-border bg-surface p-4"
+          >
+            <input type="hidden" name="on" value={chamber.aiPhotoReading ? '0' : '1'} />
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-[15px]">{t('aiPhoto')}</span>
+              <span
+                className={`rounded-full px-2.5 py-[3px] text-[12px] font-semibold ${chamber.aiPhotoReading ? 'bg-ok-bg text-ok' : 'bg-surface-2 text-muted'}`}
+              >
+                {chamber.aiPhotoReading ? t('on') : t('off')}
+              </span>
+            </div>
+            <p className="text-[13px] leading-relaxed text-muted">{t('aiPhotoNote')}</p>
+            <button
+              type="submit"
+              className="h-11 self-start rounded-control border border-border px-4 text-[14px] font-semibold"
+            >
+              {chamber.aiPhotoReading ? t('aiPhotoTurnOff') : t('aiPhotoTurnOn')}
+            </button>
+          </form>
         </section>
       )}
 

@@ -114,7 +114,12 @@
       "lg": "Large"
     },
     "devices": "Login devices",
-    "deviceCount": "{count, plural, one {# device} other {# devices}}"
+    "deviceCount": "{count, plural, one {# device} other {# devices}}",
+    "aiTitle": "AI",
+    "aiPhoto": "Read order photos with AI",
+    "aiPhotoNote": "When on, order photos taken in the app are sent to the AI service (Anthropic) to read the next date. A photo shows party names and cannot be hidden before sending. Nothing is saved until a person checks it.",
+    "aiPhotoTurnOn": "Turn on",
+    "aiPhotoTurnOff": "Turn off"
   },
   "more": {
     "title": "More"
@@ -1105,5 +1110,44 @@
     "modulesNav": "Other modules",
     "prev": "Previous module",
     "next": "Next module"
+  },
+  "orderPhoto": {
+    "title": "Order photo",
+    "fromPhoto": "From order photo",
+    "intro": "Take a photo of today's order. The app reads the next date and what happened; you check both before saving.",
+    "noCases": "No cases to add a date to.",
+    "offOwner": "Reading order photos with AI is off for this chamber. Turn it on in Settings if you agree to send order photos to the AI service.",
+    "offMember": "Reading order photos with AI is off for this chamber. The owner can turn it on in Settings.",
+    "openSettings": "Open Settings",
+    "case": "Case",
+    "take": "Take photo of the order",
+    "retake": "Take another photo",
+    "photoAlt": "Photo of the order",
+    "reading": "Reading the order…",
+    "found": "What the AI found",
+    "check": "Check it",
+    "nextDate": "Next date",
+    "dateUnsure": "The date was hard to read. Check it against the order.",
+    "dateNone": "No next date was found. Enter it from the order.",
+    "summary": "Order summary",
+    "caseMatch": {
+      "yes": "Case number matches",
+      "no": "The case number on the photo looks different. Check you chose the right case.",
+      "unknown": "No case number read from the photo"
+    },
+    "handwriting": "Handwriting can be misread. Check the date against the order before saving.",
+    "save": "Save date and photo",
+    "cancel": "Cancel",
+    "documentTitle": "Order {date}",
+    "errors": {
+      "off": "Reading order photos is off for this chamber.",
+      "notFound": "You cannot add a date to this case.",
+      "tooBig": "The photo is too large. Take it again a little further away.",
+      "badImage": "This photo could not be opened. Take it again.",
+      "unreadable": "The order could not be read. Enter the date yourself, or take a clearer photo.",
+      "unavailable": "The AI service did not answer. Try again, or enter the date yourself.",
+      "dateInvalid": "Choose a date from today on.",
+      "uploadFailed": "The photo could not be uploaded. Check the internet and try again."
+    }
   }
 }

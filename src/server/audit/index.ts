@@ -12,6 +12,8 @@ export type AuditAction =
   | 'auth.sign_out'
   | 'auth.sign_out_device'
   | 'import.cases'
+  | 'ai.order_photo_saved'
+  | 'chamber.ai_photo_reading'
   | 'auth.totp_enabled'
   | 'auth.password_set'
   | 'chamber.create'
