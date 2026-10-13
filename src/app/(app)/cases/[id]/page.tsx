@@ -216,12 +216,22 @@ export default async function CasePage({ params, searchParams }: PageProps<'/cas
 
       {c.canAddHearing && tab === 'timeline' && (
         <div className="fixed inset-x-0 bottom-[var(--spacing-tabbar)] z-10 border-t border-border bg-surface px-5 pt-3 pb-3 md:static md:mt-2 md:border-0 md:bg-transparent md:p-0">
-          <Link
-            href={`/cases/${c.id}/next-date`}
-            className="mx-auto flex h-[50px] max-w-[600px] items-center justify-center rounded-control bg-accent text-[16px] font-semibold text-on-accent"
-          >
-            {t('today.addNextDate')}
-          </Link>
+          <div className="mx-auto grid max-w-[600px] grid-cols-[1fr_auto] gap-2">
+            <Link
+              href={`/cases/${c.id}/next-date`}
+              className="flex h-[50px] items-center justify-center rounded-control bg-accent text-[16px] font-semibold text-on-accent"
+            >
+              {t('today.addNextDate')}
+            </Link>
+            <Link
+              href={`/photo?case=${c.id}`}
+              aria-label={t('orderPhoto.fromPhoto')}
+              className="flex h-[50px] items-center justify-center gap-2 rounded-control border border-border bg-surface px-4 text-[15px] font-semibold"
+            >
+              <Icon name="photo" size={20} />
+              <span className="hidden sm:inline">{t('orderPhoto.fromPhoto')}</span>
+            </Link>
+          </div>
         </div>
       )}
     </div>

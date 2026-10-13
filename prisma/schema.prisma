@@ -111,18 +111,21 @@ model OtpChallenge {
 }
 
 model Chamber {
-  id          String    @id @default(uuid(7)) @db.Uuid
-  name        String
-  district    String
-  plan        String    @default("trial")
-  status      String    @default("active")
-  trialEndsAt DateTime? @map("trial_ends_at") @db.Timestamptz
+  id             String    @id @default(uuid(7)) @db.Uuid
+  name           String
+  district       String
+  plan           String    @default("trial")
+  status         String    @default("active")
+  trialEndsAt    DateTime? @map("trial_ends_at") @db.Timestamptz
   /// Printed on receipts (ReceiptView design). Optional.
-  address     String?
+  address        String?
   /// Last receipt number issued; incremented inside the payment transaction (TECH_GUIDE section 14).
-  receiptSeq  Int       @default(0) @map("receipt_seq")
-  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  receiptSeq     Int       @default(0) @map("receipt_seq")
+  /// F37: the owner allows order photos to be read by the AI provider. Off until the owner turns it on,
+  /// because a photo cannot be redacted before it is sent (plan.md 7.5).
+  aiPhotoReading Boolean   @default(false) @map("ai_photo_reading")
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz
 
   memberships Membership[]
   invitations Invitation[]

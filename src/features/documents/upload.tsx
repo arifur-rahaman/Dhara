@@ -33,7 +33,7 @@ export async function compressPhoto(file: File): Promise<File | null> {
   }
 }
 
-function put(url: string, file: File, onProgress: (p: number) => void) {
+export function put(url: string, file: File, onProgress: (p: number) => void = () => {}) {
   return new Promise<boolean>((resolve) => {
     const xhr = new XMLHttpRequest();
     xhr.open('PUT', url);
