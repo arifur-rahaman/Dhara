@@ -267,13 +267,6 @@ export async function hearingsOn(ctx: Ctx, date: Ymd): Promise<TodayHearing[]> {
   });
 }
 
-export async function countHearingsOn(ctx: Ctx, date: Ymd): Promise<number> {
-  if (!can.listCases(ctx)) return 0;
-  return withTenant(scopeOf(ctx), (tx) =>
-    tx.hearing.count({ where: { chamberId: ctx.chamberId, date: dbDate(date), case: visibleCasesWhere(ctx) } }),
-  );
-}
-
 /**
  * Office staff's today list (P3): case number, court and serial only.
  * Deliberately selects no client and no assignee, so nothing else can leak into the page.

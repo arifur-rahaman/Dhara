@@ -532,7 +532,18 @@
     "staffTasks": "অ্যাসাইন করা কাজ",
     "none": "আজ কোনো হিয়ারিং নেই।",
     "addCase": "নতুন কেস অ্যাড করুন",
-    "you": "আপনি"
+    "you": "আপনি",
+    "statDues": "জনের ফি বাকি",
+    "tomorrowTitle": "কালকের হিয়ারিং",
+    "tomorrowNone": "কাল কোনো হিয়ারিং নেই।",
+    "duesTitle": "{count, number} জন ক্লায়েন্টের ফি বাকি",
+    "duesBody": "হিসাব থেকে নিজের ফোনে প্রত্যেককে রিমাইন্ডার পাঠান।",
+    "duesAction": "খুলুন",
+    "tasksTitle": "চেম্বারে {count, number}টি কাজ বাকি",
+    "tasksNone": "কোনো কাজ বাকি নেই",
+    "tasksLate": "{count, number}টির সময় আজ বা পার হয়ে গেছে",
+    "tasksBody": "আজ কোনো কাজের সময় শেষ হচ্ছে না।",
+    "tasksAction": "দেখুন"
   },
   "cases": {
     "title": "কেস",
@@ -863,7 +874,10 @@
     "title": "ধারা",
     "night": "কাল {hearings, number}টি হিয়ারিং",
     "morning": "আজ {hearings, number}টি হিয়ারিং",
-    "morningWithTasks": "আজ {hearings, number}টি হিয়ারিং, {tasks, number}টি কাজ"
+    "morningWithTasks": "আজ {hearings, number}টি হিয়ারিং, {tasks, number}টি কাজ",
+    "noticeDates": "{count, number}টি কেসে পরের তারিখ অ্যাড হয়েছে",
+    "noticeTasks": "আপনার জন্য {count, number}টি নতুন কাজ",
+    "noticeOther": "{count, number}টি নতুন নোটিশ"
   },
   "notifications": {
     "markAll": "সব পড়া",

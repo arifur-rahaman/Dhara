@@ -532,7 +532,18 @@
     "staffTasks": "Assigned tasks",
     "none": "No hearings today.",
     "addCase": "Add a new case",
-    "you": "You"
+    "you": "You",
+    "statDues": "clients with fees due",
+    "tomorrowTitle": "Tomorrow's hearings",
+    "tomorrowNone": "No hearings tomorrow.",
+    "duesTitle": "{count, plural, one {# client has fees due} other {# clients have fees due}}",
+    "duesBody": "Send each a reminder from your own phone in Accounts.",
+    "duesAction": "Open",
+    "tasksTitle": "{count, plural, one {# open task} other {# open tasks}} in the chamber",
+    "tasksNone": "No open tasks",
+    "tasksLate": "{count, plural, one {# is due today or late} other {# are due today or late}}",
+    "tasksBody": "Nothing due today.",
+    "tasksAction": "See"
   },
   "cases": {
     "title": "Cases",
@@ -863,7 +874,10 @@
     "title": "Dhara",
     "night": "{hearings, plural, one {# hearing} other {# hearings}} tomorrow",
     "morning": "Today: {hearings, plural, one {# hearing} other {# hearings}}",
-    "morningWithTasks": "Today: {hearings, plural, one {# hearing} other {# hearings}}, {tasks, plural, one {# task} other {# tasks}}"
+    "morningWithTasks": "Today: {hearings, plural, one {# hearing} other {# hearings}}, {tasks, plural, one {# task} other {# tasks}}",
+    "noticeDates": "{count, plural, one {A next date was added to # case} other {Next dates were added to # cases}}",
+    "noticeTasks": "{count, plural, one {# new task for you} other {# new tasks for you}}",
+    "noticeOther": "{count, plural, one {# new notice} other {# new notices}}"
   },
   "notifications": {
     "markAll": "Mark all read",

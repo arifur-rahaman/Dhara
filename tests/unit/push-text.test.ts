@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
-const { reminderMessage } = await import('@/server/jobs/reminders');
+const { noticeMessage, reminderMessage } = await import('@/server/jobs/reminders');
 
 describe('reminder push text (TECH_GUIDE section 12: counts only)', () => {
   it('Bangla with Bangla digits by default', () => {
@@ -23,5 +23,22 @@ describe('reminder push text (TECH_GUIDE section 12: counts only)', () => {
       url: '/today',
       tag: 'reminder-morning',
     });
+  });
+});
+
+describe('notice push text (F18: counts only, no case or client details)', () => {
+  it('names only how many dates, tasks and other notices are new', () => {
+    expect(noticeMessage({ dates: 1, tasks: 0, other: 0, locale: 'en', numerals: null })).toEqual({
+      title: 'Dhara',
+      body: 'A next date was added to 1 case',
+      url: '/notifications',
+      tag: 'notices',
+    });
+    expect(noticeMessage({ dates: 2, tasks: 1, other: 1, locale: 'en', numerals: null }).body).toBe(
+      'Next dates were added to 2 cases · 1 new task for you · 1 new notice',
+    );
+    expect(noticeMessage({ dates: 3, tasks: 2, other: 0, locale: 'bn', numerals: 'bn' }).body).toBe(
+      '৩টি কেসে পরের তারিখ অ্যাড হয়েছে · আপনার জন্য ২টি নতুন কাজ',
+    );
   });
 });

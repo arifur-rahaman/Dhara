@@ -11,7 +11,8 @@ import { caseDisplay } from '@/features/cases/display';
 import { supportBanner } from '@/features/support/queries';
 import { listTasks } from '@/features/tasks/queries';
 import { TaskList } from '@/features/tasks/task-list';
-import { countHearingsOn, hearingsOn, todayForStaff, type TodayHearing } from '@/features/cases/queries';
+import { hearingsOn, todayForStaff, type TodayHearing } from '@/features/cases/queries';
+import { accountsOverview } from '@/features/money/queries';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('nav');
@@ -32,11 +33,17 @@ async function OwnerToday() {
   const ctx = await requireCtx();
   const t = await getTranslations();
   const d = await caseDisplay();
-  const [hearings, tomorrow, support] = await Promise.all([
+  const [hearings, tomorrow, support, money, tasks] = await Promise.all([
     hearingsOn(ctx, d.today),
-    countHearingsOn(ctx, addDays(d.today, 1)),
+    hearingsOn(ctx, addDays(d.today, 1)),
     supportBanner(ctx),
+    accountsOverview(ctx),
+    listTasks(ctx),
   ]);
+  // Morning briefing (F4): people with fees due (a case with no client counts on its own), and open tasks.
+  const dueClients = money ? new Set(money.dues.map((x) => x.clientId ?? `case:${x.case.id}`)).size : 0;
+  const openTasks = tasks.open.length;
+  const lateTasks = tasks.open.filter((x) => x.dueOn && x.dueOn <= d.today).length;
 
   return (
     <div className="relative flex flex-col gap-4">
@@ -69,9 +76,10 @@ async function OwnerToday() {
         </Link>
       )}
 
-      <div className="grid grid-cols-2 gap-2.5 md:max-w-[420px]">
+      <div className="grid grid-cols-3 gap-2.5 md:max-w-[560px]">
         <Stat value={d.number(hearings.length)} label={t('today.statToday')} />
-        <Stat value={d.number(tomorrow)} label={t('today.statTomorrow')} />
+        <Stat value={d.number(tomorrow.length)} label={t('today.statTomorrow')} />
+        <Stat value={d.number(dueClients)} label={t('today.statDues')} />
       </div>
 
       <section aria-labelledby="today-hearings" className="flex flex-col gap-2">
@@ -111,6 +119,25 @@ async function OwnerToday() {
         )}
       </section>
 
+      <TomorrowList hearings={tomorrow} display={d} />
+
+      <div className="flex flex-col gap-2.5 md:max-w-[560px]">
+        {dueClients > 0 && (
+          <BriefingLink
+            href="/accounts"
+            title={t('today.duesTitle', { count: dueClients })}
+            body={t('today.duesBody')}
+            action={t('today.duesAction')}
+          />
+        )}
+        <BriefingLink
+          href="/tasks"
+          title={openTasks ? t('today.tasksTitle', { count: openTasks }) : t('today.tasksNone')}
+          body={lateTasks ? t('today.tasksLate', { count: lateTasks }) : t('today.tasksBody')}
+          action={t('today.tasksAction')}
+        />
+      </div>
+
       {can.createCase(ctx) && (
         <Link
           href="/cases/new"
@@ -130,7 +157,7 @@ async function MemberToday({ lockNote, role }: { lockNote: boolean; role: 'assoc
   const ctx = await requireCtx();
   const t = await getTranslations();
   const d = await caseDisplay();
-  const hearings = await hearingsOn(ctx, d.today);
+  const [hearings, tomorrow] = await Promise.all([hearingsOn(ctx, d.today), hearingsOn(ctx, addDays(d.today, 1))]);
   const courts = new Set(hearings.map((h) => d.court(h.court, h.courtNo))).size;
 
   return (
@@ -155,6 +182,8 @@ async function MemberToday({ lockNote, role }: { lockNote: boolean; role: 'assoc
       ) : (
         hearings.map((h) => <HearingCard key={h.hearingId} h={h} display={d} />)
       )}
+
+      <TomorrowList hearings={tomorrow} display={d} />
 
       {lockNote && <LockNote text={t('today.munshiLock')} />}
     </div>
@@ -251,6 +280,61 @@ async function StaffToday() {
 
       <LockNote text={t('today.staffLock')} />
     </div>
+  );
+}
+
+/** Tomorrow's hearings (F3), compact: the evening before, people check what is coming. */
+async function TomorrowList({
+  hearings,
+  display: d,
+}: {
+  hearings: TodayHearing[];
+  display: Awaited<ReturnType<typeof caseDisplay>>;
+}) {
+  const t = await getTranslations();
+  return (
+    <section aria-labelledby="tomorrow-hearings" className="flex flex-col gap-2">
+      <h2 id="tomorrow-hearings" className="text-[16px] font-semibold">
+        {t('today.tomorrowTitle')}
+      </h2>
+      {hearings.length === 0 ? (
+        <p className="rounded-card border border-border bg-surface p-4 text-[15px] text-muted">
+          {t('today.tomorrowNone')}
+        </p>
+      ) : (
+        <ul className="flex flex-col rounded-card border border-border bg-surface px-4">
+          {hearings.map((h) => (
+            <li key={h.hearingId} className="border-t border-border first:border-t-0">
+              <Link href={`/cases/${h.caseId}`} className="flex min-h-[60px] items-center gap-3 py-2">
+                <span className="flex min-w-0 flex-1 flex-col gap-px">
+                  <span className="text-[15px] font-semibold">{d.title(h)}</span>
+                  <span className="text-[13px] text-muted">{d.court(h.court, h.courtNo)}</span>
+                </span>
+                {h.serial && (
+                  <span className="shrink-0 text-[12px] text-muted">{t('today.serial', { serial: h.serial })}</span>
+                )}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  );
+}
+
+/** A briefing card on the owner's Today (OwnerToday design): what needs attention, and where to act. */
+function BriefingLink({ href, title, body, action }: { href: string; title: string; body: string; action: string }) {
+  return (
+    <Link
+      href={href}
+      className="flex min-h-16 items-center gap-3 rounded-[14px] border border-border bg-surface px-4 py-3"
+    >
+      <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+        <span className="text-[15px] font-semibold">{title}</span>
+        <span className="text-[13px] text-muted">{body}</span>
+      </span>
+      <span className="shrink-0 text-[14px] font-semibold text-accent">{action}</span>
+    </Link>
   );
 }
 
