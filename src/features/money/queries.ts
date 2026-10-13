@@ -184,3 +184,29 @@ export async function receiptData(ctx: Ctx, paymentId: string) {
     };
   });
 }
+
+/**
+ * A case invoice (F32), built from the fee records alone: every fee charged, every payment received and
+ * what is still due, as of today. No number is stored: it is a statement of the case's account, made
+ * fresh each time, so it can never disagree with the fees tab.
+ */
+export async function invoiceData(ctx: Ctx, caseId: string) {
+  const m = await caseMoney(ctx, caseId);
+  if (!m) return null;
+  return withTenant(scopeOf(ctx), async (tx) => {
+    const [kase, chamber] = await Promise.all([
+      tx.case.findFirstOrThrow({
+        where: { id: caseId, chamberId: ctx.chamberId },
+        select: { ...caseRefSelect, client: { select: { displayName: true } } },
+      }),
+      tx.chamber.findUniqueOrThrow({ where: { id: ctx.chamberId }, select: { name: true, address: true } }),
+    ]);
+    return {
+      ...m,
+      today: todayInDhaka(),
+      case: { id: kase.id, type: kase.type, number: kase.number, year: kase.year },
+      clientName: kase.client?.displayName ?? null,
+      chamber,
+    };
+  });
+}

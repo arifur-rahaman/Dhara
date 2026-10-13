@@ -65,6 +65,14 @@ export async function CaseFees({ ctx, caseId }: { ctx: Ctx; caseId: string }) {
         </ul>
       )}
       {owner && <FeeForm caseId={caseId} today={todayInDhaka()} />}
+      {m.fees.length > 0 && (
+        <Link
+          href={`/cases/${caseId}/invoice`}
+          className="flex h-[50px] items-center justify-center rounded-control border border-border bg-surface text-[16px] font-semibold"
+        >
+          {t('invoice')}
+        </Link>
+      )}
 
       <h3 className="text-[15px] font-semibold">{t('receiptsTitle')}</h3>
       {m.payments.length === 0 ? (
