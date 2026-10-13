@@ -857,7 +857,8 @@
     "feePlaceholder": "e.g. Hearing fee",
     "feeAdded": "Fee added.",
     "receiptsTitle": "Payments and receipts",
-    "receiptShort": "Receipt {no}"
+    "receiptShort": "Receipt {no}",
+    "invoice": "Make invoice"
   },
   "receipt": {
     "title": "Receipt",
@@ -1229,5 +1230,25 @@
       "unreadable": "The document could not be read.",
       "unavailable": "The AI service did not answer. Try again in a moment."
     }
+  },
+  "invoice": {
+    "title": "Invoice",
+    "client": "Client",
+    "case": "Case",
+    "fees": "Fees",
+    "date": "Date",
+    "for": "For",
+    "amount": "Amount",
+    "noFees": "No fees charged yet.",
+    "totalCharged": "Total fees",
+    "payments": "Received",
+    "receipt": "Receipt",
+    "receiptNo": "Receipt {no}",
+    "totalPaid": "Total received",
+    "balance": "Balance due",
+    "advance": "Paid in advance",
+    "footer": "Invoice made with Dhara from the chamber's fee records",
+    "note": "Made from this case's fees and payments as of today. To change it, change the fees.",
+    "pdf": "Download PDF"
   }
 }

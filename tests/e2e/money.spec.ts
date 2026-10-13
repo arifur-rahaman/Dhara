@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { inviteAndJoin, signUpOwner } from './helpers';
+import { expectNoSeriousA11yIssues, inviteAndJoin, signUpOwner } from './helpers';
 
 // Conjunct-heavy text (TECH_GUIDE section 14): ক্ষ, স্ত্র, ক্ষ্ম, ন্ত্র.
 const ADDRESS = 'লক্ষ্মীপুর, স্ত্রীরোড, মন্ত্রী ভবন';
@@ -72,6 +72,22 @@ test('money: fees, payments with sequential receipts, dues, PDF, and who sees mo
   await expect(page.getByText('৳7,000')).toBeVisible();
   await expect(page.getByText('৳8,000').first()).toBeVisible();
   await expect(page.getByRole('button', { name: 'Send a reminder to Salma Begum' })).toBeVisible();
+
+  // Invoice (F32) from the fee records: fees, both receipts, balance 8,000.
+  await page.goto(`${casePath}?tab=fees`);
+  await page.getByRole('link', { name: 'Make invoice' }).click();
+  await expect(page).toHaveURL(/\/cases\/[0-9a-f-]{36}\/invoice$/);
+  const invoice = page.getByRole('article', { name: 'Invoice' });
+  await expect(invoice).toContainText('Hearing fee');
+  await expect(invoice).toContainText('Receipt 0001');
+  await expect(invoice).toContainText('Receipt 0002');
+  await expect(invoice.getByRole('row', { name: /Total received/ })).toContainText('৳7,000');
+  await expect(invoice).toContainText(/Balance due\s*৳8,000/);
+  expect(await invoice.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgb(255, 255, 255)');
+  await expectNoSeriousA11yIssues(page);
+  const invoicePdf = await page.request.get(`${new URL(page.url()).pathname}/pdf`);
+  expect(invoicePdf.status()).toBe(200);
+  expect(invoicePdf.headers()['content-type']).toBe('application/pdf');
 
   // PDF: real PDF with the Bangla font embedded.
   const pdf = await page.request.get(`${receiptPath}/pdf`);

@@ -147,7 +147,8 @@ Lawyers in Bangladesh keep cases, hearing dates, fees and client details in pape
 
 **Payments**
 - [ ] **F31** bKash/Nagad পেমেন্ট লিংক — through a payment-gateway adapter; webhooks reconcile payments automatically.
-- [ ] **F32** AI দিয়ে ইনভয়েসের খসড়া.
+- [x] **F32** AI দিয়ে ইনভয়েসের খসড়া.
+  - Built (M8) **without AI**, by the project owner's decision: a per-case invoice (বিল) made from the fee records — every fee, every payment with its receipt number, and the balance as of today — on screen, print and PDF. Shown to whoever may see the case's fees (P9); no client contact (P1). No invoice number is stored: it is a statement of the account, made fresh each time.
 
 **AI (see section 7.5 for the rules)**
 - [ ] **F33** ঘটনা থেকে আরজি বা পিটিশনের খসড়া — guided questions first: parties, cause-of-action date, jurisdiction, valuation, court fee, limitation, relief sought. Court format, Bangla or English, limitation and court-fee warnings, DRAFT watermark, client identity redacted before sending to AI.
@@ -387,7 +388,7 @@ Every tenant table has `chamber_id` (RLS), `created_at`, `updated_at`, and soft-
 ### M8 — Stage 2b: AI, law library, learning (F32–F42)
 - [ ] `AiProvider` with redaction; drafting with the checklist (F33); templates (F34).
 - [ ] Law library + plain-Bangla explanations (F35, after the copyright opinion), offline acts (F36).
-- [ ] Order-photo extraction with confirmation (F37); summaries (F38); manual gazette updates with notifications (F39); voice notes after evaluation (F40); AI course and chamber package (F41, F42); invoice draft (F32).
+- [ ] Order-photo extraction with confirmation (F37); summaries (F38); manual gazette updates with notifications (F39); voice notes after evaluation (F40); AI course and chamber package (F41, F42); invoice (F32, from fee records, done).
 - **Done when:** adversarial tests show no citation outside the library; redaction tests pass; every draft carries the DRAFT watermark.
 
 ### M9 — Stage 3: permission-gated (F43–F59)
