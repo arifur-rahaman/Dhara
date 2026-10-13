@@ -12,7 +12,8 @@ import type { Tx } from './client';
 function create() {
   const url = env().DATABASE_ADMIN_URL;
   if (!url) throw new Error('DATABASE_ADMIN_URL is not set. See .env.example.');
-  return new PrismaClient({ adapter: new PrismaPg({ connectionString: url }) });
+  // Serverless hosts run many small instances: keep each one's pool small (DATABASE_POOL_MAX).
+  return new PrismaClient({ adapter: new PrismaPg({ connectionString: url, max: env().DATABASE_POOL_MAX }) });
 }
 
 const globalForAdmin = globalThis as unknown as { dharaAdminPrisma?: PrismaClient };

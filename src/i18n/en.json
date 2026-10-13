@@ -27,7 +27,10 @@
     "passwordHint": "You can set a password in Settings after you sign in with OTP once.",
     "twoStepTitle": "Two-step verification",
     "twoStepBody": "Enter the 6-digit code from your authenticator app, or one of your recovery codes.",
-    "continue": "Continue"
+    "continue": "Continue",
+    "email": "Email",
+    "emailHint": "Your sign-in code is sent here, now and every time. Use an address you check.",
+    "verifySentEmail": "We sent a 6-digit code to {email}. It may take a minute; check spam too."
   },
   "language": {
     "label": "Language",
@@ -301,7 +304,11 @@
     "noDue": "Nothing is due on this case.",
     "noPhone": "This client has no phone number saved. Add it on the client's page.",
     "amountInvalid": "Write the amount in taka, like 5000.",
-    "reminderTimeInvalid": "Choose a time for each reminder."
+    "reminderTimeInvalid": "Choose a time for each reminder.",
+    "noEmailUsePassword": "This number has no email for sign-in codes. Sign in with your password.",
+    "emailInvalid": "Enter a full email address, like name@gmail.com.",
+    "emailTaken": "That email is already used by another account. Use a different one.",
+    "accountExists": "This number already has an account. Sign in with it to accept."
   },
   "twoStep": {
     "title": "Turn on two-step verification",
@@ -346,7 +353,8 @@
     "inviteTitle": "Invite your team",
     "inviteBody": "Add associates, your munshi and office staff. Each gets only what their role allows.",
     "inviteNow": "Invite a member",
-    "later": "Later"
+    "later": "Later",
+    "continueInvite": "Continue to your invitation"
   },
   "invite": {
     "title": "Invitation",
@@ -355,7 +363,10 @@
     "continue": "Continue to sign in",
     "accept": "Accept invitation",
     "wrongPhone": "This invitation is for {phone}. Log out and sign in with that number.",
-    "invalid": "This invitation link has expired or was withdrawn. Ask the chamber owner to send a new one."
+    "invalid": "This invitation link has expired or was withdrawn. Ask the chamber owner to send a new one.",
+    "noEmail": "No email? Set a password and join with this link. You will sign in with your number and this password.",
+    "newPassword": "New password (at least 8 characters)",
+    "joinWithPassword": "Join with a password"
   },
   "team": {
     "subtitle": "Set who can see and do what.",
@@ -422,7 +433,15 @@
         "tasks": "Tasks",
         "team": "Change team and permissions"
       }
-    }
+    },
+    "inviteNoteLink": "After you add them, send the invitation link from your own phone (WhatsApp or SMS). The role turns on after their first sign-in; you can change or turn it off any time.",
+    "shareTitle": "Invitation ready",
+    "shareBody": "Send this link from your phone. It works for 7 days and only with the number you entered.",
+    "shareWhatsApp": "Send on WhatsApp",
+    "shareSms": "Send as SMS from my phone",
+    "shareCopy": "Copy link",
+    "shareCopied": "Link copied",
+    "shareDone": "Back to team"
   },
   "districts": {
     "Bagerhat": "Bagerhat",
@@ -922,7 +941,9 @@
     "historyTitle": "Hearing history",
     "footer": "Made with Dhara. Check dates against the court's cause list.",
     "historyPdf": "Hearing history (PDF)",
-    "dailyPdf": "Print list (PDF)"
+    "dailyPdf": "Print list (PDF)",
+    "saveHint": "Choose \"Save as PDF\" as the printer to keep a file.",
+    "printButton": "Print or save as PDF"
   },
   "offline": {
     "title": "Offline",

@@ -27,11 +27,22 @@ const fileProvider: SmsProvider = {
   },
 };
 
+/** No SMS gateway yet: callers check smsEnabled() first, so reaching this is a bug. */
+const noneProvider: SmsProvider = {
+  async send() {
+    throw new Error('SMS_PROVIDER=none: the app does not send SMS');
+  },
+};
+
+export const smsEnabled = () => env().SMS_PROVIDER !== 'none';
+
 export function smsProvider(): SmsProvider {
   switch (env().SMS_PROVIDER) {
     case 'console':
       return consoleProvider;
     case 'file':
       return fileProvider;
+    case 'none':
+      return noneProvider;
   }
 }

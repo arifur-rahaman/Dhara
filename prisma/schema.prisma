@@ -37,6 +37,11 @@ enum ActorKind {
 model User {
   id                    String    @id @default(uuid(7)) @db.Uuid
   phone                 String    @unique // E.164, +8801XXXXXXXXX
+  /// Login codes by email (OTP_CHANNEL=email) until an SMS gateway is chosen. Lower case.
+  email                 String?   @unique
+  emailVerifiedAt       DateTime? @map("email_verified_at") @db.Timestamptz
+  /// Set when an SMS code proved the phone. Only then may invitations be found by phone alone.
+  phoneVerifiedAt       DateTime? @map("phone_verified_at") @db.Timestamptz
   name                  String?
   passwordHash          String?   @map("password_hash")
   totpSecretEnc         String?   @map("totp_secret_enc")
@@ -90,6 +95,8 @@ model Session {
 model OtpChallenge {
   id         String    @id @default(uuid(7)) @db.Uuid
   phone      String
+  /// Set when the code went by email instead of SMS.
+  email      String?
   codeHash   String    @map("code_hash")
   attempts   Int       @default(0)
   ipHash     String?   @map("ip_hash")
@@ -98,6 +105,7 @@ model OtpChallenge {
   createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
 
   @@index([phone, createdAt])
+  @@index([email, createdAt])
   @@index([ipHash, createdAt])
   @@map("otp_challenges")
 }

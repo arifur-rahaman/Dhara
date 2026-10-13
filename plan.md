@@ -409,6 +409,7 @@ Every tenant table has `chamber_id` (RLS), `created_at`, `updated_at`, and soft-
 - Secrets only in environment variables; `.env.example` documents every variable.
 - Migrations run automatically on deploy; seed data only in local and staging.
 - Hosting location: decide after the legal opinion (section 12). Keep everything containerised so moving providers is easy.
+- First launch (decided by the project owner): Vercel + Supabase on a `techhunt.org` subdomain, sign-in codes by email until an SMS gateway is chosen, invitation links shared from the owner's phone. Steps in `docs/DEPLOY.md`. Move to paid hosting once there are paying chambers; the name may change to PocketChamber.
 
 ---
 

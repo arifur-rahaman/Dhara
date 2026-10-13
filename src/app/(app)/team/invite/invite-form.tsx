@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useActionState, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ActionForm, Field, FormError, PrimaryButton, inputClass } from '@/components/form';
@@ -8,13 +9,16 @@ import { inviteMember } from '@/features/team/actions';
 const roles = ['associate', 'munshi', 'staff'] as const;
 
 /** Member invite form (docs/design/InviteMember.dc.html). */
-export function InviteForm() {
+export function InviteForm({ bySms }: { bySms: boolean }) {
   const t = useTranslations();
   const [state, action, pending] = useActionState(inviteMember, undefined);
   const [role, setRole] = useState<(typeof roles)[number]>((state?.values?.role as never) ?? 'associate');
   const v = state?.values;
   const label = { associate: t('roles.associate'), munshi: t('roles.munshi'), staff: t('team.roleStaffLabel') };
   const desc = { associate: t('team.roleAssociate'), munshi: t('team.roleMunshi'), staff: t('team.roleStaff') };
+  if (state?.link) {
+    return <SharePanel link={state.link} phone={state.values?.phone ?? ''} text={state.values?.text ?? ''} />;
+  }
 
   return (
     <ActionForm action={action} className="flex flex-col gap-3" noValidate>
@@ -84,11 +88,55 @@ export function InviteForm() {
           </div>
         </fieldset>
       )}
-      <p className="text-[13px] text-muted">{t('team.inviteNote')}</p>
+      <p className="text-[13px] text-muted">{bySms ? t('team.inviteNote') : t('team.inviteNoteLink')}</p>
       <FormError error={state?.error} />
       <PrimaryButton type="submit" pending={pending} className="mt-1 h-[50px] text-[16px]">
         {t('team.send')}
       </PrimaryButton>
     </ActionForm>
+  );
+}
+
+/**
+ * No SMS gateway yet: the owner sends the invitation from their own phone. The link is shown once,
+ * here, to the owner; anyone who has it can open the invitation, but only with the invited number.
+ */
+function SharePanel({ link, phone, text }: { link: string; phone: string; text: string }) {
+  const t = useTranslations('team');
+  const [copied, setCopied] = useState(false);
+  const digits = phone.replace(/^\+/, '');
+  const button = 'flex h-12 items-center justify-center rounded-control text-[16px] font-semibold';
+  return (
+    <section role="status" className="flex flex-col gap-3 rounded-card border border-border bg-surface p-4">
+      <h2 className="text-[17px] font-semibold">{t('shareTitle')}</h2>
+      <p className="text-[14px] leading-relaxed text-muted">{t('shareBody')}</p>
+      <a
+        href={`https://wa.me/${digits}?text=${encodeURIComponent(text)}`}
+        className={`${button} bg-accent text-on-accent`}
+      >
+        {t('shareWhatsApp')}
+      </a>
+      <a href={`sms:${phone}?body=${encodeURIComponent(text)}`} className={`${button} border border-border`}>
+        {t('shareSms')}
+      </a>
+      <button
+        type="button"
+        onClick={async () => {
+          try {
+            await navigator.clipboard.writeText(link);
+            setCopied(true);
+          } catch {
+            setCopied(false);
+          }
+        }}
+        className={`${button} border border-border`}
+      >
+        {copied ? t('shareCopied') : t('shareCopy')}
+      </button>
+      <p className="text-[13px] break-all text-muted">{link}</p>
+      <Link href="/team" className="flex min-h-11 items-center justify-center text-[14px] font-semibold text-accent">
+        {t('shareDone')}
+      </Link>
+    </section>
   );
 }

@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server';
 import { can } from '@/server/authz';
 import { requireCtx } from '@/server/context';
 import { SubpageHeader } from '@/features/shell/subpage-header';
+import { smsEnabled } from '@/server/providers/sms';
 import { InviteForm } from './invite-form';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -18,7 +19,7 @@ export default async function InvitePage() {
   return (
     <div className="flex max-w-[480px] flex-col gap-4">
       <SubpageHeader title={t('inviteTitle')} backHref="/team" />
-      <InviteForm />
+      <InviteForm bySms={smsEnabled()} />
     </div>
   );
 }
