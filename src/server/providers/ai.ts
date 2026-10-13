@@ -23,6 +23,17 @@ export const orderReading = z.object({
 });
 export type OrderReading = z.infer<typeof orderReading>;
 
+/** A judgment or order the lawyer uploaded, summarised for their own use (F38). */
+export const documentSummary = z.object({
+  /** What the court decided, in one or two sentences. */
+  outcome: z.string(),
+  /** The main points or directions, at most eight short lines. */
+  points: z.array(z.string()),
+  /** A next date fixed in the document, as YYYY-MM-DD, or null. */
+  nextDate: z.string().nullable(),
+});
+export type DocumentSummary = z.infer<typeof documentSummary>;
+
 export type ReadOrderResult = { ok: true; reading: OrderReading } | { ok: false; reason: 'unreadable' | 'unavailable' };
 
 export interface AiProvider {
@@ -32,6 +43,11 @@ export interface AiProvider {
     language: 'en' | 'bn';
     today: string;
   }): Promise<ReadOrderResult>;
+  summarizeDocument(input: {
+    data: Buffer;
+    mediaType: 'application/pdf' | 'image/jpeg' | 'image/png';
+    language: 'en' | 'bn';
+  }): Promise<{ ok: true; summary: DocumentSummary } | { ok: false; reason: 'unreadable' | 'unavailable' }>;
 }
 
 const ORDER_SYSTEM = `You read photos of court orders from Bangladesh (Bangla or English, printed or handwritten) for a lawyer's case diary.
@@ -41,6 +57,14 @@ Return only what is written on the order:
 - caseNumber: the case number as written (for example "245/2026"), or null.
 - dateConfidence: "clear" if the date is plainly legible, "unsure" if you read a date but parts are hard to read, "none" if there is no date.
 Write the summary in the language given in the request.`;
+
+const SUMMARY_SYSTEM = `You summarise a court judgment or order from Bangladesh for the lawyer handling the case.
+- outcome: what the court decided, in one or two sentences.
+- points: the main findings, directions or reasons, at most eight short lines, in the order they appear.
+- nextDate: a next date the document fixes, as YYYY-MM-DD, or null. Never guess a date.
+Refer to people by their role (plaintiff, defendant, petitioner, respondent, accused, informant), never by name, and leave out phone numbers, NID numbers and addresses.
+Do not add law, sections or case citations that are not in the document. If the document is not a judgment or order, or cannot be read, say so in outcome and leave points empty.
+Write in the requested language.`;
 
 /** Models that accept the server-side fallback for policy declines (claude-api skill: Opus 5.5 and peers). */
 export const FALLBACK_MODELS = new Set(['claude-opus-5-5', 'claude-opus-5', 'claude-fable-5-1', 'claude-sonnet-5-5']);
@@ -88,6 +112,43 @@ const anthropicProvider: AiProvider = {
       return { ok: false, reason: 'unavailable' };
     }
   },
+  async summarizeDocument({ data, mediaType, language }) {
+    const model = env().AI_MODEL_DRAFT;
+    if (!model) throw new Error('AI_MODEL_DRAFT is not set. See .env.example.');
+    const source =
+      mediaType === 'application/pdf'
+        ? {
+            type: 'document' as const,
+            source: { type: 'base64' as const, media_type: mediaType, data: data.toString('base64') },
+          }
+        : {
+            type: 'image' as const,
+            source: { type: 'base64' as const, media_type: mediaType, data: data.toString('base64') },
+          };
+    try {
+      const response = await anthropic().beta.messages.parse({
+        model,
+        max_tokens: 8000,
+        output_config: { effort: 'medium', format: zodOutputFormat(documentSummary) },
+        ...(FALLBACK_MODELS.has(model)
+          ? { betas: ['server-side-fallback-2026-07-01'], fallbacks: 'default' as const }
+          : {}),
+        system: SUMMARY_SYSTEM,
+        messages: [
+          {
+            role: 'user',
+            content: [source, { type: 'text', text: `Summary language: ${language === 'bn' ? 'Bangla' : 'English'}.` }],
+          },
+        ],
+      });
+      if (response.stop_reason === 'refusal' || !response.parsed_output) return { ok: false, reason: 'unreadable' };
+      return { ok: true, summary: response.parsed_output };
+    } catch (error) {
+      const status = error instanceof Anthropic.APIError ? error.status : 'network';
+      console.error(`[ai] document summary failed (${status})`);
+      return { ok: false, reason: 'unavailable' };
+    }
+  },
 };
 
 /** Development and tests: a fixed reading, so the screens can be used without a key or network. */
@@ -105,6 +166,20 @@ const fakeProvider: AiProvider = {
         caseNumber: null,
         dateConfidence: 'clear',
       },
+    };
+  },
+  async summarizeDocument({ language }) {
+    if (process.env.NODE_ENV === 'production') return { ok: false, reason: 'unavailable' };
+    return {
+      ok: true,
+      summary:
+        language === 'bn'
+          ? { outcome: 'আদালত বাদীর আবেদন মঞ্জুর করেছেন।', points: ['বিবাদীকে জবাব দিতে বলা হয়েছে।'], nextDate: null }
+          : {
+              outcome: "The court allowed the plaintiff's application.",
+              points: ['The defendant is to file a reply.'],
+              nextDate: null,
+            },
     };
   },
 };

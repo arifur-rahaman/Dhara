@@ -324,6 +324,8 @@ model Case {
   fees              Fee[]      @relation("FeeCaseChamber")
   payments          Payment[]  @relation("PaymentCaseChamber")
 
+  aiDrafts AiDraft[] @relation("AiDraftCaseChamber")
+
   @@unique([id, chamberId], map: "cases_id_chamber_idx")
   @@index([chamberId])
   @@index([chamberId, assigneeMembershipId])
@@ -493,6 +495,8 @@ model Document {
   updatedAt    DateTime       @updatedAt @map("updated_at") @db.Timestamptz
 
   caseInChamber Case @relation("DocumentCaseChamber", fields: [caseId, chamberId], references: [id, chamberId], onDelete: Restrict, map: "documents_case_chamber_fkey")
+
+  aiSummaries AiSummary[]
 
   @@index([chamberId, caseId])
   @@map("documents")
@@ -709,6 +713,24 @@ model AiDraft {
   deletedAt        DateTime? @map("deleted_at") @db.Timestamptz
   createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz
 
+  caseInChamber Case? @relation("AiDraftCaseChamber", fields: [caseId, chamberId], references: [id, chamberId], map: "ai_drafts_case_chamber")
+
   @@index([chamberId, createdBy, createdAt])
   @@map("ai_drafts")
+}
+
+/// F38: AI summaries of documents the chamber uploaded. Seen by whoever may see the document (RLS follows it).
+model AiSummary {
+  id         String   @id @default(uuid(7)) @db.Uuid
+  chamberId  String   @map("chamber_id") @db.Uuid
+  documentId String   @map("document_id") @db.Uuid
+  language   String
+  summary    String
+  createdBy  String   @map("created_by") @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade, map: "ai_summaries_document")
+
+  @@index([documentId, createdAt])
+  @@map("ai_summaries")
 }

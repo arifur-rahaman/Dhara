@@ -116,8 +116,8 @@
     "devices": "Login devices",
     "deviceCount": "{count, plural, one {# device} other {# devices}}",
     "aiTitle": "AI",
-    "aiPhoto": "Read order photos with AI",
-    "aiPhotoNote": "When on, order photos taken in the app are sent to the AI service (Anthropic) to read the next date. A photo shows party names and cannot be hidden before sending. Nothing is saved until a person checks it.",
+    "aiPhoto": "Read order photos and documents with AI",
+    "aiPhotoNote": "When on, order photos taken in the app, and documents someone asks to summarise, are sent to the AI service (Anthropic). They show party names and cannot be hidden before sending. Nothing is saved as a date until a person checks it.",
     "aiPhotoTurnOn": "Turn on",
     "aiPhotoTurnOff": "Turn off"
   },
@@ -1116,7 +1116,7 @@
     "fromPhoto": "From order photo",
     "intro": "Take a photo of today's order. The app reads the next date and what happened; you check both before saving.",
     "noCases": "No cases to add a date to.",
-    "offOwner": "Reading order photos with AI is off for this chamber. Turn it on in Settings if you agree to send order photos to the AI service.",
+    "offOwner": "Reading order photos and documents with AI is off for this chamber. Turn it on in Settings if you agree to send them to the AI service.",
     "offMember": "Reading order photos with AI is off for this chamber. The owner can turn it on in Settings.",
     "openSettings": "Open Settings",
     "case": "Case",
@@ -1209,6 +1209,24 @@
       "notAllowed": "Drafting is for the owner and associates.",
       "invalid": "Something in the form could not be read. Check it and try again.",
       "notFound": "That case is not available to you.",
+      "unavailable": "The AI service did not answer. Try again in a moment."
+    }
+  },
+  "summaries": {
+    "title": "AI summary",
+    "link": "Summary",
+    "make": "Summarise with AI",
+    "again": "Summarise again",
+    "sendNote": "The document is sent to the AI service (Anthropic) to be read. People are referred to by role, not name.",
+    "check": "Check this against the document; the lawyer decides.",
+    "offOwner": "Reading documents with AI is off for this chamber.",
+    "offMember": "Reading documents with AI is off for this chamber. The owner can turn it on in Settings.",
+    "openSettings": "Open Settings",
+    "errors": {
+      "off": "Reading documents with AI is off for this chamber.",
+      "notAllowed": "Summaries are for the owner and associates.",
+      "notFound": "This document is not available to you.",
+      "unreadable": "The document could not be read.",
       "unavailable": "The AI service did not answer. Try again in a moment."
     }
   }

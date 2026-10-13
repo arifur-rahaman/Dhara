@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { EmptyState, FolderArt } from '@/components/empty-state';
+import { can } from '@/server/authz';
 import { requireCtx } from '@/server/context';
 import { DocumentList, KindFilter } from '@/features/documents/document-list';
 import { documentKinds, listDocuments } from '@/features/documents/queries';
@@ -38,7 +39,7 @@ export default async function DocumentsPage({ searchParams }: PageProps<'/docume
       <SubpageHeader title={t('nav.documents')} />
       <p className="text-[14px] text-muted">{t('documents.recentHint')}</p>
       <KindFilter base="/documents" current={kind} />
-      <DocumentList items={items} showCase />
+      <DocumentList items={items} showCase canSummarize={can.useAi(ctx)} />
       <p className="text-[13px] leading-relaxed text-muted">{t('documents.privateNote')}</p>
     </div>
   );
