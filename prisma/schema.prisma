@@ -691,3 +691,24 @@ model CourseProgress {
   @@id([userId, moduleId])
   @@map("course_progress")
 }
+
+/// F33: AI drafts, kept per chamber for the lawyer's review (plan.md 7.5). Inputs are stored redacted:
+/// names, phone numbers, emails and NID numbers are placeholders, filled back in only on screen.
+model AiDraft {
+  id               String    @id @default(uuid(7)) @db.Uuid
+  chamberId        String    @map("chamber_id") @db.Uuid
+  caseId           String?   @map("case_id") @db.Uuid
+  kind             String
+  language         String
+  redactedInput    String    @map("redacted_input")
+  output           String
+  removedCitations Int       @default(0) @map("removed_citations")
+  /// Placeholder → real value, encrypted like client contact, so the draft can be shown with names again.
+  redactionMapEnc  String    @map("redaction_map_enc")
+  createdBy        String    @map("created_by") @db.Uuid
+  deletedAt        DateTime? @map("deleted_at") @db.Timestamptz
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([chamberId, createdBy, createdAt])
+  @@map("ai_drafts")
+}

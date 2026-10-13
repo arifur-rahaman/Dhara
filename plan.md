@@ -151,7 +151,9 @@ Lawyers in Bangladesh keep cases, hearing dates, fees and client details in pape
 
 **AI (see section 7.5 for the rules)**
 - [ ] **F33** ঘটনা থেকে আরজি বা পিটিশনের খসড়া — guided questions first: parties, cause-of-action date, jurisdiction, valuation, court fee, limitation, relief sought. Court format, Bangla or English, limitation and court-fee warnings, DRAFT watermark, client identity redacted before sending to AI.
+  - Built (M8): checklist first (each item found or missing, with a question), names, phones, emails and NID numbers replaced by placeholders before any AI call and in storage, draft streamed with a DRAFT mark and "the lawyer decides" note, law-report citations removed (no verified library yet), kept per chamber (writer and owner). **Not yet tested with the real model**; limitation and court-fee are asked for but not computed.
 - [ ] **F34** বাংলা ড্রাফট টেমপ্লেট — bail, writ, legal notice, vakalatnama.
+  - Outlines (headings and blanks) for plaint, bail, legal notice and writ, used by F33; **a practising lawyer must review them**. Vakalatnama is not included: chambers use the bar association's printed form.
 - [ ] **F35** আইন সহজ বাংলায় — from the verified law library (source: bdlaws): official text, plain-Bangla explanation, punishment and fine table, bailable / cognizable / compoundable, last-verified date. Needs the copyright opinion first (section 12).
 - [ ] **F36** অফলাইনে আইনের বই (Bare Acts).
 - [ ] **F37** আদেশের ছবি থেকে পরের তারিখ ও করণীয় — AI vision extracts date and summary; the user must confirm before saving; Bangla handwriting accuracy must be tested.

@@ -1149,5 +1149,67 @@
       "dateInvalid": "Choose a date from today on.",
       "uploadFailed": "The photo could not be uploaded. Check the internet and try again."
     }
+  },
+  "drafts": {
+    "title": "Drafts",
+    "kind": "Kind of draft",
+    "kinds": {
+      "plaint": "Plaint",
+      "bail": "Bail petition",
+      "notice": "Legal notice",
+      "writ": "Writ petition"
+    },
+    "case": "Case (optional)",
+    "noCase": "No case",
+    "facts": "Write the facts of the case",
+    "factsPlaceholder": "For example: when, with whom, what the dispute is about, what the client wants now",
+    "names": "Names to hide",
+    "namesHint": "Separate with commas. The case's client and parties are added for you. Phone numbers, emails and NID numbers are hidden automatically.",
+    "redactNote": "Client names and identity are hidden before anything is sent to AI.",
+    "checkButton": "Check what the draft needs",
+    "checksTitle": "What the draft needs",
+    "checksCount": "{found, number}/{total, number}",
+    "checks": {
+      "parties": "Who the parties are",
+      "causeDate": "When the cause of action arose",
+      "jurisdiction": "Which court has jurisdiction",
+      "valuation": "Valuation of the suit",
+      "courtFee": "Court fee",
+      "limitation": "Limitation",
+      "relief": "Relief sought",
+      "caseRef": "Case number and police station",
+      "offence": "The offence alleged",
+      "arrestDate": "Date of arrest",
+      "grounds": "Grounds",
+      "previousBail": "Earlier bail applications",
+      "facts": "What happened",
+      "demand": "What is demanded",
+      "deadline": "Time given to comply",
+      "consequence": "What happens if not",
+      "impugnedAction": "The action or order challenged",
+      "rightAffected": "The right affected",
+      "noOtherRemedy": "Why there is no other remedy"
+    },
+    "found": "Found",
+    "missing": "Missing",
+    "whatWasSent": "See what was sent to AI",
+    "writeButton": "Write the draft",
+    "writeAnyway": "Write the draft with blanks",
+    "outputTitle": "Draft",
+    "removedCitations": "{count, plural, one {# sentence citing a law report was removed} other {# sentences citing law reports were removed}}: there is no verified library to check them against yet.",
+    "lawyerDecides": "This is a draft. Check every line, date, section and amount; the lawyer decides.",
+    "copy": "Copy",
+    "open": "Open and print",
+    "print": "Print or save as PDF",
+    "delete": "Delete draft",
+    "recent": "Recent drafts",
+    "byOther": "by a colleague",
+    "errors": {
+      "tooShort": "Write a little more about the case first.",
+      "notAllowed": "Drafting is for the owner and associates.",
+      "invalid": "Something in the form could not be read. Check it and try again.",
+      "notFound": "That case is not available to you.",
+      "unavailable": "The AI service did not answer. Try again in a moment."
+    }
   }
 }
