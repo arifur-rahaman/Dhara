@@ -8,7 +8,16 @@ import { removeDocument } from './actions';
 import type { DocumentItem } from './queries';
 
 /** Document rows (Documents design): icon, title, date · who added it, and a "Private" chip (P6). */
-export async function DocumentList({ items, showCase = false }: { items: DocumentItem[]; showCase?: boolean }) {
+export async function DocumentList({
+  items,
+  showCase = false,
+  canSummarize = false,
+}: {
+  items: DocumentItem[];
+  showCase?: boolean;
+  /** F38: owners and associates get a link to the document's AI summary. */
+  canSummarize?: boolean;
+}) {
   const t = await getTranslations();
   const prefs = await getPreferences();
   const day = (d: Date) => formatDate(d, prefs, { day: 'numeric', month: 'long' });
@@ -34,6 +43,14 @@ export async function DocumentList({ items, showCase = false }: { items: Documen
               {day(d.createdAt)} · {d.mine ? t('documents.you') : (d.uploadedByName ?? '')}
             </span>
           </a>
+          {canSummarize && (
+            <Link
+              href={`/documents/${d.id}/summary`}
+              className="flex min-h-11 shrink-0 items-center px-1 text-[13px] font-semibold text-accent"
+            >
+              {t('summaries.link')}
+            </Link>
+          )}
           {d.confidential && (
             <span className="flex shrink-0 items-center gap-1 rounded-full bg-lock-bg px-[9px] py-1 text-[12px] font-semibold text-lock-text">
               <Icon name="lock" size={13} />

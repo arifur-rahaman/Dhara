@@ -1,6 +1,6 @@
 import 'server-only';
 import { createReadStream } from 'node:fs';
-import { mkdir, open, rm, stat } from 'node:fs/promises';
+import { mkdir, open, readFile, rm, stat } from 'node:fs/promises';
 import { dirname, resolve, sep } from 'node:path';
 import { AwsClient } from 'aws4fetch';
 import { keyedHash, safeEqual } from '@/server/crypto';
@@ -21,6 +21,8 @@ export interface StorageProvider {
   size(key: string): Promise<number | null>;
   /** The first bytes of an object, to check what the file really is. */
   head(key: string, bytes: number): Promise<Uint8Array>;
+  /** The whole object, for the server's own use (an AI summary, F38). */
+  read(key: string): Promise<Uint8Array>;
   remove(key: string): Promise<void>;
 }
 
@@ -68,6 +70,11 @@ function s3Provider(): StorageProvider {
       const res = await client.fetch(objectUrl(key), { headers: { Range: `bytes=0-${bytes - 1}` } });
       if (!res.ok) throw new Error(`Storage GET failed: ${res.status}`);
       return new Uint8Array(await res.arrayBuffer()).slice(0, bytes);
+    },
+    async read(key) {
+      const res = await client.fetch(objectUrl(key));
+      if (!res.ok) throw new Error(`Storage GET failed: ${res.status}`);
+      return new Uint8Array(await res.arrayBuffer());
     },
     async remove(key) {
       const res = await client.fetch(objectUrl(key), { method: 'DELETE' });
@@ -135,6 +142,9 @@ function localProvider(): StorageProvider {
       } finally {
         await file.close();
       }
+    },
+    async read(key) {
+      return new Uint8Array(await readFile(localPath(key)));
     },
     async remove(key) {
       await rm(localPath(key), { force: true });

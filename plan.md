@@ -159,6 +159,7 @@ Lawyers in Bangladesh keep cases, hearing dates, fees and client details in pape
 - [ ] **F37** আদেশের ছবি থেকে পরের তারিখ ও করণীয় — AI vision extracts date and summary; the user must confirm before saving; Bangla handwriting accuracy must be tested.
   - Built (M8): order photo → date and summary, checked by a person before saving; off until the owner allows AI reading in Settings, because a photo cannot be redacted (7.5). **Not yet tested on real Bangla handwriting**: needs an API key and sample orders before this box is ticked.
 - [ ] **F38** আইনজীবীর আপলোড করা রায় বা আদেশের সারাংশ.
+  - Built (M8): "Summary" on each document for owners and associates; the outcome, main points and any next date, people by role not name, citations removed; kept with the document and visible exactly when the document is. Uses the owner's "read order photos and documents with AI" switch, because a document cannot be redacted. **Not yet tested with the real model.**
 - [ ] **F39** নতুন আইন, সংশোধনী ও প্রজ্ঞাপন — our staff enter updates manually from the Bangladesh Gazette (the Government Press gazette site blocks automated access). AI writes the plain-language summary; lawyers whose cases involve that law are notified.
 - [ ] **F40** বাংলা ভয়েস নোট — speech-to-text with legal terms such as নালু, তদবির. Evaluate providers for Bangla accuracy before committing.
 

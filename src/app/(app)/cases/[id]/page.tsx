@@ -181,7 +181,7 @@ export default async function CasePage({ params, searchParams }: PageProps<'/cas
       {tab === 'documents' && (
         <section aria-label={t('caseDetail.tab.documents')} className="flex flex-col gap-3">
           <KindFilter base={`/cases/${c.id}?tab=documents`} current={kind} />
-          <DocumentList items={await listDocuments(ctx, { caseId: c.id, kind })} />
+          <DocumentList items={await listDocuments(ctx, { caseId: c.id, kind })} canSummarize={can.useAi(ctx)} />
           <p className="text-[13px] leading-relaxed text-muted">{t('documents.privateNote')}</p>
           {can.uploadDocument(
             ctx,

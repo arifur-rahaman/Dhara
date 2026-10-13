@@ -42,3 +42,16 @@ describe('law-report citations are removed (no verified library yet)', () => {
     expect(text).not.toMatch(/DLR|v\. State|বনাম/);
   });
 });
+
+describe('document summary text (F38)', () => {
+  it('lists the outcome, the points and a valid next date, and drops citations the model added', async () => {
+    const { formatSummary } = await import('@/features/summaries/format');
+    expect(
+      formatSummary({
+        outcome: 'Bail granted.',
+        points: ['Accused to appear weekly.', 'As held in 60 DLR 12, bail is the rule.'],
+        nextDate: '2026-12-01',
+      }),
+    ).toBe('Bail granted.\n• Accused to appear weekly.\n→ 2026-12-01');
+  });
+});
