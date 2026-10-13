@@ -38,7 +38,8 @@ export function ImportWizard({
 }) {
   const t = useTranslations('import');
   const tc = useTranslations();
-  const locale = useLocale();
+  // The next-intl locale is the full Intl tag (for example bn-BD-u-nu-beng).
+  const bangla = useLocale().startsWith('bn');
   const format = useFormatter();
   const fileId = useId();
   const [pending, startTransition] = useTransition();
@@ -134,7 +135,7 @@ export function ImportWizard({
   };
   const columnOptions =
     sheet?.headers.map((h, i) => ({ value: String(i), label: h || t('column', { n: i + 1 }) })) ?? [];
-  const courtName = (c: PreviewRow['court']) => (c ? (locale === 'bn' ? c.nameBn : c.nameEn) : '');
+  const courtName = (c: PreviewRow['court']) => (c ? (bangla ? c.nameBn : c.nameEn) : '');
 
   return (
     <div className="flex flex-col gap-4">

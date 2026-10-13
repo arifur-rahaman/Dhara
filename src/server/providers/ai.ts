@@ -43,10 +43,10 @@ Return only what is written on the order:
 Write the summary in the language given in the request.`;
 
 /** Models that accept the server-side fallback for policy declines (claude-api skill: Opus 5.5 and peers). */
-const FALLBACK_MODELS = new Set(['claude-opus-5-5', 'claude-opus-5', 'claude-fable-5-1', 'claude-sonnet-5-5']);
+export const FALLBACK_MODELS = new Set(['claude-opus-5-5', 'claude-opus-5', 'claude-fable-5-1', 'claude-sonnet-5-5']);
 
 let client: Anthropic | null = null;
-function anthropic() {
+export function anthropic() {
   const key = env().ANTHROPIC_API_KEY;
   if (!key) throw new Error('AI_PROVIDER=anthropic needs ANTHROPIC_API_KEY');
   client ??= new Anthropic({ apiKey: key, timeout: 60_000, maxRetries: 1 });
