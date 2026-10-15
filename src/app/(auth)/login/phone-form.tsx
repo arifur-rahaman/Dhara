@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { ActionForm, Field, FormError, PrimaryButton, inputClass } from '@/components/form';
 import { sendOtp } from '@/features/auth/actions';
 
-export function PhoneForm() {
+export function PhoneForm({ askEmail = false, showPassword = true }: { askEmail?: boolean; showPassword?: boolean }) {
   const t = useTranslations('login');
   const [state, action, pending] = useActionState(sendOtp, undefined);
   return (
@@ -26,7 +26,7 @@ export function PhoneForm() {
           className={inputClass}
         />
       </Field>
-      {state?.step === 'email' && (
+      {(askEmail || state?.step === 'email') && (
         <Field id="login-email" label={t('email')} hint={<p className="text-[13px] text-muted">{t('emailHint')}</p>}>
           <input
             id="login-email"
@@ -35,9 +35,9 @@ export function PhoneForm() {
             inputMode="email"
             autoComplete="email"
             required
-            autoFocus
-            defaultValue={state.values?.email}
-            aria-invalid={!!state.error}
+            autoFocus={!askEmail}
+            defaultValue={state?.values?.email}
+            aria-invalid={!!state?.error}
             className={inputClass}
           />
         </Field>
@@ -46,12 +46,14 @@ export function PhoneForm() {
       <PrimaryButton type="submit" pending={pending} className="mt-1">
         {t('sendOtp')}
       </PrimaryButton>
-      <Link
-        href="/login/password"
-        className="flex h-12 items-center justify-center rounded-control border border-border text-[16px] font-medium"
-      >
-        {t('withPassword')}
-      </Link>
+      {showPassword && (
+        <Link
+          href="/login/password"
+          className="flex h-12 items-center justify-center rounded-control border border-border text-[16px] font-medium"
+        >
+          {t('withPassword')}
+        </Link>
+      )}
     </ActionForm>
   );
 }

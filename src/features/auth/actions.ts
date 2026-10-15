@@ -71,7 +71,17 @@ export async function sendOtp(_: FormState, form: FormData): Promise<FormState> 
     }
   }
 
-  const result = await requestOtp(phone as E164, { ipHash, locale, email });
+  let result: Awaited<ReturnType<typeof requestOtp>>;
+  try {
+    result = await requestOtp(phone as E164, { ipHash, locale, email });
+  } catch (error) {
+    // The email or SMS service refused or is not configured. Never log the address or the code.
+    console.error(`[auth] sign-in code not sent: ${error instanceof Error ? error.message : 'unknown error'}`);
+    const typed = form.get('email');
+    return typeof typed === 'string'
+      ? { error: 'sendFailed', step: 'email', values: { phone: raw, email: typed } }
+      : { error: 'sendFailed', values: { phone: raw } };
+  }
   if (!result.ok) return { error: 'rateLimited', step: email ? 'email' : undefined, values: { phone: raw } };
   redirect(`/login/verify?c=${result.challengeId}`);
 }
