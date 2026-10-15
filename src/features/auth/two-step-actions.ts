@@ -1,10 +1,11 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import QRCode from 'qrcode';
 import { audit } from '@/server/audit';
 import { getSession } from '@/server/auth/session';
-import { checkTotp, newRecoveryCodes, newTotpSecret, totpUri } from '@/server/auth/totp';
+import { checkTotp, matchRecoveryCode, newRecoveryCodes, newTotpSecret, totpUri } from '@/server/auth/totp';
 import { decryptField } from '@/server/crypto';
 import { prisma } from '@/server/db/client';
 import { withTenant } from '@/server/db/tenant';
@@ -72,4 +73,35 @@ export async function confirmTwoStepSetup(_: TwoStepSetupState, form: FormData):
 /** Single form action for the setup screen: `intent=start` shows the QR code, `intent=confirm` checks the code. */
 export async function twoStepSetupAction(prev: TwoStepSetupState, form: FormData): Promise<TwoStepSetupState> {
   return form.get('intent') === 'confirm' ? confirmTwoStepSetup(prev, form) : startTwoStepSetup();
+}
+
+export type TwoStepOffState = { error?: string; off?: boolean } | undefined;
+
+/**
+ * Turns two-step verification off. Asks for a current code from the app (or a recovery code), so a stolen
+ * session alone cannot remove it. Clears the secret and the recovery codes.
+ */
+export async function turnOffTwoStep(_: TwoStepOffState, form: FormData): Promise<TwoStepOffState> {
+  const session = await signedIn();
+  const user = session.user;
+  if (!user.totpEnabledAt || !user.totpSecretEnc) return { off: true };
+  const code = String(form.get('code') ?? '').trim();
+  const totp = await checkTotp(user.totpSecretEnc, code, user.totpLastStep);
+  const recovery = totp.ok ? null : matchRecoveryCode(user.recoveryCodeHashes, code);
+  if (!totp.ok && !recovery) return { error: 'codeInvalid' };
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { totpEnabledAt: null, totpSecretEnc: null, totpLastStep: null, recoveryCodeHashes: [] },
+  });
+  await withTenant({}, (tx) =>
+    audit(tx, {
+      chamberId: null,
+      actorUserId: user.id,
+      action: 'auth.totp_disabled',
+      entity: 'user',
+      entityId: user.id,
+    }),
+  );
+  revalidatePath('/settings');
+  return { off: true };
 }

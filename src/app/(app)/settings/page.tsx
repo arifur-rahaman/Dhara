@@ -13,6 +13,7 @@ import { ReminderForm } from '@/features/notifications/reminder-form';
 import { env } from '@/server/env';
 import { signOut } from '@/features/auth/actions';
 import { PasswordForm } from '@/features/account/password-form';
+import { TwoStepOff } from '@/features/account/two-step-off';
 import { getPreferences } from '@/features/preferences/server';
 import {
   LanguageSetting,
@@ -135,10 +136,20 @@ export default async function SettingsPage({ searchParams }: PageProps<'/setting
           {t('security')}
         </h2>
         <div className="flex flex-col rounded-card border border-border bg-surface px-4">
-          <div className="flex min-h-[52px] items-center justify-between gap-3">
-            <span className="text-[15px]">{t('twoStep')}</span>
+          <div className="flex min-h-[52px] flex-wrap items-center justify-between gap-x-3 py-2">
+            <div className="flex min-w-0 flex-col">
+              <span className="flex items-center gap-2 text-[15px]">
+                {t('twoStep')}
+                {user.totpEnabledAt && (
+                  <span className="rounded-full bg-ok-bg px-2.5 py-[3px] text-[12px] font-semibold text-ok">
+                    {t('on')}
+                  </span>
+                )}
+              </span>
+              {!user.totpEnabledAt && <span className="text-[13px] text-muted">{t('twoStepOptional')}</span>}
+            </div>
             {user.totpEnabledAt ? (
-              <span className="rounded-full bg-ok-bg px-2.5 py-[3px] text-[12px] font-semibold text-ok">{t('on')}</span>
+              <TwoStepOff />
             ) : (
               <Link href="/security/two-step" className="text-[14px] font-semibold text-accent">
                 {t('turnOn')}

@@ -15,6 +15,7 @@ export type AuditAction =
   | 'ai.order_photo_saved'
   | 'chamber.ai_photo_reading'
   | 'auth.totp_enabled'
+  | 'auth.totp_disabled'
   | 'auth.password_set'
   | 'chamber.create'
   | 'invitation.create'

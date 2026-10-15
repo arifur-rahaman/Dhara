@@ -119,7 +119,13 @@
     "aiPhoto": "Read order photos and documents with AI",
     "aiPhotoNote": "When on, order photos taken in the app, and documents someone asks to summarise, are sent to the AI service (Anthropic). They show party names and cannot be hidden before sending. Nothing is saved as a date until a person checks it.",
     "aiPhotoTurnOn": "Turn on",
-    "aiPhotoTurnOff": "Turn off"
+    "aiPhotoTurnOff": "Turn off",
+    "turnOff": "Turn off",
+    "turnOffTitle": "Turn off two-step verification",
+    "turnOffHint": "Enter a code from your authenticator app, or one recovery code.",
+    "turnOffCode": "Code",
+    "turnOffConfirm": "Turn off",
+    "twoStepOptional": "Optional. Adds a second check with an authenticator app when you sign in."
   },
   "more": {
     "title": "More"
@@ -317,7 +323,7 @@
   },
   "twoStep": {
     "title": "Turn on two-step verification",
-    "why": "Chamber owners must use it. Even if someone gets your OTP, they cannot open your chamber without your phone's authenticator app.",
+    "why": "Optional. Even if someone gets your OTP, they cannot open your chamber without your phone's authenticator app.",
     "start": "Start setup",
     "scan": "Scan this QR code with an authenticator app, such as Google Authenticator or Microsoft Authenticator.",
     "openApp": "Open in authenticator app",

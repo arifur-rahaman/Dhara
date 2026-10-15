@@ -23,7 +23,10 @@ test('document summary (F38): off until allowed; then the owner summarises an up
   await expect(page.getByText('Reading documents with AI is off for this chamber.')).toBeVisible();
 
   await page.getByRole('link', { name: 'Open Settings' }).click();
-  await page.getByRole('region', { name: 'AI' }).getByRole('button', { name: 'Turn on' }).click();
+  const ai = page.getByRole('region', { name: 'AI' });
+  await ai.getByRole('button', { name: 'Turn on' }).click();
+  // Wait until the setting is saved before leaving the page.
+  await expect(ai.getByRole('button', { name: 'Turn off' })).toBeVisible();
   await page.goBack();
   await page.reload();
   await page.getByRole('button', { name: 'Summarise with AI' }).click();

@@ -33,7 +33,7 @@ export const getCtx = cache(async (): Promise<Ctx | null> => {
 
 /**
  * Gate for every chamber screen and action. Sends people to the step they still need:
- * sign in → two-step code → chamber setup → owner two-step setup.
+ * sign in → two-step code (when turned on) → chamber setup.
  */
 export async function requireCtx(): Promise<Ctx> {
   const session = await getSession();
@@ -42,7 +42,6 @@ export async function requireCtx(): Promise<Ctx> {
   if (!session.user.privacyConsentAt) redirect('/onboarding');
   const ctx = await getCtx();
   if (!ctx) redirect('/onboarding');
-  // Owners must turn on two-step verification after onboarding (plan.md section 8).
-  if (ctx.role === 'owner' && !session.user.totpEnabledAt) redirect('/security/two-step');
+  // Two-step verification is optional for everyone, owners included (project owner's decision, plan.md section 8).
   return ctx;
 }
