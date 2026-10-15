@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
@@ -146,6 +146,26 @@ describe('email sign-in codes (OTP_CHANNEL=email)', () => {
       step: 'email',
       error: 'emailInvalid',
     });
+  });
+});
+
+describe('when the code cannot be sent', () => {
+  it('the form says so and keeps what was typed, instead of failing the page', async () => {
+    const { sendOtp } = await import('@/features/auth/actions');
+    // Make the test outbox unwritable, as when the email service refuses or has no key.
+    rmSync(outbox);
+    mkdirSync(outbox);
+    try {
+      const local = `0171${String(Date.now()).slice(-7)}`;
+      expect(await sendOtp(undefined, form({ phone: local, email: 'new-owner@example.org' }))).toEqual({
+        error: 'sendFailed',
+        step: 'email',
+        values: { phone: local, email: 'new-owner@example.org' },
+      });
+    } finally {
+      rmSync(outbox, { recursive: true });
+      writeFileSync(outbox, '');
+    }
   });
 });
 

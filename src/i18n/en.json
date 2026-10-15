@@ -13,9 +13,6 @@
     "phonePlaceholder": "01XXXXXXXXX",
     "sendOtp": "Send OTP",
     "withPassword": "Sign in with password",
-    "noRoleTitle": "No need to pick a role",
-    "noRoleBody": "Your chamber owner chose your role when they invited you. It turns on after you sign in.",
-    "security": "Two-step verification is on. Platform admins sign in on a separate link.",
     "otherNumber": "Use another number",
     "verifyTitle": "Enter the code",
     "verifySent": "We sent a 6-digit code by SMS to {phone}. It works for 5 minutes.",
@@ -30,7 +27,11 @@
     "continue": "Continue",
     "email": "Email",
     "emailHint": "Your sign-in code is sent here, now and every time. Use an address you check.",
-    "verifySentEmail": "We sent a 6-digit code to {email}. It may take a minute; check spam too."
+    "verifySentEmail": "We sent a 6-digit code to {email}. It may take a minute; check spam too.",
+    "signupTitle": "Open a new chamber",
+    "signupSubtitle": "Enter your mobile number and email. We email you a 6-digit code, then you set up your chamber.",
+    "newHere": "New to Pocket Chamber?",
+    "haveAccount": "Already have an account?"
   },
   "language": {
     "label": "Language",
@@ -319,7 +320,8 @@
     "noEmailUsePassword": "This number has no email for sign-in codes. Sign in with your password.",
     "emailInvalid": "Enter a full email address, like name@gmail.com.",
     "emailTaken": "That email is already used by another account. Use a different one.",
-    "accountExists": "This number already has an account. Sign in with it to accept."
+    "accountExists": "This number already has an account. Sign in with it to accept.",
+    "sendFailed": "We could not send the code right now. Please try again in a few minutes."
   },
   "twoStep": {
     "title": "Turn on two-step verification",
