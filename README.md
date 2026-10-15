@@ -1,6 +1,8 @@
-# ধারা · Dhara
+# PocketChamber · পকেট চেম্বার
 
-মামলা, তারিখ, ক্লায়েন্ট — সব এক ধারায়।
+মামলা, তারিখ, ক্লায়েন্ট — পুরো চেম্বার আপনার পকেটে।
+
+(Working name in the code and database: `dhara`.)
 
 Chamber management web app (installable PWA) for lawyers in Bangladesh. English by default; one tap switches to Bangla.
 

@@ -3,8 +3,8 @@ import type { MetadataRoute } from 'next';
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: '/',
-    name: 'Dhara',
-    short_name: 'ধারা',
+    name: 'PocketChamber',
+    short_name: 'PocketChamber',
     description: 'Chamber management for lawyers in Bangladesh.',
     lang: 'en',
     start_url: '/',

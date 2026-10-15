@@ -1,4 +1,4 @@
-// Dhara service worker: installable app (M0), push reminders (M5, F5) and offline use (M5, F21).
+// PocketChamber service worker: installable app (M0), push reminders (M5, F5) and offline use (M5, F21).
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', (event) => event.waitUntil(self.clients.claim()));
 
@@ -11,7 +11,7 @@ self.addEventListener('push', (event) => {
     data = {};
   }
   event.waitUntil(
-    self.registration.showNotification(data.title || 'Dhara', {
+    self.registration.showNotification(data.title || 'PocketChamber', {
       body: data.body || '',
       tag: data.tag || 'dhara',
       icon: '/icons/icon-192.png',

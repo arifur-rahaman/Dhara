@@ -10,7 +10,7 @@ export function newTotpSecret() {
 }
 
 export function totpUri(secret: string, account: string) {
-  return generateURI({ issuer: 'Dhara', label: account, secret });
+  return generateURI({ issuer: 'PocketChamber', label: account, secret });
 }
 
 /** Checks a code; rejects reuse of an already accepted time step. */
