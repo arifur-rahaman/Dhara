@@ -1,6 +1,6 @@
 import { Icon } from './icons';
 
-/** Book mark from docs/design (Main, TeamRoles). Logo is still an open decision (plan.md section 12). */
+/** The Pocket Chamber logo on its blue tile, as on the app icon (scripts/generate-icons.mjs). */
 export function BrandMark({ size = 44 }: { size?: number }) {
   return (
     <span

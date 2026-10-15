@@ -420,7 +420,7 @@ Every tenant table has `chamber_id` (RLS), `created_at`, `updated_at`, and soft-
 
 ## 12. Open decisions (need the project owner)
 
-1. Brand: the name is decided (ধারা / Dhara). Still to do: domain, trademark search and filing with DPDT, app-store and social-handle checks, logo.
+1. Brand: the name is Pocket Chamber (renamed from ধারা / Dhara); logo chosen (a document in a pocket, `scripts/generate-icons.mjs`). Still to do: own domain, trademark search and filing with DPDT, app-store and social-handle checks.
 2. Hosting location under the data protection law (legal opinion).
 3. SMS gateway vendor; WhatsApp Business verification.
 4. Payment route: bKash/Nagad direct or an aggregator.
