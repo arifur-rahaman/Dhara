@@ -46,10 +46,10 @@ export async function requestOtp(
   });
   const text =
     opts.locale === 'bn'
-      ? `ধারা লগইন কোড: ${code}। ৫ মিনিট কাজ করবে। কাউকে বলবেন না।`
-      : `Dhara sign-in code: ${code}. Valid for 5 minutes. Do not share it.`;
+      ? `পকেট চেম্বার লগইন কোড: ${code}। ৫ মিনিট কাজ করবে। কাউকে বলবেন না।`
+      : `PocketChamber sign-in code: ${code}. Valid for 5 minutes. Do not share it.`;
   if (opts.email) {
-    const subject = opts.locale === 'bn' ? `ধারা লগইন কোড ${code}` : `Dhara sign-in code ${code}`;
+    const subject = opts.locale === 'bn' ? `পকেট চেম্বার লগইন কোড ${code}` : `PocketChamber sign-in code ${code}`;
     await emailProvider().send({ to: opts.email, subject, text }, `otp-${challenge.id}`);
   } else {
     await smsProvider().send(phone, text, `otp-${challenge.id}`);

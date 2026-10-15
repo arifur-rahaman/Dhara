@@ -1,4 +1,6 @@
-# Deploying Dhara (first launch: Vercel + Supabase)
+# Deploying PocketChamber (first launch: Vercel + Supabase)
+
+The product is called **PocketChamber** (Bangla: পকেট চেম্বার). The code, repository and database roles still use the working name `dhara`; that is internal and never shown to users.
 
 This is the low-cost setup for the first chambers. Move to paid hosting when there are clients. Every service below is swappable later; the app only needs Postgres, S3-compatible storage, an email (later SMS) sender and a scheduler.
 
@@ -60,7 +62,7 @@ This is the low-cost setup for the first chambers. Move to paid hosting when the
    - `OTP_CHANNEL=email`;
    - `EMAIL_PROVIDER=resend`;
    - `RESEND_API_KEY=...`;
-   - `EMAIL_FROM='Dhara <noreply@techhunt.org>'`.
+   - `EMAIL_FROM='PocketChamber <noreply@techhunt.org>'`.
 3. Set `SMS_PROVIDER=none`.
 
 How it then works:
@@ -78,8 +80,8 @@ When an SMS gateway is chosen, switch to `OTP_CHANNEL=sms` and the gateway's `SM
 
    | Variable | Value |
    |---|---|
-   | `APP_URL` | `https://dhara.techhunt.org` (or the final domain) |
-   | `ADMIN_URL` | `https://admin-dhara.techhunt.org` |
+   | `APP_URL` | `https://pocketchamber.techhunt.org` |
+   | `ADMIN_URL` | `https://admin-pocketchamber.techhunt.org` (optional: leave it empty and the admin portal stays off in production) |
    | `ADMIN_IP_ALLOWLIST` | your office IPs, if you want the admin portal limited |
    | `DATABASE_URL`, `DATABASE_ADMIN_URL`, `DATABASE_JOBS_URL` | from step 2 (not the migration URL) |
    | `DATABASE_POOL_MAX` | `3` |
@@ -94,7 +96,7 @@ When an SMS gateway is chosen, switch to `OTP_CHANNEL=sms` and the gateway's `SM
    | `AI_PROVIDER`, `ANTHROPIC_API_KEY`, `AI_MODEL_EXTRACT`, `AI_MODEL_DRAFT` | `anthropic`, your Anthropic API key, and a model name for each (`.env.example` uses `claude-opus-5-5`). Only needed for the AI features: order photos (F37, `AI_MODEL_EXTRACT`), drafting (F33) and document summaries (F38, both `AI_MODEL_DRAFT`). Photos and summaries also need each owner to turn on AI reading in Settings. Leave `AI_PROVIDER` unset otherwise; in production the test provider answers "unavailable" |
 
 4. **Domains:**
-   - In Vercel, add `dhara.techhunt.org` and `admin-dhara.techhunt.org` to the project.
+   - In Vercel, add `pocketchamber.techhunt.org` (and `admin-pocketchamber.techhunt.org` if you set `ADMIN_URL`) to the project.
    - Add the CNAME records Vercel shows at your DNS provider.
    - The admin portal answers only on `ADMIN_URL`.
 
@@ -103,7 +105,7 @@ When an SMS gateway is chosen, switch to `OTP_CHANNEL=sms` and the gateway's `SM
 Create a job that runs **every minute**:
 
 ```
-GET https://dhara.techhunt.org/api/jobs/tick
+GET https://pocketchamber.techhunt.org/api/jobs/tick
 Authorization: Bearer <CRON_SECRET>
 ```
 

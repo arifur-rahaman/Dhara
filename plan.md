@@ -1,6 +1,6 @@
-# plan.md — ধারা (Dhara) build plan
+# plan.md — PocketChamber (working name: Dhara) build plan
 
-> Name: **ধারা** (Latin: Dhara). Tagline: মামলা, তারিখ, ক্লায়েন্ট — সব এক ধারায়।
+> Name: **PocketChamber**, Bangla **পকেট চেম্বার** (renamed from ধারা / Dhara). Live for testing at `pocketchamber.techhunt.org`. Tagline: মামলা, তারিখ, ক্লায়েন্ট — পুরো চেম্বার আপনার পকেটে।
 > A chamber management web app (installable PWA) for Bangladeshi lawyers. English by default; one tap switches to Bangla.
 > This file says **what** to build. `CLAUDE.md` says **how** to build it.
 

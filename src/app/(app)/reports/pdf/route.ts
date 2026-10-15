@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   if (!ctx || !can.viewReports(ctx)) return new NextResponse('Not found', { status: 404 });
   const range = new URL(request.url).searchParams.get('range');
   const safeRange = range === 'month' || range === 'year' ? range : 'half';
-  const res = await pdfResponse(request, `/print/reports?range=${safeRange}`, 'dhara-report.pdf');
+  const res = await pdfResponse(request, `/print/reports?range=${safeRange}`, 'pocketchamber-report.pdf');
   await withTenant(scopeOf(ctx), (tx) =>
     audit(tx, {
       chamberId: ctx.chamberId,
