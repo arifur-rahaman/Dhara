@@ -18,7 +18,7 @@ describe('reminder push text (TECH_GUIDE section 12: counts only)', () => {
       '1 hearing tomorrow',
     );
     expect(reminderMessage('morning', { hearings: 4, tasks: 0, locale: 'en', numerals: null })).toEqual({
-      title: 'PocketChamber',
+      title: 'Pocket Chamber',
       body: 'Today: 4 hearings',
       url: '/today',
       tag: 'reminder-morning',
@@ -29,7 +29,7 @@ describe('reminder push text (TECH_GUIDE section 12: counts only)', () => {
 describe('notice push text (F18: counts only, no case or client details)', () => {
   it('names only how many dates, tasks and other notices are new', () => {
     expect(noticeMessage({ dates: 1, tasks: 0, other: 0, locale: 'en', numerals: null })).toEqual({
-      title: 'PocketChamber',
+      title: 'Pocket Chamber',
       body: 'A next date was added to 1 case',
       url: '/notifications',
       tag: 'notices',

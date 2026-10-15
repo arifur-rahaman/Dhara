@@ -1,6 +1,6 @@
-# CLAUDE.md — PocketChamber (working name: Dhara)
+# CLAUDE.md — Pocket Chamber (working name: Dhara)
 
-Brand: **PocketChamber** in English mode, **পকেট চেম্বার** in Bangla mode (renamed from Dhara / ধারা by the project owner). `dhara` stays the repo, package, cookie and database-role name; never show it to users. Tagline: মামলা, তারিখ, ক্লায়েন্ট — পুরো চেম্বার আপনার পকেটে।
+Brand: **Pocket Chamber** — two words, written in English in both English and Bangla mode (renamed from Dhara / ধারা by the project owner). `dhara` stays the repo, package, cookie and database-role name; never show it to users. Tagline: মামলা, তারিখ, ক্লায়েন্ট — পুরো চেম্বার আপনার পকেটে।
 
 Chamber management web app (installable PWA) for Bangladeshi lawyers. English by default; one tap switches to Bangla.
 Chamber roles: owner, associate, munshi, staff. Plus a separate platform admin portal.

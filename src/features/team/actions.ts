@@ -87,8 +87,8 @@ export async function inviteMember(_: FormState, form: FormData): Promise<FormSt
   const { locale } = await getPreferences();
   const text =
     locale === 'bn'
-      ? `${outcome.chamberName} আপনাকে পকেট চেম্বার অ্যাপে ইনভাইট করেছে। ৭ দিনের মধ্যে খুলুন: ${link}`
-      : `${outcome.chamberName} invited you to PocketChamber. Open within 7 days: ${link}`;
+      ? `${outcome.chamberName} আপনাকে Pocket Chamber অ্যাপে ইনভাইট করেছে। ৭ দিনের মধ্যে খুলুন: ${link}`
+      : `${outcome.chamberName} invited you to Pocket Chamber. Open within 7 days: ${link}`;
   // No SMS gateway yet: the owner sends the link from their own phone (WhatsApp, SMS or copy).
   // The link is shown once, to the owner only; the database keeps only its hash.
   if (!smsEnabled()) return { ok: true, link, values: { name: parsed.data.name, phone, text } };

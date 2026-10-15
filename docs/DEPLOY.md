@@ -1,6 +1,6 @@
-# Deploying PocketChamber (first launch: Vercel + Supabase)
+# Deploying Pocket Chamber (first launch: Vercel + Supabase)
 
-The product is called **PocketChamber** (Bangla: পকেট চেম্বার). The code, repository and database roles still use the working name `dhara`; that is internal and never shown to users.
+The product is called **Pocket Chamber**. The code, repository and database roles still use the working name `dhara`; that is internal and never shown to users.
 
 This is the low-cost setup for the first chambers. Move to paid hosting when there are clients. Every service below is swappable later; the app only needs Postgres, S3-compatible storage, an email (later SMS) sender and a scheduler.
 
@@ -62,7 +62,7 @@ This is the low-cost setup for the first chambers. Move to paid hosting when the
    - `OTP_CHANNEL=email`;
    - `EMAIL_PROVIDER=resend`;
    - `RESEND_API_KEY=...`;
-   - `EMAIL_FROM='PocketChamber <noreply@techhunt.org>'`.
+   - `EMAIL_FROM='Pocket Chamber <noreply@techhunt.org>'`.
 3. Set `SMS_PROVIDER=none`.
 
 How it then works:

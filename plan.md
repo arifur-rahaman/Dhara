@@ -1,6 +1,6 @@
-# plan.md — PocketChamber (working name: Dhara) build plan
+# plan.md — Pocket Chamber (working name: Dhara) build plan
 
-> Name: **PocketChamber**, Bangla **পকেট চেম্বার** (renamed from ধারা / Dhara). Live for testing at `pocketchamber.techhunt.org`. Tagline: মামলা, তারিখ, ক্লায়েন্ট — পুরো চেম্বার আপনার পকেটে।
+> Name: **Pocket Chamber** — two words, written in English in Bangla mode too (renamed from ধারা / Dhara). Live for testing at `pocketchamber.techhunt.org`. Tagline: মামলা, তারিখ, ক্লায়েন্ট — পুরো চেম্বার আপনার পকেটে।
 > A chamber management web app (installable PWA) for Bangladeshi lawyers. English by default; one tap switches to Bangla.
 > This file says **what** to build. `CLAUDE.md` says **how** to build it.
 
@@ -414,7 +414,7 @@ Every tenant table has `chamber_id` (RLS), `created_at`, `updated_at`, and soft-
 - Secrets only in environment variables; `.env.example` documents every variable.
 - Migrations run automatically on deploy; seed data only in local and staging.
 - Hosting location: decide after the legal opinion (section 12). Keep everything containerised so moving providers is easy.
-- First launch (decided by the project owner): Vercel + Supabase on a `techhunt.org` subdomain, sign-in codes by email until an SMS gateway is chosen, invitation links shared from the owner's phone. Steps in `docs/DEPLOY.md`. Move to paid hosting once there are paying chambers; the name may change to PocketChamber.
+- First launch (decided by the project owner): Vercel + Supabase on a `techhunt.org` subdomain, sign-in codes by email until an SMS gateway is chosen, invitation links shared from the owner's phone. Steps in `docs/DEPLOY.md`. Move to paid hosting once there are paying chambers; the name may change to Pocket Chamber.
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "PocketChamber",
+    "name": "Pocket Chamber",
     "tagline": "Cases, dates, clients — your whole chamber in your pocket.",
     "skipToContent": "Skip to content",
     "back": "Back",
@@ -331,7 +331,7 @@
   "onboarding": {
     "step": "Step {current}/{total}",
     "consentTitle": "Before we start",
-    "consent1": "PocketChamber keeps your chamber's cases, dates and client details so your team can work together.",
+    "consent1": "Pocket Chamber keeps your chamber's cases, dates and client details so your team can work together.",
     "consent2": "Client phone, email, NID and address are encrypted. Only the chamber owner can see them.",
     "consent3": "Our platform staff cannot see client data. Support needs the owner's approval and ends after 24 hours.",
     "consent4": "Who viewed or changed sensitive data is kept in an activity log the owner can read.",
@@ -590,7 +590,7 @@
     "emptyNoAdd": "Cases the chamber adds will show here.",
     "emptyCta": "Add first case",
     "emptyImport": "Import from Excel",
-    "emptyHowTo": "How to use PocketChamber"
+    "emptyHowTo": "How to use Pocket Chamber"
   },
   "caseForm": {
     "title": "New case",
@@ -641,7 +641,7 @@
     "addedByYou": "Added by you",
     "emptyTimeline": "Nothing recorded yet. After each hearing, add the next date and what happened.",
     "officialPage": "Official court page",
-    "officialNote": "Opens the court's own website. PocketChamber does not fetch anything from it.",
+    "officialNote": "Opens the court's own website. Pocket Chamber does not fetch anything from it.",
     "saved": "Next date saved: {date}",
     "client": "Client"
   },
@@ -869,7 +869,7 @@
     "receivedBy": "Received by",
     "amount": "Amount",
     "number": "Receipt no. {no}",
-    "footer": "Receipt made with PocketChamber",
+    "footer": "Receipt made with Pocket Chamber",
     "lightNote": "The receipt stays like white paper even in dark mode, so print and PDF look the same.",
     "pdf": "Download PDF",
     "whatsapp": "Send to client on WhatsApp",
@@ -896,7 +896,7 @@
     "noCases": "No active cases."
   },
   "push": {
-    "title": "PocketChamber",
+    "title": "Pocket Chamber",
     "night": "{hearings, plural, one {# hearing} other {# hearings}} tomorrow",
     "morning": "Today: {hearings, plural, one {# hearing} other {# hearings}}",
     "morningWithTasks": "Today: {hearings, plural, one {# hearing} other {# hearings}}, {tasks, plural, one {# task} other {# tasks}}",
@@ -929,9 +929,9 @@
     "enable": "Turn on notifications on this phone",
     "enabled": "Notifications are on for this phone.",
     "disable": "Turn off on this phone",
-    "denied": "Notifications are blocked for PocketChamber in this browser. Allow them in the browser settings, then try again.",
+    "denied": "Notifications are blocked for Pocket Chamber in this browser. Allow them in the browser settings, then try again.",
     "unsupported": "This browser cannot show notifications.",
-    "iosTip": "On iPhone, add PocketChamber to the Home Screen first (Share, then Add to Home Screen). Notifications work from there.",
+    "iosTip": "On iPhone, add Pocket Chamber to the Home Screen first (Share, then Add to Home Screen). Notifications work from there.",
     "notConfigured": "Notifications are not set up on this server yet.",
     "privacy": "Reminders say only how many hearings and tasks there are, never names or case details, because they show on the lock screen."
   },
@@ -945,7 +945,7 @@
     "date": "Date",
     "recordedBy": "Recorded by",
     "historyTitle": "Hearing history",
-    "footer": "Made with PocketChamber. Check dates against the court's cause list.",
+    "footer": "Made with Pocket Chamber. Check dates against the court's cause list.",
     "historyPdf": "Hearing history (PDF)",
     "dailyPdf": "Print list (PDF)",
     "saveHint": "Choose \"Save as PDF\" as the printer to keep a file.",
@@ -959,7 +959,7 @@
     "lastSync": "Last sync: {time}",
     "todayTitle": "Today's list",
     "noHearings": "No hearings saved for today.",
-    "nothingSaved": "Nothing is saved on this phone yet. Open PocketChamber once with internet and it will keep today's list here.",
+    "nothingSaved": "Nothing is saved on this phone yet. Open Pocket Chamber once with internet and it will keep today's list here.",
     "pending": "{count, plural, one {# change pending} other {# changes pending}}",
     "pendingNote": "Next dates, tasks and order photos are sent by themselves when the internet is back.",
     "pendingHere": "{count, plural, one {# change waiting to send} other {# changes waiting to send}}",
@@ -1247,7 +1247,7 @@
     "totalPaid": "Total received",
     "balance": "Balance due",
     "advance": "Paid in advance",
-    "footer": "Invoice made with PocketChamber from the chamber's fee records",
+    "footer": "Invoice made with Pocket Chamber from the chamber's fee records",
     "note": "Made from this case's fees and payments as of today. To change it, change the fees.",
     "pdf": "Download PDF"
   }
