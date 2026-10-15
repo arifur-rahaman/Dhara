@@ -3,8 +3,8 @@ import { expect, test } from '@playwright/test';
 test('serves an installable manifest, icons and a service worker', async ({ request }) => {
   const manifest = await (await request.get('/manifest.webmanifest')).json();
   expect(manifest).toMatchObject({
-    name: 'PocketChamber',
-    short_name: 'PocketChamber',
+    name: 'Pocket Chamber',
+    short_name: 'Pocket Chamber',
     display: 'standalone',
     start_url: '/',
   });

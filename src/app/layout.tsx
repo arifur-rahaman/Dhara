@@ -26,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: { default: t('name'), template: `%s · ${t('name')}` },
     description: t('tagline'),
-    applicationName: 'PocketChamber',
+    applicationName: 'Pocket Chamber',
     appleWebApp: { capable: true, title: t('name'), statusBarStyle: 'default' },
   };
 }
