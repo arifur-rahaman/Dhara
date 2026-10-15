@@ -27,7 +27,7 @@ This is the low-cost setup for the first chambers. Move to paid hosting when the
      - Through Supavisor the username is usually `role.projectref`, e.g. `dhara_app.abcd1234` **(verify in Supabase's docs)**.
      - Start with the *session* pooler. Try the *transaction* pooler (port 6543) only after testing: Dhara keeps its RLS settings inside transactions, which should work there, but I have not tested Prisma's driver through it **(verify)**.
 4. **Create Dhara's roles once.** In the Supabase SQL editor, run `scripts/supabase-roles.sql`. It creates `dhara_app`, `dhara_admin` and `dhara_jobs` and lets `postgres` act for them, the same setup CI tests (`scripts/check-nonsuper-migrate.sh`).
-   - If the editor refuses the last line, try `GRANT dhara_app, dhara_admin, dhara_jobs TO postgres;` instead **(verify on your Postgres version)**.
+   - Paste the file's contents, not its link. Tested on a fresh Postgres 16 cluster where a non-superuser `postgres` creates the roles, as on Supabase.
 5. **Run the migrations once from your computer** (Node 24, pnpm):
 
    ```bash
