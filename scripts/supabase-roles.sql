@@ -2,6 +2,8 @@
 -- Supabase's postgres user is not a superuser. This creates Dhara's three roles and lets postgres act
 -- for them, exactly as scripts/check-nonsuper-migrate.sh sets up the owner that CI tests on every change.
 -- Passwords are set later by `pnpm db:migrate` (scripts/db-roles.mjs), from the connection strings.
+-- No ADMIN OPTION here: on Postgres 16 the creator already holds it, and granting it again fails with
+-- "ADMIN option cannot be granted back to your own grantor".
 DO $$ BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'dhara_app') THEN
     CREATE ROLE dhara_app NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS;
@@ -13,4 +15,4 @@ DO $$ BEGIN
     CREATE ROLE dhara_jobs NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS;
   END IF;
 END $$;
-GRANT dhara_app, dhara_admin, dhara_jobs TO postgres WITH ADMIN OPTION;
+GRANT dhara_app, dhara_admin, dhara_jobs TO postgres;
