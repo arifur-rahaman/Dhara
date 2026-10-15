@@ -16,7 +16,8 @@ for (const [variable, role] of roles) {
   const url = process.env[variable];
   if (!url) throw new Error(`${variable} is not set`);
   const { username, password } = new URL(url);
-  if (username !== role) throw new Error(`${variable} must connect as ${role}`);
+  // Supabase's pooler adds the project ref to the user name: dhara_app.abcd1234.
+  if (username.split('.')[0] !== role) throw new Error(`${variable} must connect as ${role}`);
   // Identifiers are fixed above; the password is passed as a literal via format().
   const { rows } = await client.query('SELECT format($1, $2::text) AS sql', [
     `ALTER ROLE ${role} LOGIN PASSWORD %L`,
