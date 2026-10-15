@@ -59,3 +59,13 @@ test('login screen has no serious accessibility issues', async ({ page }) => {
   await page.goto('/login');
   await expectNoSeriousA11yIssues(page);
 });
+
+test('a separate "open a new chamber" view, and back to sign-in', async ({ page }) => {
+  await page.goto('/login');
+  await page.getByRole('link', { name: 'Open a new chamber' }).click();
+  await expect(page).toHaveURL(/\/login\?new=1$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Open a new chamber');
+  await expect(page.getByRole('link', { name: 'Sign in with password' })).toHaveCount(0);
+  await page.getByRole('link', { name: 'Sign in to your chamber' }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Sign in to your chamber');
+});
