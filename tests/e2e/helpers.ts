@@ -47,7 +47,7 @@ export async function agreeToPrivacyNotice(page: Page) {
   await page.getByRole('button', { name: 'Next step' }).click();
 }
 
-/** New owner: OTP → consent → chamber → two-step setup. Ends on Today. */
+/** New owner: OTP → consent → chamber → Today; then two-step turned on from Settings. Ends on Today. */
 export async function signUpOwner(page: Page, chamberName = `Test Chamber ${Date.now()}`) {
   const phone = randomPhone();
   await signInWithOtp(page, phone);
@@ -58,7 +58,11 @@ export async function signUpOwner(page: Page, chamberName = `Test Chamber ${Date
   await expect(page).toHaveURL(/\/onboarding\/next/);
   await page.getByRole('link', { name: 'Later' }).click();
 
-  // Owners must turn on two-step verification before using the app.
+  // Two-step verification is optional; the owner lands on Today. The tests turn it on from Settings
+  // so the sign-in tests can use the authenticator code.
+  await expect(page).toHaveURL(/\/today$/);
+  await page.goto('/settings');
+  await page.getByRole('link', { name: 'Turn on' }).first().click();
   await expect(page).toHaveURL(/\/security\/two-step/);
   await page.getByRole('button', { name: 'Start setup' }).click();
   const secret = (await page.getByTestId('totp-secret').textContent())!.trim();

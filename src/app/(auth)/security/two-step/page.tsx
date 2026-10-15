@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t('title') };
 }
 
-/** TOTP setup. Required for owners after onboarding; optional for other roles (from Settings). */
+/** TOTP setup, from Settings. Optional for every role. */
 export default async function TwoStepSetupPage() {
   const session = await getSession();
   if (!session) redirect('/login');

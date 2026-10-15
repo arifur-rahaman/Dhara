@@ -129,7 +129,7 @@ Lawyers in Bangladesh keep cases, hearing dates, fees and client details in pape
 - [x] **F19** English ও বাংলা, মোবাইল ও ওয়েব — English is the default; one-tap switch to Bangla on the login screen and in Settings (saved per user); responsive web + installable PWA.
 - [x] **F20** Excel বা ডায়েরির ডেটা ইমপোর্ট — XLSX/CSV wizard: column mapping, preview, duplicate check.
 - [x] **F21** অফলাইন মোড — today's list and recent cases readable offline; writes (next date, order photo) go to an outbox and sync later.
-- [x] **F22** দুই ধাপের লগইন ও রোল অনুযায়ী অ্যাক্সেস — OTP + password; TOTP 2FA for owners and platform admins; RBAC per section 3.
+- [x] **F22** দুই ধাপের লগইন ও রোল অনুযায়ী অ্যাক্সেস — OTP + password; TOTP 2FA optional for chamber members (owners included), mandatory for platform admins; RBAC per section 3.
 - [x] **F23** মাসিক রিপোর্ট — income, dues, case counts (owner, web Reports screen).
 
 **Learning (with Hadia Academy)**
@@ -324,7 +324,7 @@ Every tenant table has `chamber_id` (RLS), `created_at`, `updated_at`, and soft-
 - [ ] RLS enabled and tested on every tenant table.
 - [ ] Client contact encrypted; key rotation documented.
 - [x] OTP: 6 digits, 5-minute expiry, attempt limit, rate limit per phone and IP.
-- [ ] TOTP 2FA mandatory for owners (after onboarding) and all platform admins; admin portal on a separate subdomain.
+- [ ] TOTP 2FA mandatory for all platform admins; admin portal on a separate subdomain. For chamber owners it is optional (project owner's decision for the pilot): anyone can turn it on in Settings, and turning it off needs a current code or a recovery code.
 - [x] Session security: httpOnly, Secure, SameSite cookies; device list and remote logout (Settings).
 - [ ] No PII in logs or error reports.
 - [ ] Consent screen and privacy notice at onboarding (PDPO); record `consent_at`.
