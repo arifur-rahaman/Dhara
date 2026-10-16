@@ -21,7 +21,7 @@ export async function generateMetadata({ searchParams }: PageProps<'/login'>): P
 export default async function LoginPage({ searchParams }: PageProps<'/login'>) {
   const session = await getSession();
   if (session?.mfaVerifiedAt) redirect(await afterSignInPath());
-  const t = await getTranslations('login');
+  const [t, g] = await Promise.all([getTranslations('login'), getTranslations('guide')]);
   const signup = (await searchParams).new === '1';
 
   return (
@@ -30,6 +30,13 @@ export default async function LoginPage({ searchParams }: PageProps<'/login'>) {
         <h1 className="font-title text-[34px] leading-[1.25] font-normal">{signup ? t('signupTitle') : t('title')}</h1>
         <p className="text-[16px] text-muted">{signup ? t('signupSubtitle') : t('subtitle')}</p>
       </div>
+
+      <Link
+        href="/guide"
+        className="flex min-h-11 items-center justify-center rounded-[12px] border border-border px-4 text-[15px] font-semibold text-accent"
+      >
+        {g('link')}
+      </Link>
 
       <PhoneForm askEmail={signup && env().OTP_CHANNEL === 'email'} showPassword={!signup} />
 

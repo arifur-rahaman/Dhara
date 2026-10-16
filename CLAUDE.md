@@ -82,6 +82,7 @@ Look: calm "ink and paper". One blue accent, amber for owner-only/restricted/due
 4. Check new screens at 390px and 1280px, in light and dark, against the matching design file.
 5. Tick the checkbox in `plan.md` when a feature or milestone is done.
 6. Ask before adding anything that is not in `plan.md`, and before changing any rule in this file.
+7. Any change a user can see (a new feature, a changed screen or button label, a removed step) updates the user guide in `content/guide.bn.json` in the same PR, and sets its `updated` date. The guide is shown at `/guide` and linked from the login page.
 
 ## Domain words
 

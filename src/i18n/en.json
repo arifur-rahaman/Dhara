@@ -1258,5 +1258,13 @@
     "footer": "Invoice made with Pocket Chamber from the chamber's fee records",
     "note": "Made from this case's fees and payments as of today. To change it, change the fees.",
     "pdf": "Download PDF"
+  },
+  "guide": {
+    "title": "User guide",
+    "banglaOnly": "The guide is written in Bangla for now.",
+    "backToLogin": "Back to sign in",
+    "backToApp": "Back to the app",
+    "updated": "Last updated: {date}.",
+    "link": "Read the user guide"
   }
 }
