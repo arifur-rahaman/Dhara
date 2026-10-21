@@ -77,6 +77,13 @@ describe('cell values', () => {
     expect(parseCaseType('দেওয়ানি মামলা')).toBe('civil');
     expect(parseCaseType('জিআর')).toBe('criminal_gr');
     expect(parseCaseType('C.R.')).toBe('criminal_cr');
+    expect(parseCaseType('Criminal Appeal')).toBe('criminal_appeal');
+    expect(parseCaseType('Crl. Misc. 498')).toBe('criminal_498');
+    expect(parseCaseType('ফৌজদারি রিভিশন')).toBe('criminal_revision');
+    expect(parseCaseType('426')).toBe('criminal_426');
+    expect(parseCaseType('Crl. Misc. 561A')).toBe('criminal_561a');
+    expect(parseCaseType('৫৬১ক')).toBe('criminal_561a');
+    expect(parseCaseType('Civil Revision')).toBe('civil');
     expect(parseCaseType('unknown kind')).toBeNull();
     expect(parseSide('বিবাদী')).toBe('defendant');
     expect(parseSide('Plaintiff')).toBe('plaintiff');

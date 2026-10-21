@@ -10,7 +10,9 @@ import type { CourtRef } from './format';
  * plain DTOs: client contact is never selected here, and client names only where P2 allows.
  */
 
-export type CaseType = 'civil' | 'criminal_cr' | 'criminal_gr' | 'writ' | 'family' | 'money_loan' | 'other';
+import type { CaseType } from '@/features/import/fields';
+
+export type { CaseType };
 
 export type CaseListItem = {
   id: string;

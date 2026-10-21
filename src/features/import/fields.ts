@@ -21,7 +21,21 @@ export const importFields = [
 export type ImportField = (typeof importFields)[number];
 export type Mapping = Partial<Record<ImportField, number>>;
 
-export const caseTypes = ['civil', 'criminal_cr', 'criminal_gr', 'writ', 'family', 'money_loan', 'other'] as const;
+export const caseTypes = [
+  'civil',
+  'criminal_cr',
+  'criminal_gr',
+  // High Court Division
+  'criminal_appeal',
+  'criminal_498',
+  'criminal_revision',
+  'criminal_426',
+  'criminal_561a',
+  'writ',
+  'family',
+  'money_loan',
+  'other',
+] as const;
 export type CaseType = (typeof caseTypes)[number];
 export const sides = ['plaintiff', 'defendant'] as const;
 export type Side = (typeof sides)[number];
@@ -97,6 +111,28 @@ const typeWords: Record<CaseType, string[]> = {
   civil: ['civil', 'civil suit', 'other suit', 'os', 'দেওয়ানি', 'দেওয়ানী', 'দেওয়ানি মামলা', 'অন্য প্রকার'],
   criminal_cr: ['cr', 'cr case', 'c r', 'সিআর', 'সি আর'],
   criminal_gr: ['gr', 'gr case', 'g r', 'জিআর', 'জি আর'],
+  criminal_appeal: ['criminal appeal', 'cr appeal', 'crl appeal', 'crl a', 'ফৌজদারি আপিল', 'ক্রিমিনাল আপিল'],
+  criminal_498: ['criminal 498', 'cr 498', 'crl 498', 'crl misc 498', '498', 'ফৌজদারি ৪৯৮'],
+  criminal_revision: [
+    'criminal revision',
+    'cr revision',
+    'crl revision',
+    'crl rev',
+    'ফৌজদারি রিভিশন',
+    'ক্রিমিনাল রিভিশন',
+  ],
+  criminal_426: ['criminal 426', 'cr 426', 'crl 426', 'crl misc 426', '426', 'ফৌজদারি ৪২৬'],
+  criminal_561a: [
+    'criminal 561a',
+    'cr 561a',
+    'crl 561a',
+    'crl misc 561a',
+    '561a',
+    '561 a',
+    'ফৌজদারি ৫৬১এ',
+    '৫৬১এ',
+    '৫৬১ক',
+  ],
   writ: ['writ', 'writ petition', 'রিট', 'রিট পিটিশন'],
   family: ['family', 'family suit', 'পারিবারিক', 'পারিবারিক মামলা'],
   money_loan: ['money loan', 'artha rin', 'money suit', 'অর্থঋণ', 'অর্থ ঋণ'],
