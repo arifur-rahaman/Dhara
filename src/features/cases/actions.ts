@@ -10,6 +10,7 @@ import { assertCan, can } from '@/server/authz';
 import { requireCtx } from '@/server/context';
 import { scopeOf, withTenant } from '@/server/db/tenant';
 import type { FormState } from '@/features/auth/actions';
+import { caseTypes } from '@/features/import/fields';
 import { syncMyCalendar } from '@/features/calendar-sync/sync';
 import { applyNextDate } from './next-date';
 import { visibleCasesWhere } from './queries';
@@ -23,7 +24,7 @@ const optionalText = (max: number) =>
     .transform((v) => v || null);
 
 const caseInput = z.object({
-  type: z.enum(['civil', 'criminal_cr', 'criminal_gr', 'writ', 'family', 'money_loan', 'other']),
+  type: z.enum(caseTypes),
   number: z.string().trim().min(1).max(30),
   year: z
     .string()

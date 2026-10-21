@@ -5,10 +5,10 @@ import { useActionState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ActionForm, Field, FormError, PrimaryButton, inputClass } from '@/components/form';
 import { createCase, updateCase } from '@/features/cases/actions';
+import { caseTypes } from '@/features/import/fields';
 
 type Option = { value: string; label: string };
 
-const caseTypes = ['civil', 'criminal_cr', 'criminal_gr', 'writ', 'family', 'money_loan', 'other'] as const;
 const field = `${inputClass} h-12 text-[16px] px-3.5`;
 
 /** AddCase design. Number and year are kept as typed (Bangla or English digits). */
